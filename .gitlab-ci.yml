@@ -26,12 +26,14 @@ build site:
   cache:
     paths:
       - infoviz/node_modules/
-      - infoviz/dist
   script:
     - cd infoviz
     - npm install --progress=false
     - npm run build
-      
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - infoviz/dist
 
 before_script:
   ##

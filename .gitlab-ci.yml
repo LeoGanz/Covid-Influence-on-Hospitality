@@ -46,7 +46,7 @@ deploy-job:      # This job runs in the deploy stage.
     ## Install ssh-agent if not already installed, it is required by Docker.
     ## (change apt-get to yum if you use an RPM-based image)
     ##
-    - 'command -v ssh-agent >/dev/null || ( apk update -y && apk install openssh-client -y )'
+    - 'command -v ssh-agent >/dev/null || ( apk update && apk add openssh )'
 
     ##
     ## Run ssh-agent (inside the build environment)

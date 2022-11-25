@@ -61,6 +61,8 @@ deploy-job:      # This job runs in the deploy stage.
     ##
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
 
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+
     ##
     ## Create the SSH directory and give it the right permissions
     ##

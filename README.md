@@ -1,5 +1,65 @@
 # Team 20
 
+## Setting up CI/CD pipelines in lrz gitlab
+1. Follow this tutorial: https://www.dev-eth0.de/2021/03/09/autoscaling-gitlab-runner-instances-on-google-cloud-platform
+2. Add firewall rule for TCP/22: https://gitlab.com/gitlab-org/ci-cd/docker-machine/-/issues/47
+3. Make sure that the ServiceAccount has admin rights: https://cloud.google.com/iam/docs/granting-changing-revoking-access
+```bash
+gcloud projects add-iam-policy-binding infovizteam20     --member=serviceAccount:serviceaccountteam20@infovizteam20.iam.gserviceaccount.com --role=roles/compute.admin
+```
+```toml
+concurrent = 2
+check_interval = 0
+shutdown_timeout = 0
+
+[session_server]
+  session_timeout = 1800
+
+[[runners]]
+  name = "gitlab-runner-gce"
+  url = "https://gitlab.lrz.de/"
+  id = 25917
+  token = "XiiaQtGMdk-TZ9rqobw5"
+  token_obtained_at = 2022-11-25T11:49:46Z
+  token_expires_at = 0001-01-01T00:00:00Z
+  executor = "docker+machine"
+  [runners.custom_build_dir]
+  [runners.docker]
+    tls_verify = false
+    image = "alpine:latest"
+    privileged = false
+    disable_entrypoint_overwrite = false
+    oom_kill_disable = false
+    disable_cache = false
+    volumes = ["/cache"]
+    shm_size = 0
+  [runners.machine]
+    IdleCount = 0
+    IdleTime = 30
+    MachineDriver = "google"
+    MachineName = "auto-scale-runner-%s"
+    MachineOptions = [
+      "google-project=infovizteam20",
+      # Depending on your requirements, choose another instance
+      "google-machine-type=e2-highcpu-4",
+      # When running the forked docker-machine, you should use cos-stable
+      "google-machine-image=cos-cloud/global/images/family/cos-stable",
+      # Otherwise you can use debian-10
+#      "google-machine-image=debian-cloud/global/images/family/debian-10",
+      "google-preemptible=true",
+      "google-zone=europe-west3-c",
+      "engine-registry-mirror=https://mirror.gcr.io",
+      "google-use-internal-ip=true",
+    ]
+  [runners.cache]
+    Type = "gcs"
+    Path = "gitlab-runner"
+    Shared = false
+
+    [runners.cache.gcs]
+      BucketName = "team20bucket"
+      CredentialsFile = "/etc/gitlab-runner/client_secret.json"
+```
 
 
 ## Getting started

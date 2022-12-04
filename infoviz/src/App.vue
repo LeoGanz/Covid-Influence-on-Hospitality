@@ -23,10 +23,17 @@
 
 <script>
 import { RouterLink, RouterView } from "vue-router";
-import HelloWorld from "./components/HelloWorld.vue";
+// import HelloWorld from "./components/HelloWorld.vue";
+// export default {
+//   components: { RouterLink, RouterView, HelloWorld },
+// };
+
+import Map from "./components/Map.vue";
+
 export default {
-  components: { RouterLink, RouterView, HelloWorld },
+  components: { RouterLink, RouterView, Map},
 };
+
 </script>
 
 <style scoped>

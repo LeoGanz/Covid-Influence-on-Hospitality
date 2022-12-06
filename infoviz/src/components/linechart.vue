@@ -85,7 +85,7 @@ export default {
         width: 800,
         height: 300,
         chartId: "linechart-vue",
-        title: "UK Rainfall for 2018",
+
         margin: {
           top: 5,
           right: 5,

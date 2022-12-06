@@ -1,6 +1,5 @@
 <template>
     <main>
-        
         <div id="app">
             <Map />
         </div>
@@ -24,7 +23,7 @@
     };
 
 
-    
+
 
 // // Set svg width & height
 // let centered = undefined;
@@ -34,7 +33,7 @@
 // };
 // const size = {
 //   height: 700,
-// //   width: d3.select('.map-wrapper').node().getBoundingClientRect().width,  
+// //   width: d3.select('.map-wrapper').node().getBoundingClientRect().width,
 // widt: 800,
 // };
 
@@ -68,7 +67,7 @@
 //   .classed('effect-layer', true);
 // const mapLayer = g.append('g')
 //   .classed('map-layer', true);
- 
+
 // // Load map data
 // const geoJsonUrl = 'https://raw.githubusercontent.com/superpikar/indonesia-geojson/master/indonesia.geojson';
 // d3.json(geoJsonUrl, function(error, mapData) {
@@ -80,7 +79,7 @@
 //   // Draw each province as a path
 //   mapLayer.selectAll('path')
 //       .data(features)
-//     .enter().append('path') 
+//     .enter().append('path')
 //       .attr('d', path)
 //       .attr('vector-effect', 'non-scaling-stroke')
 //       .style('fill', fillFn)
@@ -155,4 +154,3 @@
   </script>
 
 
-  

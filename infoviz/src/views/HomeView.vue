@@ -1,4 +1,18 @@
 <template>
+  <div>
+    <router-link
+        to="/about"
+        custom
+        v-slot="{ navigate }"
+    >
+      <button
+          @click="navigate"
+          role="link"
+      >
+        about
+      </button>
+    </router-link>
+  </div>
   <main>
     <div class="horizontal_flex">
       <div class="left_boxes">

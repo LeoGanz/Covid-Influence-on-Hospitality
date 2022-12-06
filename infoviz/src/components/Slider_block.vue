@@ -1,12 +1,12 @@
 <template>
   <div>
-    test
+    slider
   </div>
 </template>
 
 <script>
 export default {
-  name: "Line_block"
+  name: "Slider_block"
 }
 </script>
 

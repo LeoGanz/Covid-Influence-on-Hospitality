@@ -26,7 +26,6 @@ export default {
 
   .block {
     width: 600px;
-    padding: 32px 16px;
     border-radius: 16px;
     margin-top: 48px;
   }
@@ -36,16 +35,19 @@ export default {
   }
 
   .line_block {
+    padding: 32px 16px;
     background-color: #F5F5F5;
     height: 350px;
   }
 
   .slider_block {
+    padding: 32px 16px;
     background-color: #F5F5F5;
     height: 150px;
   }
 
   .map_block {
+    padding: 32px 16px;
     background-color: #F5F5F5;
     height: 746px;
   }

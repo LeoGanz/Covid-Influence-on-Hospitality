@@ -11,10 +11,7 @@
     <div class="wrapper">
       <HelloWorld msg="InfoViz WS22/23 - Team 20 🎉" />
 
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
+
     </div>
   </header>
 

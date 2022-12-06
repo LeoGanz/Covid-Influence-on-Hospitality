@@ -5,8 +5,12 @@
 </template>
 
 <script>
-import TheWelcome from '../components/TheWelcome.vue'
+import TheWelcome from './Description_block.vue'
 export default {
   components: {TheWelcome}
 }
 </script>
+
+<style>
+
+</style>

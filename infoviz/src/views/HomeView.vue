@@ -1,24 +1,18 @@
 <template>
-  <div>
-    <router-link
-        to="/about"
-        custom
-        v-slot="{ navigate }"
-    >
-      <button
-          @click="navigate"
-          role="link"
-      >
-        about
-      </button>
-    </router-link>
-  </div>
+
   <main>
     <div class="horizontal_flex">
       <div class="left_boxes">
         <Description_block class="block description_block"/>
         <Line_block class="block line_block"/>
         <Slider_block class="block slider_block"/>
+        <div>
+          <router-link to="/about">
+            <button @click="navigate" class ="aboutbutton">
+              about
+            </button>
+          </router-link>
+        </div>
       </div>
       <Map_block class="block map_block"/>
     </div>
@@ -72,6 +66,23 @@ export default {
 
   .left_boxes {
     margin-right: 48px;
+  }
+
+  .aboutbutton {
+    background-color: #F5F5F5;
+    color: black;
+    border-radius: 16px;
+    border: none;
+    padding: 16px 32px;
+    text-align: center;
+    font-size: 14px;
+    margin: 24px 0px;
+    transition-duration: 0.4s;
+  }
+  .aboutbutton:hover {
+    background-color: #555555;
+    color: white;
+    transition-duration: 0.4s;
   }
 
 </style>

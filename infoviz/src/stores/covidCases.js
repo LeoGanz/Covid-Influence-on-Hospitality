@@ -13,30 +13,32 @@ export const useCovidCasesStore = defineStore("cases", {
     async initValues() {
       if (this.initialized) {
         console.log("Cases already initialized");
-        return;
+      } else {
+        this.loading = true;
+        console.log("processing covid cases from website...");
+
+        // if we need data per state: https://api.corona-zahlen.org/states/history/cases
+
+        await fetch("https://api.corona-zahlen.org/germany/history/cases")
+          .then(
+            (body) => body.json(),
+            (reason) => console.log("Cases could not be processed: ", reason)
+          )
+          .then(
+            (data) =>
+              (this.cases = data.data.map((datapoint) => {
+                return {
+                  day: datapoint.date.split("T")[0],
+                  value: datapoint.cases,
+                };
+              })),
+            (reason) => console.log("Cases could not be processed: ", reason)
+          );
+
+        this.loading = false;
+        this.initialized = true;
+        console.log("Covid cases processed");
       }
-      this.loading = true;
-      console.log("processing covid cases from website...");
-
-      await fetch("https://api.corona-zahlen.org/germany/history/cases")
-        .then(
-          (body) => body.json(),
-          (reason) => console.log("Cases could not be processed: ", reason)
-        )
-        .then(
-          (data) =>
-            (this.cases = data.data.map((datapoint) => {
-              return {
-                day: datapoint.date.split("T")[0],
-                value: datapoint.cases,
-              };
-            })),
-          (reason) => console.log("Cases could not be processed: ", reason)
-        );
-
-      this.loading = false;
-      this.initialized = true;
-      console.log("Covid cases processed");
     },
   },
 });

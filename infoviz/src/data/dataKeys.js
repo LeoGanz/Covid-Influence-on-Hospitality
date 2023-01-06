@@ -52,7 +52,7 @@ const germanyKey = "germany"
 
 const measures = [{
     key: "lockdown",
-    zpid: "leaveHome"
+    zpid: "leavehome"
 }, {
     key: "mask",
     zpid: "msk"
@@ -61,5 +61,11 @@ const measures = [{
     zpid: "school"
 }]
 
+const zpidKeys = {
+    regionId: "",
+    region: "state",
+    measure: "Measure ",
+}
 
-export {regions, germanyKey, measures}
+
+export {regions, germanyKey, measures, zpidKeys}

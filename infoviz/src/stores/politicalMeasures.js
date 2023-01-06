@@ -1,55 +1,60 @@
 import {defineStore} from "pinia";
-import {parseCsv} from "@/utils/csvProcessor";
-import {germanyKey, measures, regions} from "@/data/dataKeys";
+import {germanyKey, measures, regions, zpidKeys} from "@/data/dataKeys";
+import measuresData from "@/data/Lockdown data-V6.0.csv";
 
 export const useMeasuresStore = defineStore('measures', {
-    state: () => {
-        let emptyListForAllRegions = {}
-        for (const region in regions) {
-            emptyListForAllRegions[region.key] = []
-        }
-        emptyListForAllRegions[germanyKey] = []
+  state: () => {
 
-        let measuresWithEmptyListsForAllRegions = {}
-        for (const measure in measures) {
-            // object holding a list of {day: "aDay", value: 0} for each region and germany
-            measuresWithEmptyListsForAllRegions[measure.key] = structuredClone(emptyListForAllRegions)
-        }
-
-        return {
-            ...measuresWithEmptyListsForAllRegions,
-            loading: false,
-        }
-    },
-    getters: {
-        byDate(state) {
-            return (date) => state.find((measure) => measure.date === date)
-        },
-    },
-    actions: {
-        async loadMeasures() {
-            this.loading = true
-            console.log("loading measures from file...")
-
-            // parse as array of rows
-            const records = await parseCsv("./data/Lockdown data-V6.0.csv")
-
-            const extractByMeasure = (measureKey, measureZpid) => {
-                for (const region in regions) {
-                    let lockDownRow = records.find((record) => (record.state === region.zpid && record.Measure === measureZpid))
-                    delete lockDownRow.state
-                    delete lockDownRow.Measure
-                    this[measureKey][region.key] = Object.entries(lockDownRow).map(([day, value]) => ({day, value}));
-                }
-
-                // TODO calc germany values
-            }
-
-            for (const measure in measures) {
-                extractByMeasure(measure.key, measure.zpid)
-            }
-
-            this.loading = false;
-        }
+    // object holding a list of {day: "aDay", value: 0} for each region and germany for each measure
+    let measuresWithEmptyListsForAllRegions = {}
+    for (const measure of measures) {
+      measuresWithEmptyListsForAllRegions[measure.key] = {}
+      for (const region of regions) {
+        measuresWithEmptyListsForAllRegions[measure.key][region.key] = []
+      }
+      measuresWithEmptyListsForAllRegions[measure.key][germanyKey] = []
     }
+
+    return {
+      ...measuresWithEmptyListsForAllRegions,
+      loading: false,
+      initialized: false,
+    }
+  },
+  getters: {
+    byDate(state) {
+      return (date) => state.find((measure) => measure.date === date)
+    },
+  },
+  actions: {
+    initValues() {
+      if (this.initialized) {
+        console.log("Measures already initialized")
+        return
+      }
+      this.loading = true
+      console.log("processing political measures from csv...")
+
+      const extractByMeasure = (measure) => {
+        for (const region of regions) {
+          let dataRow = measuresData.find((record) =>  (record[zpidKeys.region] === region.zpid) && (record[zpidKeys.measure] === measure.zpid))
+          for (const zpidKey of Object.values(zpidKeys)) {
+            delete dataRow[zpidKey]
+          }
+
+          this[measure.key][region.key] = Object.entries(dataRow).map(([day, value]) => ({day, value}));
+        }
+
+        // TODO calc germany values
+      }
+
+      for (const measure of measures) {
+        extractByMeasure(measure)
+      }
+
+      this.loading = false;
+      this.initialized = true;
+      console.log("measures processed")
+    }
+  }
 })

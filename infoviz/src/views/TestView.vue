@@ -1,7 +1,6 @@
 <template>
   <h1>Tests for Components</h1>
-  <StorageUsageDemo></StorageUsageDemo>
-
+  <StoreUsageDemo></StoreUsageDemo>
 </template>
 
 <script>

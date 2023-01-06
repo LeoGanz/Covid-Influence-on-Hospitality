@@ -1,8 +1,8 @@
 <template>
   <h3>Demo of Storage Usage</h3>
   <div v-if="measuresStore.loading">Loading...</div>
-  <div v-else>
-    {{ measuresStore.lockDown.bavaria}}
+  <div v-else v-for="dval in measuresStore.lockdown.bavaria">
+    <p>{{ dval }}</p>
   </div>
 </template>
 
@@ -10,14 +10,14 @@
 import {useMeasuresStore} from "@/stores/politicalMeasures";
 
 export default {
-  name: "StoreUsageDemno",
+  name: "StoreUsageDemo",
   setup() {
     const measuresStore = useMeasuresStore();
 
     return {measuresStore}
   },
   mounted() {
-    // this.measuresStore.loadMeasures()
+    this.measuresStore.initValues()
   }
 }
 </script>

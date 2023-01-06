@@ -8,12 +8,7 @@ Good example here bar chart ---[ https://stackoverflow.com/questions/48726636/dr
   <svg width="200%" height="70%" viewBox="0 0 800 330"
        preserveAspectRatio="xMidYMid meet" >
 
-    <g class='lineChart' v-bind:transform="translate">
-      <axis class='yA' v-bind:scales="getScales().yAxis" v-bind:chartDefaults='chartDefaults' v-bind:data='data' v-bind:trns='trnsY'/>
-      <axis class='xA' v-bind:scales="getScales().xAxis" v-bind:chartDefaults='chartDefaults' v-bind:data='data' v-bind:trns='trnsX()'/>
-      <axis class='grid' v-bind:scales="getScales().yGrid" v-bind:chartDefaults='chartDefaults' v-bind:data='data' v-bind:trns='trnsY' v-bind:style="{opacity: chartDefaults.gridOpacity}"/>
-      <path class='line' :d="line" />
-    </g>
+   
 
   </svg>
 
@@ -22,6 +17,14 @@ Good example here bar chart ---[ https://stackoverflow.com/questions/48726636/dr
 </template>
 
 <script>
+//
+// <g class='lineChart' v-bind:transform="translate">
+//<axis class='yA' v-bind:scales="getScales().yAxis" v-bind:chartDefaults='chartDefaults' v-bind:data='data' v-bind:trns='trnsY'/>
+//    <axis class='xA' v-bind:scales="getScales().xAxis" v-bind:chartDefaults='chartDefaults' v-bind:data='data' v-bind:trns='trnsX()'/>
+//    <axis class='grid' v-bind:scales="getScales().yGrid" v-bind:chartDefaults='chartDefaults' v-bind:data='data' v-bind:trns='trnsY' v-bind:style="{opacity: chartDefaults.gridOpacity}"/>
+//    <path class='line' :d="line" />
+//  </g>
+//
 import * as d3 from "d3";
 import Axis from "./axis.vue";
 export default {

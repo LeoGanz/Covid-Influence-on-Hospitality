@@ -8,8 +8,13 @@
         <Slider_block class="block slider_block"/>
         <div>
           <router-link to="/about">
-            <button @click="navigate" class ="aboutbutton">
+            <button @click="navigate" class="aboutbutton">
               about
+            </button>
+          </router-link>
+          <router-link to="/test">
+            <button @click="navigate" class="aboutbutton">
+              test
             </button>
           </router-link>
         </div>

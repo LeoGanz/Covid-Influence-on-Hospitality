@@ -13,7 +13,3 @@ export default {
   components: { StoreUsageDemo },
 }
 </script>
-
-<style scoped>
-
-</style>

@@ -1,8 +1,8 @@
 <template>
   <h3>Demo of Storage Usage</h3>
   <div v-if="measuresStore.loading">Loading...</div>
-  <div v-else v-for="dval in measuresStore.lockdown.bavaria">
-    <p>{{ dval }}</p>
+  <div v-else v-for="dayVal in measuresStore.mask.germany">
+    <p>{{ dayVal }}</p>
   </div>
 </template>
 
@@ -21,7 +21,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

@@ -25,11 +25,6 @@ export const useMeasuresStore = defineStore('measures', {
       initialized: false,
     }
   },
-  getters: {
-    byDate(state) {
-      return (date) => state.find((measure) => measure.date === date)
-    },
-  },
   actions: {
     initValues() {
       if (this.initialized) {

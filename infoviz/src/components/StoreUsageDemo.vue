@@ -1,12 +1,13 @@
 <template>
-  <h3>Demo of Storage Usage</h3>
+  <h3>Demo of Store Usage</h3>
   <div v-if="measuresStore.loading">Loading measures...</div>
   <div v-else v-for="dayVal in measuresStore.mask.germany">
-    <p>{{ dayVal }}</p>
+<!--    <p>{{ dayVal }}</p>-->
   </div>
   <div v-if="hospitalityStore.loading">Loading hospitality...</div>
-  <div v-else>
-    <p>Done loading</p>
+<!--  <div v-else v-for="monthVal in hospitalityStore.revenue.bavaria.real.absolut">-->
+  <div v-else v-for="monthVal in hospitalityStore.revenue.germany.accommodation.real.adjusted">
+    <p>{{ monthVal }}</p>
   </div>
 </template>
 
@@ -23,7 +24,7 @@ export default {
     return {measuresStore, hospitalityStore};
   },
   mounted() {
-    // this.measuresStore.initValues()
+    this.measuresStore.initValues()
     this.hospitalityStore.initValues()
   }
 }

@@ -21,12 +21,12 @@ export const useHospitalityStore = defineStore('hospitality', {
     let buildRegionTimelines = () => {
       return {
         real: {
-          original: [],
-          adjusted: [],
+          absolut: [],
+          difference: [],
         },
         nominal: {
-          original: [],
-          adjusted: [],
+          absolut: [],
+          difference: [],
         }
       }
     }
@@ -42,15 +42,15 @@ export const useHospitalityStore = defineStore('hospitality', {
 
     return {
       // revenue: {
-      //   germany: {
-      //     real: {
-      //       absolut: [],
-      //       difference: [],
-      //     },
-      //     nominal: {
-      //       absolut: [],
-      //       difference: [],
-      //     },
+      //   germany: {              ---|
+      //     real: {                  |
+      //       absolut: [],           |
+      //       difference: [],        |
+      //     },                       |  -> not available yet (cannot be calculated from regions, maybe from sectors)
+      //     nominal: {               |
+      //       absolut: [],           |
+      //       difference: [],        |
+      //     },                    ---|
       //     sectorX: {
       //       real: {
       //         original: [],
@@ -62,14 +62,14 @@ export const useHospitalityStore = defineStore('hospitality', {
       //       },
       //     }
       //   },
-      //   badenWuerttemberg: {
+      //   badenWuerttemberg: {      ---| data is not available for all regions (-> empty timelines)
       //     real: {
       //       absolut: [],
-      //       difference: [],
+      //       difference: [], // in %
       //     },
       //     nominal: {
       //       absolut: [],
-      //       difference: [],
+      //       difference: [], // in %
       //     },
       //   }
       // },
@@ -87,8 +87,28 @@ export const useHospitalityStore = defineStore('hospitality', {
 
       this.loading = true
       console.log("processing hospitality data from csv...")
-      console.log(hospitalityGer)
-      console.log(hospitalityRegions)
+
+      for (const sector of sectors) {
+        hospitalityGer.filter((record) => record.typ === sector.genesis).reduce((acc, record) => {
+          let month = record.jahr + "-" + getMonthNumber(record.monat)
+          acc.real.original.push({month: month, value: record.real})
+          acc.real.adjusted.push({month: month, value: record["real-bereinigt"]})
+          acc.nominal.original.push({month: month, value: record.nominal})
+          acc.nominal.adjusted.push({month: month, value: record["nominal-bereinigt"]})
+          return acc
+        }, this.revenue[germanyKey][sector.key])
+      }
+
+      for (const region of regions) {
+        hospitalityRegions.filter((record) => record.bundesland === region.genesis).reduce((acc, record) => {
+          let month = record.jahr + "-" + getMonthNumber(record.monat)
+          acc.real.absolut.push({month: month, value: record.real})
+          acc.real.difference.push({month: month, value: record["real-veraenderung"]})
+          acc.nominal.absolut.push({month: month, value: record.nominal})
+          acc.nominal.difference.push({month: month, value: record["nominal-veraenderung"]})
+          return acc
+        }, this.revenue[region.key])
+      }
 
       this.initialized = true
       this.loading = false
@@ -97,3 +117,34 @@ export const useHospitalityStore = defineStore('hospitality', {
     }
   }
 })
+
+function getMonthNumber(month) {
+  switch (month) {
+    case "Januar":
+      return "01"
+    case "Februar":
+      return "02"
+    case "März":
+      return "03"
+    case "April":
+      return "04"
+    case "Mai":
+      return "05"
+    case "Juni":
+      return "06"
+    case "Juli":
+      return "07"
+    case "August":
+      return "08"
+    case "September":
+      return "09"
+    case "Oktober":
+      return "10"
+    case "November":
+      return "11"
+    case "Dezember":
+      return "12"
+    default:
+      return "00"
+  }
+}

@@ -12,7 +12,7 @@ export default defineConfig({
       processRow: (row, id) => {
         Object.keys(row).forEach((key) => {
           var value = row[key];
-          row[key] = isNaN(+value) ? value : +value;
+          row[key] = isNaN(+value) ? (value === '...' ? NaN : value) : +value;
         });
       }
     })

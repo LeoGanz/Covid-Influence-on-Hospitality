@@ -4,16 +4,9 @@
 </template>
 
 <script>
-import { RouterLink, RouterView } from "vue-router";
-// import HelloWorld from "./components/HelloWorld.vue";
-// export default {
-//   components: { RouterLink, RouterView, HelloWorld },
-// };
-
-import Map from "./components/Map.vue";
-
+import { RouterView } from "vue-router";
 export default {
-  components: { RouterLink, RouterView, Map},
+  components: { RouterView},
 };
 
 </script>

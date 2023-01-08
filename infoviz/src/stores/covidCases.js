@@ -18,9 +18,7 @@ export const useCovidCasesStore = defineStore("cases", {
         this.loading = true;
         console.log("processing covid cases from website...");
 
-        // if we need data per state: https://api.corona-zahlen.org/states/history/cases
-
-        await fetch("https://api.corona-zahlen.org/states/history/cases")
+        await fetch("https://api.corona-zahlen.org/states/history/incidence")
           .then(
             (body) => body.json(),
             (reason) => console.log("Cases could not be processed: ", reason)
@@ -36,7 +34,7 @@ export const useCovidCasesStore = defineStore("cases", {
                 cases[key] = element.history.map((datapoint) => {
                   return {
                     day: datapoint.date.split("T")[0],
-                    value: datapoint.cases,
+                    value: datapoint.weekIncidence,
                   };
                 });
                 cases[key].forEach((datapoint) => {

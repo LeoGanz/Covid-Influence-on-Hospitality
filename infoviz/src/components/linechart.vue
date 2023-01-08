@@ -38,6 +38,7 @@
 </template>
 
 <script>
+// we took this link: https://observablehq.com/@d3/multi-line-chart and transformed to be usable with Vue
 import * as d3 from "d3";
 import { useCovidCasesStore } from "@/stores/covidCases.js";
 import { germanyKey, regions } from "@/data/dataKeys";
@@ -50,6 +51,7 @@ export default {
     return {
       covidCasesStore: covidCasesStore,
       regions: regions,
+      d3: d3,
       chart: {
         x: (d) => d.day,
         y: (d) => d.value,
@@ -73,7 +75,7 @@ export default {
         yDomain: undefined, // [ymin, ymax]
         yRange: undefined, // [bottom, top]
         yFormat: undefined, // a format specifier string for the y-axis
-        yLabel: "Cases", // a label for the y-axis
+        yLabel: "Incidence", // a label for the y-axis
         zDomain: undefined, // array of z-values
         color: "currentColor", // stroke color of line, as a constant or a function of *z*
         strokeLinecap: undefined, // stroke line cap of line
@@ -292,7 +294,9 @@ export default {
           `translate(${this.xScale(this.X[i])},${this.yScale(this.Y[i])})`
         )
         .attr("display", "block");
-      d3.select("#dot").select("text").text(this.T[i]);
+      d3.select("#dot")
+        .select("text")
+        .text(this.T[i] + " - " + Math.round(this.Y[i]));
       d3.select("#svg")
         .property("value", this.O[i])
         .dispatch("input", { bubbles: true });

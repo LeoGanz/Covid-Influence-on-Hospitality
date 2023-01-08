@@ -40,6 +40,7 @@
 <script>
 import * as d3 from "d3";
 import { useCovidCasesStore } from "@/stores/covidCases.js";
+import { germanyKey, regions } from "@/data/dataKeys";
 export default {
   name: "vue-line-chart",
   components: {},
@@ -48,6 +49,7 @@ export default {
 
     return {
       covidCasesStore: covidCasesStore,
+      regions: regions,
       chart: {
         x: (d) => d.day,
         y: (d) => d.value,
@@ -88,11 +90,31 @@ export default {
   },
   computed: {
     data() {
-      return this.covidCasesStore.cases.map((value) => {
-        value.day = new Date(value.day).getTime();
-        value.category = "Covid";
-        return value;
-      });
+      const data = [];
+      for (var state in this.covidCasesStore.cases) {
+        if (state != germanyKey) {
+          data.push(
+            ...this.covidCasesStore.cases[state].map((value) => {
+              value.day = new Date(value.day).getTime();
+              value.category = this.regions.find(
+                (region) => region.key == state
+              ).covid;
+              return value;
+            })
+          );
+        }
+      }
+
+      return data;
+    },
+    getColorId() {
+      return d3
+        .scaleOrdinal()
+        .domain(this.Z)
+        .range(d3.range(0, this.regions.length));
+    },
+    getColor() {
+      return d3.scaleLinear().domain([0, this.regions.length]).range([0, 1]);
     },
     // // Compute values.
     //  const X = d3.map(data, x);
@@ -250,7 +272,7 @@ export default {
           "stroke",
           typeof this.chart.color === "function"
             ? ([z]) => this.chart.color(z)
-            : null
+            : ([z]) => d3.interpolateTurbo(this.getColor(this.getColorId(z)))
         )
         .attr("d", ([, I]) => this.line(I));
     },

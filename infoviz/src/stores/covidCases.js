@@ -1,9 +1,10 @@
 import { defineStore } from "pinia";
+import { germanyKey, regions } from "@/data/dataKeys";
 
 export const useCovidCasesStore = defineStore("cases", {
   state: () => {
     return {
-      cases: [],
+      cases: {},
       loading: false,
       initialized: false,
     };
@@ -19,19 +20,39 @@ export const useCovidCasesStore = defineStore("cases", {
 
         // if we need data per state: https://api.corona-zahlen.org/states/history/cases
 
-        await fetch("https://api.corona-zahlen.org/germany/history/cases")
+        await fetch("https://api.corona-zahlen.org/states/history/cases")
           .then(
             (body) => body.json(),
             (reason) => console.log("Cases could not be processed: ", reason)
           )
           .then(
-            (data) =>
-              (this.cases = data.data.map((datapoint) => {
-                return {
-                  day: datapoint.date.split("T")[0],
-                  value: datapoint.cases,
-                };
-              })),
+            (data) => {
+              const cases = {};
+              const totalCases = {};
+              Object.values(data.data).forEach((element) => {
+                var key = regions.find(
+                  (region) => region.covid == element.name
+                ).key;
+                cases[key] = element.history.map((datapoint) => {
+                  return {
+                    day: datapoint.date.split("T")[0],
+                    value: datapoint.cases,
+                  };
+                });
+                cases[key].forEach((datapoint) => {
+                  if (totalCases[datapoint.day] === undefined) {
+                    totalCases[datapoint.day] = datapoint.value;
+                  } else {
+                    totalCases[datapoint.day] += datapoint.value;
+                  }
+                });
+              });
+              cases[germanyKey] = [];
+              for (var day in totalCases) {
+                cases[germanyKey].push({ day: day, value: totalCases[day] });
+              }
+              this.cases = cases;
+            },
             (reason) => console.log("Cases could not be processed: ", reason)
           );
 

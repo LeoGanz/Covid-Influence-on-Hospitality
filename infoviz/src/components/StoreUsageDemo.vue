@@ -10,7 +10,7 @@
     <div id="cases" class="store">
       <h3>Demo of Covid Cases Dataset</h3>
       <div v-if="measuresStore.loading">Loading...</div>
-      <div v-else v-for="val in covidCasesStore.cases">
+      <div v-else v-for="val in covidCasesStore.cases.germany">
         <p>{{ val }}</p>
       </div>
     </div>

@@ -1,71 +1,107 @@
-const regions = [{
+const regions = [
+  {
     key: "badenWuerttemberg",
-    zpid: "Baden-Wuerttemberg"
-}, {
+    zpid: "Baden-Wuerttemberg",
+    covid: "Baden-Württemberg",
+  },
+  {
     key: "bavaria",
-    zpid: "Bayern"
-}, {
+    zpid: "Bayern",
+    covid: "Bayern",
+  },
+  {
     key: "berlin",
-    zpid: "Berlin"
-}, {
+    zpid: "Berlin",
+    covid: "Berlin",
+  },
+  {
     key: "brandenburg",
-    zpid: "Brandenburg"
-}, {
+    zpid: "Brandenburg",
+    covid: "Brandenburg",
+  },
+  {
     key: "bremen",
-    zpid: "Bremen"
-}, {
+    zpid: "Bremen",
+    covid: "Bremen",
+  },
+  {
     key: "hamburg",
-    zpid: "Hamburg"
-}, {
+    zpid: "Hamburg",
+    covid: "Hamburg",
+  },
+  {
     key: "hessen",
-    zpid: "Hessen"
-}, {
+    zpid: "Hessen",
+    covid: "Hessen",
+  },
+  {
     key: "mecklenburgVorpommern",
-    zpid: "Mecklenburg-Vorpommern"
-}, {
+    zpid: "Mecklenburg-Vorpommern",
+    covid: "Mecklenburg-Vorpommern",
+  },
+  {
     key: "niedersachsen",
-    zpid: "Niedersachsen"
-}, {
+    zpid: "Niedersachsen",
+    covid: "Niedersachsen",
+  },
+  {
     key: "nordrheinWestfalen",
-    zpid: "Nordrhein-Westfalen"
-}, {
+    zpid: "Nordrhein-Westfalen",
+    covid: "Nordrhein-Westfalen",
+  },
+  {
     key: "rheinlandPfalz",
-    zpid: "Rheinland-Pfalz"
-}, {
+    zpid: "Rheinland-Pfalz",
+    covid: "Rheinland-Pfalz",
+  },
+  {
     key: "saarland",
-    zpid: "Saarland"
-}, {
+    zpid: "Saarland",
+    covid: "Saarland",
+  },
+  {
     key: "sachsen",
-    zpid: "Sachsen"
-}, {
+    zpid: "Sachsen",
+    covid: "Sachsen",
+  },
+  {
     key: "sachsenAnhalt",
-    zpid: "Sachsen-Anhalt"
-}, {
+    zpid: "Sachsen-Anhalt",
+    covid: "Sachsen-Anhalt",
+  },
+  {
     key: "schleswigHolstein",
-    zpid: "Schleswig-Holstein"
-}, {
+    zpid: "Schleswig-Holstein",
+    covid: "Schleswig-Holstein",
+  },
+  {
     key: "thueringen",
-    zpid: "Thueringen"
-}]
+    zpid: "Thueringen",
+    covid: "Thüringen",
+  },
+];
 
-const germanyKey = "germany"
+const germanyKey = "germany";
 
-const measures = [{
+const measures = [
+  {
     key: "lockdown",
-    zpid: "leavehome"
-}, {
+    zpid: "leavehome",
+  },
+  {
     key: "mask",
-    zpid: "msk"
-}, {
+    zpid: "msk",
+  },
+  {
     key: "school",
-    zpid: "school"
-}]
+    zpid: "school",
+  },
+];
 
 const zpidKeys = {
-    regionId: "",
-    region: "state",
-    measure: "Measure ",
-}
+  regionId: "",
+  region: "state",
+  measure: "Measure ",
+};
 
-
-export {regions, germanyKey, measures, zpidKeys}
+export { regions, germanyKey, measures, zpidKeys };

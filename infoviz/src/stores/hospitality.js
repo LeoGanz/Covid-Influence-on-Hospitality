@@ -21,11 +21,11 @@ export const useHospitalityStore = defineStore('hospitality', {
     let buildRegionTimelines = () => {
       return {
         real: {
-          absolut: [],
+          original: [],
           difference: [],
         },
         nominal: {
-          absolut: [],
+          original: [],
           difference: [],
         }
       }
@@ -35,22 +35,18 @@ export const useHospitalityStore = defineStore('hospitality', {
     for (const region of regions) {
       revenue[region.key] = buildRegionTimelines()
     }
-    revenue[germanyKey] = buildRegionTimelines()
+    revenue[germanyKey] = {}
     for (const sector of sectors) {
       revenue[germanyKey][sector.key] = buildSectorTimelines()
     }
 
     return {
+      // All revenue values are relative to 2015 values which is 100%
+      // difference timelines show difference to the previous year in %
+      // real -> adjusted for inflation
+      // nominal -> not adjusted for inflation
+
       // revenue: {
-      //   germany: {              ---|
-      //     real: {                  |
-      //       absolut: [],           |
-      //       difference: [],        |
-      //     },                       |  -> not available yet (cannot be calculated from regions, maybe from sectors)
-      //     nominal: {               |
-      //       absolut: [],           |
-      //       difference: [],        |
-      //     },                    ---|
       //     sectorX: {
       //       real: {
       //         original: [],
@@ -64,12 +60,12 @@ export const useHospitalityStore = defineStore('hospitality', {
       //   },
       //   badenWuerttemberg: {      ---| data is not available for all regions (-> empty timelines)
       //     real: {
-      //       absolut: [],
-      //       difference: [], // in %
+      //       original: [],
+      //       difference: [],
       //     },
       //     nominal: {
-      //       absolut: [],
-      //       difference: [], // in %
+      //       original: [],
+      //       difference: [],
       //     },
       //   }
       // },
@@ -102,9 +98,9 @@ export const useHospitalityStore = defineStore('hospitality', {
       for (const region of regions) {
         hospitalityRegions.filter((record) => record.bundesland === region.genesis).reduce((acc, record) => {
           let month = record.jahr + "-" + getMonthNumber(record.monat)
-          acc.real.absolut.push({month: month, value: record.real})
+          acc.real.original.push({month: month, value: record.real})
           acc.real.difference.push({month: month, value: record["real-veraenderung"]})
-          acc.nominal.absolut.push({month: month, value: record.nominal})
+          acc.nominal.original.push({month: month, value: record.nominal})
           acc.nominal.difference.push({month: month, value: record["nominal-veraenderung"]})
           return acc
         }, this.revenue[region.key])

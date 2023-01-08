@@ -1,29 +1,24 @@
 <template>
-    <main>
-        <div id="app">
-            <Map />
-        </div>
-
-    </main>
+  <main>
+    <div id="app">
+      <Map />
+    </div>
+  </main>
 </template>
 
 <script>
+import { RouterLink, RouterView } from "vue-router";
+// import HelloWorld from "./components/HelloWorld.vue";
+// export default {
+//   components: { RouterLink, RouterView, HelloWorld },
+// };
 
-    import { RouterLink, RouterView } from "vue-router";
-    // import HelloWorld from "./components/HelloWorld.vue";
-    // export default {
-    //   components: { RouterLink, RouterView, HelloWorld },
-    // };
+import Map from "@/components/Map/Map.vue";
 
-    import Map from "../components/Map.vue";
-
-    export default {
-    components: { RouterLink, RouterView, Map},
-    name: 'App',
-    };
-
-
-
+export default {
+  components: { RouterLink, RouterView, Map },
+  name: "App",
+};
 
 // // Set svg width & height
 // let centered = undefined;
@@ -151,6 +146,4 @@
 // function fillFn(d){
 //   return color(nameLength(d));
 // }
-  </script>
-
-
+</script>

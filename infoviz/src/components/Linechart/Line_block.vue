@@ -1,24 +1,22 @@
 <template>
   <div>
     <h3>Trend For: Germany</h3>
-    <div id="app">
-      <LineChart v-bind:class="[toggleClass]"/>
-    </div>
+    <LineChart v-bind:class="[toggleClass]" />
   </div>
 </template>
 
 <script>
-  import LineChart from "./linechart.vue";
+import LineChart from "./linechart.vue";
 
-  export default {
-    name: "Line_block",
-    components: {
-      LineChart
+export default {
+  name: "Line_block",
+  components: {
+    LineChart,
   },
 
   data() {
     return {
-      toggleClass: "ani1"
+      toggleClass: "ani1",
     };
   },
 
@@ -26,11 +24,11 @@
     play() {
       // toggle classes to animate the line draw
       this.toggleClass == "ani1"
-      ? (this.toggleClass = "ani2")
-      : (this.toggleClass = "ani1");
-      }
-    }
-  };
+        ? (this.toggleClass = "ani2")
+        : (this.toggleClass = "ani1");
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -41,5 +39,4 @@
   color: #fff;
   padding: 0px;
 }
-
 </style>

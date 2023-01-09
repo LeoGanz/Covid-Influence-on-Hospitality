@@ -1,67 +1,83 @@
 const regions = [{
     key: "badenWuerttemberg",
     zpid: "Baden-Wuerttemberg",
-    genesis: "Baden-Württemberg"
+    genesis: "Baden-Württemberg",
+    covid: "Baden-Württemberg",
 }, {
     key: "bavaria",
     zpid: "Bayern",
-    genesis: "Bayern"
+    genesis: "Bayern",
+    covid: "Bayern",
 }, {
     key: "berlin",
     zpid: "Berlin",
-    genesis: "Berlin"
+    genesis: "Berlin",
+    covid: "Berlin",
 }, {
     key: "brandenburg",
     zpid: "Brandenburg",
-    genesis: "Brandenburg"
+    genesis: "Brandenburg",
+    covid: "Brandenburg",
 }, {
     key: "bremen",
     zpid: "Bremen",
-    genesis: "Bremen"
+    genesis: "Bremen",
+    covid: "Bremen",
 }, {
     key: "hamburg",
     zpid: "Hamburg",
-    genesis: "Hamburg"
+    genesis: "Hamburg",
+    covid: "Hamburg",
 }, {
     key: "hessen",
     zpid: "Hessen",
-    genesis: "Hessen"
+    genesis: "Hessen",
+    covid: "Hessen",
 }, {
     key: "mecklenburgVorpommern",
     zpid: "Mecklenburg-Vorpommern",
-    genesis: "Mecklenburg-Vorpommern"
+    genesis: "Mecklenburg-Vorpommern",
+    covid: "Mecklenburg-Vorpommern",
 }, {
     key: "niedersachsen",
     zpid: "Niedersachsen",
-    genesis: "Niedersachsen"
+    genesis: "Niedersachsen",
+    covid: "Niedersachsen",
 }, {
     key: "nordrheinWestfalen",
     zpid: "Nordrhein-Westfalen",
-    genesis: "Nordrhein-Westfalen"
+    genesis: "Nordrhein-Westfalen",
+    covid: "Nordrhein-Westfalen",
 }, {
     key: "rheinlandPfalz",
     zpid: "Rheinland-Pfalz",
-    genesis: "Rheinland-Pfalz"
+    genesis: "Rheinland-Pfalz",
+    covid: "Rheinland-Pfalz",
 }, {
     key: "saarland",
     zpid: "Saarland",
-    genesis: "Saarland"
+    genesis: "Saarland",
+    covid: "Saarland",
 }, {
     key: "sachsen",
     zpid: "Sachsen",
-    genesis: "Sachsen"
+    genesis: "Sachsen",
+    covid: "Sachsen",
 }, {
     key: "sachsenAnhalt",
     zpid: "Sachsen-Anhalt",
-    genesis: "Sachsen-Anhalt"
+    genesis: "Sachsen-Anhalt",
+    covid: "Sachsen-Anhalt",
 }, {
     key: "schleswigHolstein",
     zpid: "Schleswig-Holstein",
-    genesis: "Schleswig-Holstein"
+    genesis: "Schleswig-Holstein",
+    covid: "Schleswig-Holstein",
 }, {
     key: "thueringen",
     zpid: "Thueringen",
-    genesis: "Thüringen"
+    genesis: "Thüringen",
+    covid: "Thüringen",
 }]
 
 const germanyKey = "germany"

@@ -5,8 +5,10 @@
   </div>
 </template>
 <script>
+//source:https://saigesp.github.io/vue-d3-charts/#/barchart
 import * as d3 from "d3";
 import { D3BarChart} from "vue-d3-charts";
+import {germanyKey} from "@/data/dataKeys";
 console.log(D3BarChart)
 export default {
   components: {
@@ -61,6 +63,7 @@ export default {
       }]
     };
   },
+
 };
 
 </script>

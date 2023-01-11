@@ -10,6 +10,8 @@
                value="incidence" name="display_hospitality"> Incidence
       </div>
     </div>
+    <Map />
+    
     <!-- <LineChart v-if="lineChart" v-bind:class="[toggleClass]" />
     <BarChart v-else v-bind:class="[toggleClass]" /> -->
   </div>

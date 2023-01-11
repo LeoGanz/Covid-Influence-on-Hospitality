@@ -4,7 +4,6 @@
     <D3BarChart :config="chart_config" :datum="chart_data"></D3BarChart>
   </div>
 </template>
-
 <script>
 import * as d3 from "d3";
 import { D3BarChart} from "vue-d3-charts";

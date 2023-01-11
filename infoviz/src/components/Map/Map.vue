@@ -1,125 +1,110 @@
 <template>
-    <main>
-        <div id="map">
-            <svg class="canvas" :viewBox="`0, 0, ${width}, ${height}`">
-            <g class="pathGroup"></g>
-            <text id="tooltip" x="50" y="50">{{ displayedCountry }}</text>
-            </svg>
-        </div>
-    </main>
+  <svg 
+    id="map_container"
+    :width="map.width"
+    :height="map.height"
+    :viewBox="[0, 0, map.width, map.height]"
+  >
+
+
+      
+  </svg>
 </template>
 
+ <!-- As a basis for the map component we took: https://observablehq.com/@ch-bu/map-of-germany-unemployment-rate -->
 <script>
-import json from "@/assets/world.json";
-import { geoPath, geoEqualEarth } from "d3-geo";
-import * as selection from "d3-selection";
-import * as zoom from "d3-zoom";
-import { feature } from "topojson-client";
+import * as d3 from "d3";
+import * as topojson from "topojson-client";
+import germany from "./germany.json";
+// import ar from "./arbeitslosigkeit2.csv"
+
+// import FileAttachment from "d3";
+
+var color = d3.scaleQuantize([0, 7.5], d3.schemeBlues[6]);
+var path = d3.geoPath().projection(projection2);
+var projection = d3.geoConicConformal()
+.scale(3500)
+.center([14.02, 51.02]);
+var projection2 = d3.geoAlbers()
+.scale(1000)
+.center([10.02, 51.12]);
+// var data = d3.csv("./arbeitslosigkeit2.csv");
+
 export default {
-  name: "Map",
+  name: "vue-map",
+  components: { },  
   data() {
     return {
-      myJson: feature(json, json.objects["ne_50m_admin_0_countries_lakes"]),
-      displayedCountry: "",
-      width: 950,
-      height: 550
-    };
-  },
-  computed: {
-    projection() {
-      return geoEqualEarth().fitSize([this.width, this.height], this.myJson);
-    },
-    path() {
-      return geoPath().projection(this.projection);
-    },
-    g() {
-      return selection.select(".pathGroup");
-    },
-    svg() {
-      return selection.select(".canvas");
-    },
-    zoom() {
-      return zoom
-        .zoom()
-        .scaleExtent([1, 8])
-        .on("zoom", this.zoomed);
+      map: {
+        width: 600, // outer width, in pixels
+        height: 300, // outer height, in pixels
+      },
     }
+  },  
+  async mounted() {
+    this.renderChart();
   },
+
   methods: {
-    zoomed() {
-      const { transform } = selection.event;
-      this.g.attr("transform", transform);
-      this.g.attr("stroke-width", 1 / transform.k);
+    renderChart() {
+      // d3.select("#fill")
+      //   .selectAll("path")
+      //   .data(topojson.feature(germany, germany.objects.states).features)
+      //   .join("path")
+      //   .attr('fill', d => color(data.get(d.properties.name)))
+      //   .attr('fill-opacity', 0.7)
+      //   .attr('d', path);
+      // d3.select("#stroke")
+      //   .data(topojson.mesh(germany, germany.objects.states, (a, b) => a !== b))
+      //   .attr("fill", "none")
+      //   .attr("stroke", "#fff")
+      //   .attr("stroke-linejoin", "round")
+      // d3.select("#map_container")
+      //   .append('g')
+      //   .selectAll('path')
+      //   .data(topojson.feature(germany, germany.objects.states).features)
+      //   .join('path')
+      //     .attr('fill', d => color(data.get(d.properties.name)))
+      //     .attr('fill-opacity', 0.7)
+      //     .attr('d', path);
+
+      d3.select("#map_container")
+        .append("path")
+        .datum(topojson.mesh(germany, germany.objects.states, (a, b) => a !== b))
+          .attr("fill", "none")
+          .attr("stroke", "#000")
+          .attr("stroke-linejoin", "round")   
+          .attr("d", path)
+          .attr("transform", "translate(0, -200)");
+      ;
+
+     
+        // .append("circle")
+        // .attr("cx", 200)
+        // .attr("cy", 50)
+        // .attr("r", 20)
+        // .attr("fill", "lightgreen")
+    
     },
-    clicked(d) {
-      const [[x0, y0], [x1, y1]] = this.path.bounds(d);
-      selection.event.stopPropagation();
-      this.svg
-        .transition()
-        .duration(750)
-        .call(
-          this.zoom.transform,
-          zoom.zoomIdentity
-            .translate(this.width / 2, this.height / 2)
-            .scale(
-              Math.min(
-                8,
-                0.9 / Math.max((x1 - x0) / this.width, (y1 - y0) / this.height)
-              )
-            )
-            .translate(-(x0 + x1) / 2, -(y0 + y1) / 2),
-          selection.mouse(this.svg.node())
-        );
-    },
-    reset() {
-      this.svg
-        .transition()
-        .duration(750)
-        .call(
-          this.zoom.transform,
-          zoom.zoomIdentity,
-          zoom
-            .zoomTransform(this.svg.node())
-            .invert([this.width / 2, this.height / 2])
-        );
-    },
-    mouseentered(d, i, nodes) {
-      this.displayedCountry = d.properties.NAME;
-      selection
-        .select(nodes[i])
-        .classed("active", true)
-        .raise();
-    },
-    mouseleft(d, i, nodes) {
-      this.displayedCountry = "";
-      selection.select(nodes[i]).classed("active", false);
-    }
   },
-  mounted() {
-    this.g
-      .selectAll(".country")
-      .data(this.myJson.features)
-      .join("path")
-      .attr("class", "country")
-      .attr("d", this.path)
-      .on("mouseenter", this.mouseentered)
-      .on("mouseleave", this.mouseleft)
-      .on("click", this.clicked);
-    this.svg.on("click", this.reset).call(this.zoom);
-  }
-};
+}
 </script>
 
 <style>
-.country {
-  fill: yellow;
-  stroke: Gainsboro;
+path {
+  color: #000;
+  mix-blend-mode: multiply;
+  width: inherit;
+  height: inherit;
+  max-width: 100%;
+  max-height: 100%;
 }
-#tooltip {
-  font-size: 1.5rem;
-}
-.active {
-  stroke: black;
+svg {
+  width: inherit;
+  height: inherit;
+  max-width: 100%;
+  max-height: 100%;
+  -webkit-tap-highlight-color: transparent;
+  color: #000;
 }
 </style>
-  

@@ -13,10 +13,6 @@
   </svg>
 </template>
 
-
-
-
-
 <script>
 // source: https://observablehq.com/@d3/bar-chart
 import * as d3 from "d3";
@@ -116,6 +112,7 @@ export default {
           .scaleBand(this.xDomain, this.xRange)
           .padding(this.xPadding)
     },
+
     //  const yScale = yType(yDomain, yRange);
     yScale() {
       return this.chart.yType(this.yDomain, this.yRange);
@@ -136,6 +133,7 @@ export default {
   },
   methods: {
     renderChart() {
+      d3.select("#xaxis").call(this.xAxis);
       d3.select("#yaxis")
           .call(this.yAxis)
           .call((g) => g.select(".domain").remove())
@@ -164,7 +162,7 @@ export default {
           .attr("x", (i) => this.xScale(this.X[i]))
           .attr("y", (i) => this.yScale(this.Y[i]))
           .attr("height", (i) => this.yScale(0) - this.yScale(this.Y[i]))
-          .attr("width", this.xScale.bandwidth());
+          .attr("width", this.xScale.scaleBand);
     },
   },
 };

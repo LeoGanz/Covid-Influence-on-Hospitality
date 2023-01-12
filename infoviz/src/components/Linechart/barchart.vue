@@ -5,6 +5,7 @@
       :width="chart.width"
       :height="chart.height"
       :viewBox="[0, 0, chart.width, chart.height]"
+      v-else
   >
     <g id="yaxis" :transform="`translate(${chart.marginLeft},0)`"></g>
     <g id="rect" fill="colour"></g>

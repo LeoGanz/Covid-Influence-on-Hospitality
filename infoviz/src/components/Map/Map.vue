@@ -16,19 +16,27 @@
 import * as d3 from "d3";
 import * as topojson from "topojson-client";
 import germany from "./germany.json";
+
 // import ar from "./arbeitslosigkeit2.csv"
 
 // import FileAttachment from "d3";
 
+const d_germany = topojson.feature(germany, germany.objects.states)
+const mesh = topojson.mesh(germany, germany.objects.states, (a, b) => a !== b);
+
 var color = d3.scaleQuantize([0, 7.5], d3.schemeBlues[6]);
 var path = d3.geoPath().projection(projection2);
-var projection = d3.geoConicConformal()
-.scale(3500)
-.center([14.02, 51.02]);
+var projection1 = d3.geoConicConformal()
+.fitSize([800, 500], mesh);
+
 var projection2 = d3.geoAlbers()
 .scale(1000)
-.center([10.02, 51.12]);
+.center([10.02, 51.12])
+.fitSize([500, 200], mesh);
 // var data = d3.csv("./arbeitslosigkeit2.csv");
+var width=600;
+var height=300;
+var projection = d3.geoIdentity().reflectY(true).fitExtent([[width * 0.3, height * 0.1], [width * 1.3, height * 0.9]], germany);
 
 export default {
   name: "vue-map",
@@ -47,43 +55,15 @@ export default {
 
   methods: {
     renderChart() {
-      // d3.select("#fill")
-      //   .selectAll("path")
-      //   .data(topojson.feature(germany, germany.objects.states).features)
-      //   .join("path")
-      //   .attr('fill', d => color(data.get(d.properties.name)))
-      //   .attr('fill-opacity', 0.7)
-      //   .attr('d', path);
-      // d3.select("#stroke")
-      //   .data(topojson.mesh(germany, germany.objects.states, (a, b) => a !== b))
-      //   .attr("fill", "none")
-      //   .attr("stroke", "#fff")
-      //   .attr("stroke-linejoin", "round")
-      // d3.select("#map_container")
-      //   .append('g')
-      //   .selectAll('path')
-      //   .data(topojson.feature(germany, germany.objects.states).features)
-      //   .join('path')
-      //     .attr('fill', d => color(data.get(d.properties.name)))
-      //     .attr('fill-opacity', 0.7)
-      //     .attr('d', path);
 
       d3.select("#map_container")
         .append("path")
-        .datum(topojson.mesh(germany, germany.objects.states, (a, b) => a !== b))
+        .datum(d_germany)
           .attr("fill", "none")
           .attr("stroke", "#000")
           .attr("stroke-linejoin", "round")   
-          .attr("d", path)
-          .attr("transform", "translate(0, -200)");
-      ;
-
-     
-        // .append("circle")
-        // .attr("cx", 200)
-        // .attr("cy", 50)
-        // .attr("r", 20)
-        // .attr("fill", "lightgreen")
+          .attr("d", d3.geoPath().projection(projection1))
+          .attr("transform", "translate(-100, -85)");
     
     },
   },

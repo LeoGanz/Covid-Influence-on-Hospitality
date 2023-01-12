@@ -2,7 +2,7 @@
   <div>
     <div id="header">
       <h3 v-if="lineChart">Trend: Germany</h3>
-      <h3 v-else>Sector Comparison: Germany</h3>
+      <h3 v-if="barChart">Sector Comparison: Germany</h3>
       <div id="radio_buttons">
         <input type="radio" @change="changeChart"
                value="line" name="lineChart" checked> Line Chart
@@ -11,7 +11,7 @@
       </div>
     </div>
     <LineChart v-if="lineChart" v-bind:class="[toggleClass]" />
-    <BarChart v-else v-bind:class="[toggleClass]" />
+    <BarChart v-if="barChart" v-bind:class="[toggleClass]" />
   </div>
 </template>
 
@@ -29,6 +29,7 @@ export default {
   data() {
     return {
       lineChart: true,
+      barChart: false,
       toggleClass: "ani1",
     };
   },
@@ -43,6 +44,7 @@ export default {
     changeChart(event) {
       // toggle the linechart
       this.lineChart = !this.lineChart;
+      this.barChart = !this.barChart;
     },
   },
 };

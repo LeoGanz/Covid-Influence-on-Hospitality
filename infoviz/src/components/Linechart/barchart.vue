@@ -7,6 +7,8 @@
       :viewBox="[0, 0, chart.width, chart.height]"
   >
     <g id="yaxis" :transform="`translate(${chart.marginLeft},0)`"></g>
+    <g id="rect" fill="colour"></g>
+    <g id="xaxis" :transform="`translate(0,${chart.height - chart.marginBottom})`"></g>
   </svg>
 </template>
 
@@ -20,11 +22,10 @@ import * as d3 from "d3";
 import { useCovidCasesStore } from "@/stores/covidCases.js";
 import { germanyKey, regions } from "@/data/dataKeys";
 export default {
-  name: "vue-line-chart",
+  name: "vue-bar-chart",
   components: {},
   data() {
     const covidCasesStore = useCovidCasesStore();
-
     return {
       covidCasesStore: covidCasesStore,
       regions: regions,
@@ -110,7 +111,9 @@ export default {
       return [0, d3.max(this.Y, (d) => (typeof d === "string" ? +d : d))];
     },
     xScale() {
-      return this.chart.xType(this.xDomain, this.xRange);
+      return d3
+          .scaleBand(this.xDomain, this.xRange)
+          .padding(this.xPadding)
     },
     //  const yScale = yType(yDomain, yRange);
     yScale() {
@@ -172,5 +175,15 @@ export default {
 
 
 <style>
-
+path {
+  color: #213fd5;
+}
+svg {
+  width: inherit;
+  height: inherit;
+  max-width: 100%;
+  max-height: 100%;
+  -webkit-tap-highlight-color: transparent;
+  color: #000;
+}
 </style>

@@ -80,19 +80,19 @@ export const useHospitalityStore = defineStore('hospitality', {
       let values = buildSectorTimelines()
       for (const sector of sectors) {
         values.real.original.push({
-          key: sector.key,
+          sector: sector.key,
           value: state.revenue[germanyKey][sector.key].real.original.find(matchingMonth)?.value
         })
         values.real.adjusted.push({
-          key: sector.key,
+          sector: sector.key,
           value: state.revenue[germanyKey][sector.key].real.adjusted.find(matchingMonth)?.value
         })
         values.nominal.original.push({
-          key: sector.key,
+          sector: sector.key,
           value: state.revenue[germanyKey][sector.key].nominal.original.find(matchingMonth)?.value
         })
         values.nominal.adjusted.push({
-          key: sector.key,
+          sector: sector.key,
           value: state.revenue[germanyKey][sector.key].nominal.adjusted.find(matchingMonth)?.value
         })
       }
@@ -104,19 +104,19 @@ export const useHospitalityStore = defineStore('hospitality', {
       let values = buildRegionTimelines()
       for (const region of regions) {
         values.real.original.push({
-          key: region.key,
+          region: region.key,
           value: state.revenue[region.key].real.original.find(matchingMonth)?.value
         })
         values.real.difference.push({
-          key: region.key,
+          region: region.key,
           value: state.revenue[region.key].real.difference.find(matchingMonth)?.value
         })
         values.nominal.original.push({
-          key: region.key,
+          region: region.key,
           value: state.revenue[region.key].nominal.original.find(matchingMonth)?.value
         })
         values.nominal.difference.push({
-          key: region.key,
+          region: region.key,
           value: state.revenue[region.key].nominal.difference.find(matchingMonth)?.value
         })
       }

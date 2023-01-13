@@ -3,33 +3,32 @@ import hospitalityGer from "@/data/UmsatzBranchenDE-utf8.csv";
 import hospitalityRegions from "@/data/UmsatzBL-utf8.csv";
 import {germanyKey, regions, sectors} from "@/data/dataKeys";
 
+let buildSectorTimelines = () => {
+  return {
+    real: {
+      original: [],
+      adjusted: [],
+    },
+    nominal: {
+      original: [],
+      adjusted: [],
+    }
+  }
+}
+let buildRegionTimelines = () => {
+  return {
+    real: {
+      original: [],
+      difference: [],
+    },
+    nominal: {
+      original: [],
+      difference: [],
+    }
+  }
+}
 export const useHospitalityStore = defineStore('hospitality', {
   state: () => {
-
-    let buildSectorTimelines = () => {
-      return {
-        real: {
-          original: [],
-          adjusted: [],
-        },
-        nominal: {
-          original: [],
-          adjusted: [],
-        }
-      }
-    }
-    let buildRegionTimelines = () => {
-      return {
-        real: {
-          original: [],
-          difference: [],
-        },
-        nominal: {
-          original: [],
-          difference: [],
-        }
-      }
-    }
 
     let revenue = {}
     for (const region of regions) {
@@ -74,6 +73,55 @@ export const useHospitalityStore = defineStore('hospitality', {
       loading: false,
       initialized: false,
     }
+  },
+  getters: {
+    getSectorsByMonth: (state) => (monthYear) => { // month as "2020-01"
+      let matchingMonth = (item) => item.month === monthYear
+      let values = buildSectorTimelines()
+      for (const sector of sectors) {
+        values.real.original.push({
+          key: sector.key,
+          value: state.revenue[germanyKey][sector.key].real.original.find(matchingMonth)?.value
+        })
+        values.real.adjusted.push({
+          key: sector.key,
+          value: state.revenue[germanyKey][sector.key].real.adjusted.find(matchingMonth)?.value
+        })
+        values.nominal.original.push({
+          key: sector.key,
+          value: state.revenue[germanyKey][sector.key].nominal.original.find(matchingMonth)?.value
+        })
+        values.nominal.adjusted.push({
+          key: sector.key,
+          value: state.revenue[germanyKey][sector.key].nominal.adjusted.find(matchingMonth)?.value
+        })
+      }
+      return values
+    },
+    //method to get regions by day
+    getRegionsByMonth: (state) => (month) => { // month as "2020-01"
+      let matchingMonth = (item) => item.month === month
+      let values = buildRegionTimelines()
+      for (const region of regions) {
+        values.real.original.push({
+          key: region.key,
+          value: state.revenue[region.key].real.original.find(matchingMonth)?.value
+        })
+        values.real.difference.push({
+          key: region.key,
+          value: state.revenue[region.key].real.difference.find(matchingMonth)?.value
+        })
+        values.nominal.original.push({
+          key: region.key,
+          value: state.revenue[region.key].nominal.original.find(matchingMonth)?.value
+        })
+        values.nominal.difference.push({
+          key: region.key,
+          value: state.revenue[region.key].nominal.difference.find(matchingMonth)?.value
+        })
+      }
+      return values
+    },
   },
   actions: {
     initValues() {

@@ -77,48 +77,50 @@ export const useHospitalityStore = defineStore('hospitality', {
   getters: {
     getSectorsByMonth: (state) => (monthYear) => { // month as "2020-01"
       let matchingMonth = (item) => item.month === monthYear
-      let values = buildSectorTimelines()
+      let values = {
+        real: {
+          original: {},
+          adjusted: {},
+        },
+        nominal: {
+          original: {},
+          adjusted: {},
+        }
+      }
       for (const sector of sectors) {
-        values.real.original.push({
-          sector: sector.key,
-          value: state.revenue[germanyKey][sector.key].real.original.find(matchingMonth)?.value
-        })
-        values.real.adjusted.push({
-          sector: sector.key,
-          value: state.revenue[germanyKey][sector.key].real.adjusted.find(matchingMonth)?.value
-        })
-        values.nominal.original.push({
-          sector: sector.key,
-          value: state.revenue[germanyKey][sector.key].nominal.original.find(matchingMonth)?.value
-        })
-        values.nominal.adjusted.push({
-          sector: sector.key,
-          value: state.revenue[germanyKey][sector.key].nominal.adjusted.find(matchingMonth)?.value
-        })
+        values.real.original[sector.key] =
+          state.revenue[germanyKey][sector.key].real.original.find(matchingMonth)?.value
+        values.real.adjusted[sector.key] =
+          state.revenue[germanyKey][sector.key].real.adjusted.find(matchingMonth)?.value
+        values.nominal.original[sector.key] =
+          state.revenue[germanyKey][sector.key].nominal.original.find(matchingMonth)?.value
+        values.nominal.adjusted[sector.key] =
+          state.revenue[germanyKey][sector.key].nominal.adjusted.find(matchingMonth)?.value
       }
       return values
     },
     //method to get regions by day
     getRegionsByMonth: (state) => (month) => { // month as "2020-01"
       let matchingMonth = (item) => item.month === month
-      let values = buildRegionTimelines()
+      let values =  {
+        real: {
+          original: {},
+          difference: {},
+        },
+        nominal: {
+          original: {},
+          difference: {},
+        }
+      }
       for (const region of regions) {
-        values.real.original.push({
-          region: region.key,
-          value: state.revenue[region.key].real.original.find(matchingMonth)?.value
-        })
-        values.real.difference.push({
-          region: region.key,
-          value: state.revenue[region.key].real.difference.find(matchingMonth)?.value
-        })
-        values.nominal.original.push({
-          region: region.key,
-          value: state.revenue[region.key].nominal.original.find(matchingMonth)?.value
-        })
-        values.nominal.difference.push({
-          region: region.key,
-          value: state.revenue[region.key].nominal.difference.find(matchingMonth)?.value
-        })
+        values.real.original[region.key] =
+          state.revenue[region.key].real.original.find(matchingMonth)?.value
+        values.real.difference[region.key] =
+          state.revenue[region.key].real.difference.find(matchingMonth)?.value
+        values.nominal.original[region.key] =
+          state.revenue[region.key].nominal.original.find(matchingMonth)?.value
+        values.nominal.difference[region.key] =
+          state.revenue[region.key].nominal.difference.find(matchingMonth)?.value
       }
       return values
     },

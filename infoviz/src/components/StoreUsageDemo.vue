@@ -18,8 +18,8 @@
       <h3>Demo of Hospitality Dataset</h3>
       <div v-if="hospitalityStore.loading">Loading hospitality data...</div>
 <!--      <div v-else v-for="val in hospitalityStore.revenue.bavaria.nominal.absolut">-->
-      <div v-else v-for="val in hospitalityStore.getRegionsByMonth('2021-02').real.original">
-        <p>{{ val }}</p>
+      <div v-else >
+        <p>{{ hospitalityStore.getRegionsByMonth('2021-02').real.original }}</p>
       </div>
     </div>
   </div>

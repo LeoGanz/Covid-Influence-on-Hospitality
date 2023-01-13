@@ -47,6 +47,7 @@ export const useHospitalityStore = defineStore('hospitality', {
       // nominal -> not adjusted for inflation
 
       // revenue: {
+      //   germany: {
       //     sectorX: {
       //       real: {
       //         original: [],

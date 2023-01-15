@@ -89,7 +89,6 @@ export default {
     
       d3.select("#map_container")
       .append("g")
-        .attr("id", "test123")
       .selectAll("path")
       .data(mapDataGermany.features)
       .join("path")

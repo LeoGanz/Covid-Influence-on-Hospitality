@@ -81,7 +81,7 @@ export default {
 
         for (var state in this.covidCasesStore1.cases) {
           if (state != germanyKey) {
-            const v = this.covidCasesStore1.cases[state].filter(element => element.day == new Date(this.currentDay).getTime()).map((value) => {
+            const v = this.covidCasesStore1.cases[state].filter(element => element.day == this.currentDay).map((value) => {
               return value.value;
             });
             data[state] = v;

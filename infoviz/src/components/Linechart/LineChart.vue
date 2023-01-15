@@ -88,8 +88,6 @@ export default {
 },
 async mounted() {
   await this.covidCasesStore.initValues();
-  console.log("Covid data: ");
-  console.log(this.covidCasesStore);
   this.renderChart();
 },
 computed: {

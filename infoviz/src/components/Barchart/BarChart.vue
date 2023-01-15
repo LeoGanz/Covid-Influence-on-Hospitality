@@ -29,7 +29,7 @@ export default {
       regions: regions,
       d3: d3,
       chart: {
-        x: (d) => d.regions,
+        x: (d) => d.region,
         y: (d) => d.value,
         //x = (d, i) => i, // given d in data, returns the (ordinal) x-value
         //y = d => d, // given d in data, returns the (quantitative) y-value
@@ -59,26 +59,40 @@ export default {
   async mounted() {
     await this.hospitalityStore.initValues();
     //this.hospitalityStore.initValues();
-    console.log("Hospitality data: ");
-    console.log(this.hospitalityStore);
     this.renderChart();
   },
   computed: {
     data() {
+
       const data = [];
-      //TODO: maybe here is the problem...
-      for (var state in this.hospitalityStore.cases) {
-        if (state != germanyKey) {
-          data.push(
-              ...this.hospitalityStore.cases[state].map((value) => {
-                value.category = this.regions.find(
-                    (region) => region.key == state
-                ).covid;
-                return value;
-              })
-          );
+
+      const dataJson = this.hospitalityStore.getRegionsByMonth('2021-02').real.original
+      const dataArray = Object.entries(dataJson);
+      dataArray.forEach((entry) => {
+        const region = entry[0];
+        const value = entry[1];
+        if (Number.isFinite(value)) {
+          data.push({region, value});
         }
-      }
+        //data.push({region, value});
+      });
+
+      console.log("Hospitality data: ");
+      console.log(data);
+
+      // for (var dataPair in this.hospitalityStore.getRegionsByMonth('2021-02').real.original) {
+      //   console.log(dataPair);
+        //if (state != germanyKey) {
+        //   data.push(
+        //       ...this.hospitalityStore.value[state].map((value) => {
+        //         value.category = this.regions.find(
+        //             (region) => region.key == state
+        //         ).covid;
+        //         return value;
+        //       })
+        //   );
+        //}
+      // }
 
       return data;
     },
@@ -172,6 +186,7 @@ export default {
           .attr("y", (i) => this.yScale(this.Y[i]))
           .attr("height", (i) => this.yScale(0) - this.yScale(this.Y[i]))
           .attr("width", this.xScale.scaleBand);
+          //.attr("width", 10);
     },
   },
 };

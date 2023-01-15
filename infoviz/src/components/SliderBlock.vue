@@ -27,7 +27,6 @@ export default {
   methods: {
     updateCurrentDate(event) {
       this.currentTimestamp = event.target.value;
-      console.log(this.currentTimestamp);
       this.thumbLeft = this.calculateThumbLeft();
     },
     formatDate(timestamp) {

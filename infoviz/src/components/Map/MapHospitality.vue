@@ -14,7 +14,8 @@ import * as topojson from "topojson-client";
 import germany from "./germany.json";
 
 import { useHospitalityStore } from "@/stores/hospitality";
-import { germanyKey, regions } from "@/data/dataKeys";
+import { useMeasuresStore } from "@/stores/politicalMeasures";
+import { regions } from "@/data/dataKeys";
 
 // loading map data based on https://observablehq.com/@ch-bu/map-of-germany-unemployment-rate
 const mapDataGermany = topojson.feature(germany, germany.objects.states)
@@ -24,18 +25,25 @@ const mesh = topojson.mesh(germany, germany.objects.states, (a, b) => a !== b);
 var projection1 = d3.geoConicConformal()
    .fitSize([800, 500], mesh);
 
+var lastClickedRegion = "";
+
 export default {
   name: "vue-map",
   components: { },  
   data() {
 
     const hospitalityStore1 = useHospitalityStore();
+    const politicalMeasures = useMeasuresStore();
     var currentMonth = "2022-03"; // TODO: this date should be adjusted according to the current slider position.
-    
+ 
+
     return {
+
       hospitalityStore1: hospitalityStore1,
+      politicalMeasures: politicalMeasures,
       currentMonth: currentMonth,
       regions: regions,
+      lastClickedRegion: lastClickedRegion,
       map: {
         width: 600, // outer width, in pixels
         height: 300, // outer height, in pixels
@@ -44,6 +52,7 @@ export default {
   }, 
   async mounted() {
     await this.hospitalityStore1.initValues();
+    await this.politicalMeasures.initValues();
 
     this.plotMapData();
     this.renderMap();
@@ -64,22 +73,52 @@ export default {
           .attr("stroke", "#101010")
           .attr("stroke-linejoin", "round")   
           .attr("d", d3.geoPath().projection(projection1))
-          .attr("transform", "translate(-100, -85)");
+          .attr("transform", "translate(-100, -85)")
+          .attr("id", "test");
     },
 
-    plotMapData() {
+    test() {
+      console.log(this.lastClickedRegion);
+    },  
+
+    plotMapData(lastClickedRegion) {
       // chose filling
       var myColor = d3.scaleQuantize([0, 100], d3.schemeOranges[6]);
+
+      console.log(this.lastClickedRegion);
     
       d3.select("#map_container")
       .append("g")
+        .attr("id", "test123")
       .selectAll("path")
       .data(mapDataGermany.features)
       .join("path")
       .attr("fill", d => isNaN(this.dataHospitality[d.properties.nameEN]) ? "#686464" : myColor(this.dataHospitality[d.properties.nameEN]))   
       .attr("fill-opacity", 1)
       .attr("d", d3.geoPath().projection(projection1))
-      .attr("transform", "translate(-100, -85)");
+      .attr("transform", "translate(-100, -85)")
+      .attr("id", d => d.properties.nameEN)
+      // visually display clicked region
+      .on("click", function(lastClickedRegion){
+            return function(){ 
+              // reset
+              if (lastClickedRegion != "" || lastClickedRegion == this.id) {
+                d3.select("#" + lastClickedRegion)
+                  .attr("stroke", "#101010")
+                  .attr("stroke-width", "0.5")
+              };
+             
+              if (lastClickedRegion != this.id) {
+                d3.select(this)
+                  .attr("stroke-width", "3")
+                  .attr("stroke", "black");
+
+                lastClickedRegion = this.id;
+              } else {
+                lastClickedRegion = "";
+              }
+            }   
+        }(this.lastClickedRegion));
     },
   },
 }

@@ -6,13 +6,8 @@
     :viewBox="[0, 0, map.width, map.height]"
   >      
   </svg>
-  <div v-if="covidCasesStore1.loading">Loading covid data...</div>
-  <div v-else v-for="val in this.data">
-    <p>Values: {{ val }}</p>
-  </div>
 </template>
 
- <!-- As a basis for the map component we took: https://observablehq.com/@ch-bu/map-of-germany-unemployment-rate -->
 <script>
 import * as d3 from "d3";
 import * as topojson from "topojson-client";
@@ -22,20 +17,13 @@ import { useCovidCasesStore } from "@/stores/covidCases";
 import { useHospitalityStore } from "@/stores/hospitality";
 import { germanyKey, regions } from "@/data/dataKeys";
 
-
-const d_germany = topojson.feature(germany, germany.objects.states)
+// loading map data based on https://observablehq.com/@ch-bu/map-of-germany-unemployment-rate
+const mapDataGermany = topojson.feature(germany, germany.objects.states)
 const mesh = topojson.mesh(germany, germany.objects.states, (a, b) => a !== b);
 
+// project and scale map
 var projection1 = d3.geoConicConformal()
    .fitSize([800, 500], mesh);
-
-
-
-// var data = new Map(this.covidCasesStore)
-
-
-
-// import { color } from "d3";
 
 export default {
   name: "vue-map",
@@ -44,7 +32,7 @@ export default {
 
     const covidCasesStore1 = useCovidCasesStore();
     const hospitalityStore1 = useHospitalityStore();
-    var currentDay = "2021-06-15"; // TODO: this date should be adjusted according to the current slider position.
+    var currentDay = "2022-03-28"; // TODO: this date should be adjusted according to the current slider position.
     
     return {
       covidCasesStore1: covidCasesStore1,
@@ -57,77 +45,73 @@ export default {
       },
     }
   }, 
-  // setup() {
-  //   const covidCasesStore = useCovidCasesStore();
-  //   const hospitalityStore = useHospitalityStore();
-  //   var currentDay = "2020-12-11"; // TODO: this date should be adjusted according to the current slider position.
-
-  //   return { covidCasesStore, hospitalityStore };
-  // }, 
   async mounted() {
     await this.covidCasesStore1.initValues();
     await this.hospitalityStore1.initValues();
-    this.plotData();
-    this.renderChart();
-    console.log(d_germany.features);
+
+    this.plotMapData();
+    this.renderMap();
   },
   computed: {
+    // function to detect max value of incidence over time, as a reference value
+    // TODO: determine reference values
+    retrieveMaxIncidence() {
+      var maxIncidences = [];
+
+      for (var state in this.covidCasesStore1.cases) {
+        if (state != germanyKey) {
+
+          var stateIncidence = [];
+
+          stateIncidence.push(
+            ...this.covidCasesStore1.cases[state].map((value) => {
+              return value.value;
+            }));
+        
+          maxIncidences.push(Math.max(...stateIncidence));
+
+        }
+      };
+
+      return Math.max(...maxIncidences);
+
+    },
     data() {
+      // load current incidence value per state per day (currentDay)
       var data = {};
         for (var state in this.covidCasesStore1.cases) {
           if (state != germanyKey) {
             const v = this.covidCasesStore1.cases[state].filter(element => element.day == this.currentDay).map((value) => {
-              console.log(value.value);
               return value.value;
             });
             data[state] = v;
-
-            // data.push(
-            //   ... this.covidCasesStore1.cases[state].filter(element => element.day == this.currentDay).map((value) => {
-            //     value.day = new Date(value.day).getTime();
-            //     value.category = this.regions.find(
-            //       (region) => region.key == state
-            //     ).covid;
-            //     return value;
-            //   })
-            // );
           }
         }
         return data;
     },
   },
   methods: {
-    renderChart() {
+    renderMap() {
       d3.select("#map_container")
         .append("path")
-        .datum(d_germany)
+        .datum(mapDataGermany)
           .attr("fill", "none")
-          .attr("stroke", "#fff")
+          .attr("stroke", "#101010")
           .attr("stroke-linejoin", "round")   
           .attr("d", d3.geoPath().projection(projection1))
           .attr("transform", "translate(-100, -85)");
     },
 
-    plotData() {
-
-      // var color = d3.scaleQuantize([0, 7.5], d3.schemeBlues[6])
-
-      var myColor = d3.scaleLinear().domain([1,16])  
-
-      console.log(this.data)
-
-      const a = {
-        'bavaria': "#008080",
-        'berlin':"#ffffff"
-      }
-
-
+    plotMapData() {
+      // chose filling
+      var myColor = d3.scaleQuantize([0, this.retrieveMaxIncidence], d3.schemePurples[6]);
+    
       d3.select("#map_container")
       .append("g")
       .selectAll("path")
-      .data(d_germany.features)
+      .data(mapDataGermany.features)
       .join("path")
-      .attr("fill", d => a[d.properties.nameEN])
+      .attr("fill", d => myColor(this.data[d.properties.nameEN]))   
       .attr("fill-opacity", 1)
       .attr("d", d3.geoPath().projection(projection1))
       .attr("transform", "translate(-100, -85)");

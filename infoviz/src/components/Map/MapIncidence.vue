@@ -24,6 +24,9 @@ const mesh = topojson.mesh(germany, germany.objects.states, (a, b) => a !== b);
 var projection1 = d3.geoConicConformal()
    .fitSize([800, 500], mesh);
 
+var lastClickedRegion = "";
+
+
 export default {
   name: "vue-map",
   components: { },  
@@ -111,7 +114,29 @@ export default {
       .attr("fill", d => myColor(this.dataIncidence[d.properties.nameEN]))   
       .attr("fill-opacity", 1)
       .attr("d", d3.geoPath().projection(projection1))
-      .attr("transform", "translate(-100, -85)");
+      .attr("transform", "translate(-100, -85)")
+      .attr("id", d => d.properties.nameEN)
+      // visually display clicked region
+      .on("click", function(lastClickedRegion){
+            return function(){ 
+              // reset
+              if (lastClickedRegion != "" || lastClickedRegion == this.id) {
+                d3.select("#" + lastClickedRegion)
+                  .attr("stroke", "#101010")
+                  .attr("stroke-width", "0.5")
+              };
+             
+              if (lastClickedRegion != this.id) {
+                d3.select(this)
+                  .attr("stroke-width", "3")
+                  .attr("stroke", "black");
+
+                lastClickedRegion = this.id;
+              } else {
+                lastClickedRegion = "";
+              }
+            }   
+        }(this.lastClickedRegion));
     },
   },
 }

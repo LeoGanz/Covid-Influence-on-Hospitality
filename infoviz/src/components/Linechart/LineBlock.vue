@@ -1,29 +1,19 @@
 <template>
   <div>
     <div id="header">
-      <h3 v-if="lineChart">Trend: Germany</h3>
-      <h3 v-if="barChart">Sector Comparison: Germany</h3>
-      <div id="radio_buttons">
-        <input type="radio" @change="changeChart"
-               value="line" name="lineChart" checked> Line Chart
-        <input type="radio" @change="changeChart"
-               value="bar" name="lineChart"> Bar Chart
-      </div>
+      <h3>Trend: Germany</h3>
     </div>
-    <LineChart v-if="lineChart" v-bind:class="[toggleClass]" />
-    <BarChart v-if="barChart" v-bind:class="[toggleClass]" />
+    <LineChart v-bind:class="[toggleClass]" />
   </div>
 </template>
 
 <script>
 import LineChart from "./LineChart.vue";
-import BarChart from "../Barchart/BarChart.vue";
 
 export default {
   name: "Line_block",
   components: {
-    LineChart,
-    BarChart,
+    LineChart
   },
 
   data() {
@@ -51,13 +41,6 @@ export default {
 </script>
 
 <style scoped>
-#app {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #fff;
-  padding: 0px;
-}
 #header {
   display: flex;
   justify-content: space-between;

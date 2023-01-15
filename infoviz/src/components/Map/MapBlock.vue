@@ -10,7 +10,14 @@
                value="incidence" name="display_hospitality"> Incidence
       </div>
     </div>
-    <Map />
+    <div v-if="display_hospitality" v-bind:class="[toggleClass]" style="width: 100%; height: 100%;">
+      <MapHospitality />
+    </div>
+    <div v-else v-bind:class="[toggleClass]" style="width: 100%; height: 100%;">
+      <MapIncidence />
+    </div>
+
+    
     
     <!-- <LineChart v-if="lineChart" v-bind:class="[toggleClass]" />
     <BarChart v-else v-bind:class="[toggleClass]" /> -->
@@ -19,14 +26,16 @@
 
 <script>
 
-import Map from "./Map.vue";
+import MapIncidence from "./MapIncidence.vue";
+import MapHospitality from "./MapHospitality.vue";
 
 
 export default {
   name: "Map_block",
   components: {
-    Map,
-  },
+    MapIncidence,
+    MapHospitality
+},
   data() {
     return {
       display_hospitality: true,

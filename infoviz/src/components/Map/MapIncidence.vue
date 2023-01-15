@@ -14,7 +14,6 @@ import * as topojson from "topojson-client";
 import germany from "./germany.json";
 
 import { useCovidCasesStore } from "@/stores/covidCases";
-import { useHospitalityStore } from "@/stores/hospitality";
 import { germanyKey, regions } from "@/data/dataKeys";
 
 // loading map data based on https://observablehq.com/@ch-bu/map-of-germany-unemployment-rate
@@ -31,12 +30,10 @@ export default {
   data() {
 
     const covidCasesStore1 = useCovidCasesStore();
-    const hospitalityStore1 = useHospitalityStore();
     var currentDay = "2022-03-28"; // TODO: this date should be adjusted according to the current slider position.
     
     return {
       covidCasesStore1: covidCasesStore1,
-      hospitalityStore1: hospitalityStore1,
       currentDay: currentDay,
       regions: regions,
       map: {
@@ -47,7 +44,6 @@ export default {
   }, 
   async mounted() {
     await this.covidCasesStore1.initValues();
-    await this.hospitalityStore1.initValues();
 
     this.plotMapData();
     this.renderMap();
@@ -76,12 +72,13 @@ export default {
       return Math.max(...maxIncidences);
 
     },
-    data() {
+    dataIncidence() {
       // load current incidence value per state per day (currentDay)
       var data = {};
+
         for (var state in this.covidCasesStore1.cases) {
           if (state != germanyKey) {
-            const v = this.covidCasesStore1.cases[state].filter(element => element.day == this.currentDay).map((value) => {
+            const v = this.covidCasesStore1.cases[state].filter(element => element.day == new Date(this.currentDay).getTime()).map((value) => {
               return value.value;
             });
             data[state] = v;
@@ -111,7 +108,7 @@ export default {
       .selectAll("path")
       .data(mapDataGermany.features)
       .join("path")
-      .attr("fill", d => myColor(this.data[d.properties.nameEN]))   
+      .attr("fill", d => myColor(this.dataIncidence[d.properties.nameEN]))   
       .attr("fill-opacity", 1)
       .attr("d", d3.geoPath().projection(projection1))
       .attr("transform", "translate(-100, -85)");

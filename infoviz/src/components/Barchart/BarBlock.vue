@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import BarChart from "@/components/Barchart/BarChart.vue";
+import BarChart from "./BarChart.vue";
 export default {
   name: "BarBlock",
   components: { BarChart },

@@ -42,7 +42,7 @@ export default {
   mounted() {
     this.covidCasesStore.initValues();
     this.measuresStore.initValues();
-    this.hospitalityStore.initValues()
+    this.hospitalityStore.initValues();
   },
 };
 </script>

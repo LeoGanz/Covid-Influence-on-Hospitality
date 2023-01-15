@@ -1,12 +1,11 @@
 <template>
-  <div v-if="!covidCasesStore.initialized">Loading...</div>
+  <div v-if="!hospitalityStore.initialized">Loading...</div>
   <svg
       id="svg"
       :width="chart.width"
       :height="chart.height"
       :viewBox="[0, 0, chart.width, chart.height]"
-      v-else
-  >
+      v-else>
     <g id="yaxis" :transform="`translate(${chart.marginLeft},0)`"></g>
     <g id="rect" fill="colour"></g>
     <g id="xaxis" :transform="`translate(0,${chart.height - chart.marginBottom})`"></g>
@@ -16,15 +15,17 @@
 <script>
 // source: https://observablehq.com/@d3/bar-chart
 import * as d3 from "d3";
-import { useCovidCasesStore } from "@/stores/covidCases.js";
+//import { useCovidCasesStore } from "@/stores/covidCases.js";
 import { germanyKey, regions } from "@/data/dataKeys";
+import {useHospitalityStore} from "@/stores/hospitality";
+
 export default {
   name: "vue-bar-chart",
   components: {},
   data() {
-    const covidCasesStore = useCovidCasesStore();
+    const hospitalityStore = useHospitalityStore();
     return {
-      covidCasesStore: covidCasesStore,
+      hospitalityStore: hospitalityStore.getRegionsByMonth('2021-02').real.original,
       regions: regions,
       d3: d3,
       chart: {
@@ -51,17 +52,25 @@ export default {
       },
     };
   },
+  setup() {
+    const hospitalityStore = useHospitalityStore();
+    return { hospitalityStore };
+  },
   async mounted() {
-    await this.covidCasesStore.initValues();
+    await this.hospitalityStore.initValues();
+    //this.hospitalityStore.initValues();
+    console.log("Hospitality data: ");
+    console.log(this.hospitalityStore);
     this.renderChart();
   },
   computed: {
     data() {
       const data = [];
-      for (var state in this.covidCasesStore.cases) {
+      //TODO: maybe here is the problem...
+      for (var state in this.hospitalityStore.cases) {
         if (state != germanyKey) {
           data.push(
-              ...this.covidCasesStore.cases[state].map((value) => {
+              ...this.hospitalityStore.cases[state].map((value) => {
                 value.category = this.regions.find(
                     (region) => region.key == state
                 ).covid;

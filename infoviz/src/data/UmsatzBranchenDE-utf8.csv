@@ -1,0 +1,397 @@
+typ,jahr,monat,real,real-bereinigt,nominal,nominal-bereinigt
+Beherbergung,2020,Januar,79.9,104.4,86.4,114.2
+Beherbergung,2020,Februar,85.1,105.6,91.9,115.3
+Beherbergung,2020,März,49.4,53.2,53.3,58.2
+Beherbergung,2020,April,13.6,14.3,14.7,15.6
+Beherbergung,2020,Mai,23.7,22,26,24
+Beherbergung,2020,Juni,56.8,51.8,61.7,55.7
+Beherbergung,2020,Juli,82.3,74.6,92.7,83.4
+Beherbergung,2020,August,92.6,84.2,104,94
+Beherbergung,2020,September,91.1,76.3,102.3,84.5
+Beherbergung,2020,Oktober,74.2,65.1,83,72.2
+Beherbergung,2020,November,19.7,21.3,21.9,23.7
+Beherbergung,2020,Dezember,17.4,19.3,19.3,21.5
+Beherbergung,2021,Januar,16,20.7,17.3,22.7
+Beherbergung,2021,Februar,15.3,19.5,16.4,21.2
+Beherbergung,2021,März,20.2,21.7,21.7,23.7
+Beherbergung,2021,April,19.2,20,20.6,21.6
+Beherbergung,2021,Mai,28.6,26.9,31.1,29.1
+Beherbergung,2021,Juni,64.2,58.5,71.3,64.3
+Beherbergung,2021,Juli,89.3,80.5,100.3,89.6
+Beherbergung,2021,August,103,94.1,116.6,105.7
+Beherbergung,2021,September,105.6,88.5,119,98.4
+Beherbergung,2021,Oktober,103,90.4,116.1,101.1
+Beherbergung,2021,November,79.8,85.7,89.9,96.5
+Beherbergung,2021,Dezember,54.5,59.7,61,67.3
+Beherbergung,2022,Januar,48.1,62.5,53.7,70.7
+Beherbergung,2022,Februar,52.5,66.7,59.1,76.2
+Beherbergung,2022,März,69.3,75,78.5,86.4
+Beherbergung,2022,April,88,91.1,102.1,106.5
+Beherbergung,2022,Mai,111,104.2,131.7,122.7
+Beherbergung,2022,Juni,116.7,107.4,140.3,127.7
+Beherbergung,2022,Juli,115.7,104.9,141.7,127.2
+Beherbergung,2022,August,115.9,106.3,142.2,129.1
+Beherbergung,2022,September,126.6,104.8,160.3,131
+Beherbergung,2022,Oktober,122,106.9,152.3,132.4
+Beherbergung,2022,November,...,...,...,...
+Beherbergung,2022,Dezember,...,...,...,...
+"Hotels, Gasthöfe und Pensionen",2020,Januar,80.7,105.1,87.4,114.9
+"Hotels, Gasthöfe und Pensionen",2020,Februar,86.6,107.3,93.5,116.9
+"Hotels, Gasthöfe und Pensionen",2020,März,49.3,51,53.1,55.6
+"Hotels, Gasthöfe und Pensionen",2020,April,11.7,12.4,12.6,13.5
+"Hotels, Gasthöfe und Pensionen",2020,Mai,21.6,20,23.5,21.7
+"Hotels, Gasthöfe und Pensionen",2020,Juni,53.6,49.4,57.9,53
+"Hotels, Gasthöfe und Pensionen",2020,Juli,77.9,73,87,81.3
+"Hotels, Gasthöfe und Pensionen",2020,August,88,82.9,98,92.2
+"Hotels, Gasthöfe und Pensionen",2020,September,89.3,74.6,100.1,82.3
+"Hotels, Gasthöfe und Pensionen",2020,Oktober,72.8,63.3,81.2,69.9
+"Hotels, Gasthöfe und Pensionen",2020,November,18.9,19.9,21,22
+"Hotels, Gasthöfe und Pensionen",2020,Dezember,16.6,17.8,18.4,19.8
+"Hotels, Gasthöfe und Pensionen",2021,Januar,12.6,16.3,13.5,17.7
+"Hotels, Gasthöfe und Pensionen",2021,Februar,13.8,17.7,14.9,19.3
+"Hotels, Gasthöfe und Pensionen",2021,März,18.7,19.2,20,20.9
+"Hotels, Gasthöfe und Pensionen",2021,April,17.6,18.5,18.8,19.9
+"Hotels, Gasthöfe und Pensionen",2021,Mai,26.2,24.8,28.2,26.6
+"Hotels, Gasthöfe und Pensionen",2021,Juni,61.3,56.2,67.3,61.3
+"Hotels, Gasthöfe und Pensionen",2021,Juli,83,77.3,91.7,85.1
+"Hotels, Gasthöfe und Pensionen",2021,August,96.3,91.5,107.6,101.8
+"Hotels, Gasthöfe und Pensionen",2021,September,105.1,87.6,118.2,97
+"Hotels, Gasthöfe und Pensionen",2021,Oktober,102.6,89.7,115.5,99.9
+"Hotels, Gasthöfe und Pensionen",2021,November,83,86.7,93.6,97.3
+"Hotels, Gasthöfe und Pensionen",2021,Dezember,55.9,59.6,62.4,66.9
+"Hotels, Gasthöfe und Pensionen",2022,Januar,46.3,59.9,51.4,67.3
+"Hotels, Gasthöfe und Pensionen",2022,Februar,52.9,67.9,59.3,77
+"Hotels, Gasthöfe und Pensionen",2022,März,70.1,72,79.2,82.7
+"Hotels, Gasthöfe und Pensionen",2022,April,86.1,90.3,99.5,105.3
+"Hotels, Gasthöfe und Pensionen",2022,Mai,111.2,104.5,132,123.3
+"Hotels, Gasthöfe und Pensionen",2022,Juni,115.7,107.5,138.8,128
+"Hotels, Gasthöfe und Pensionen",2022,Juli,111.3,104.9,135.8,127.3
+"Hotels, Gasthöfe und Pensionen",2022,August,111.2,106.1,135.8,128.8
+"Hotels, Gasthöfe und Pensionen",2022,September,128.3,105.9,163.8,133.1
+"Hotels, Gasthöfe und Pensionen",2022,Oktober,124.3,108,155.9,134.1
+"Hotels, Gasthöfe und Pensionen",2022,November,...,...,...,...
+"Hotels, Gasthöfe und Pensionen",2022,Dezember,...,...,...,...
+Ferienunterkünfte u. ähnliche Beherbergungsstätten,2020,Januar,55.2,89.3,60,97.8
+Ferienunterkünfte u. ähnliche Beherbergungsstätten,2020,Februar,66.8,97.9,73.2,108.1
+Ferienunterkünfte u. ähnliche Beherbergungsstätten,2020,März,41.4,51.3,45.8,57
+Ferienunterkünfte u. ähnliche Beherbergungsstätten,2020,April,15.4,16.2,17.1,18
+Ferienunterkünfte u. ähnliche Beherbergungsstätten,2020,Mai,32.8,29.7,36.5,33
+Ferienunterkünfte u. ähnliche Beherbergungsstätten,2020,Juni,71.7,57.7,80.6,64.2
+Ferienunterkünfte u. ähnliche Beherbergungsstätten,2020,Juli,110.5,78.5,129.1,90.2
+Ferienunterkünfte u. ähnliche Beherbergungsstätten,2020,August,122.5,82.4,143.1,95
+Ferienunterkünfte u. ähnliche Beherbergungsstätten,2020,September,98.4,79.1,113.5,91.1
+Ferienunterkünfte u. ähnliche Beherbergungsstätten,2020,Oktober,83.5,75,96.3,86.7
+Ferienunterkünfte u. ähnliche Beherbergungsstätten,2020,November,19.7,29.9,22.5,34.6
+Ferienunterkünfte u. ähnliche Beherbergungsstätten,2020,Dezember,17.6,26.3,20.3,30.6
+Ferienunterkünfte u. ähnliche Beherbergungsstätten,2021,Januar,14.9,24.1,16.9,27.5
+Ferienunterkünfte u. ähnliche Beherbergungsstätten,2021,Februar,12.6,18.9,14.2,21.5
+Ferienunterkünfte u. ähnliche Beherbergungsstätten,2021,März,13.5,16.6,15.3,18.9
+Ferienunterkünfte u. ähnliche Beherbergungsstätten,2021,April,15.2,16,17.4,18.3
+Ferienunterkünfte u. ähnliche Beherbergungsstätten,2021,Mai,32.4,28.7,37.2,32.9
+Ferienunterkünfte u. ähnliche Beherbergungsstätten,2021,Juni,74.8,61.7,87,71
+Ferienunterkünfte u. ähnliche Beherbergungsstätten,2021,Juli,132.2,94.3,155.4,109
+Ferienunterkünfte u. ähnliche Beherbergungsstätten,2021,August,156.7,105.2,184.5,122.2
+Ferienunterkünfte u. ähnliche Beherbergungsstätten,2021,September,116.7,93.9,136.2,109.5
+Ferienunterkünfte u. ähnliche Beherbergungsstätten,2021,Oktober,124.2,111.5,145.2,130.6
+Ferienunterkünfte u. ähnliche Beherbergungsstätten,2021,November,65.8,99.8,76.2,117.4
+Ferienunterkünfte u. ähnliche Beherbergungsstätten,2021,Dezember,46.1,69.1,53.9,81.4
+Ferienunterkünfte u. ähnliche Beherbergungsstätten,2022,Januar,44.8,72.4,52.7,85.7
+Ferienunterkünfte u. ähnliche Beherbergungsstätten,2022,Februar,50.1,75,59.4,89.6
+Ferienunterkünfte u. ähnliche Beherbergungsstätten,2022,März,62.3,76.1,74.2,91
+Ferienunterkünfte u. ähnliche Beherbergungsstätten,2022,April,109.3,114.7,131.7,138.2
+Ferienunterkünfte u. ähnliche Beherbergungsstätten,2022,Mai,123.4,112,149.6,135.5
+Ferienunterkünfte u. ähnliche Beherbergungsstätten,2022,Juni,134.2,108.2,164.4,131.1
+Ferienunterkünfte u. ähnliche Beherbergungsstätten,2022,Juli,151.4,108.5,187.8,132.3
+Ferienunterkünfte u. ähnliche Beherbergungsstätten,2022,August,160.1,107.4,199,131.6
+Ferienunterkünfte u. ähnliche Beherbergungsstätten,2022,September,133.4,107.6,165.3,133.2
+Ferienunterkünfte u. ähnliche Beherbergungsstätten,2022,Oktober,129.7,116.2,161.1,144.6
+Ferienunterkünfte u. ähnliche Beherbergungsstätten,2022,November,...,...,...,...
+Ferienunterkünfte u. ähnliche Beherbergungsstätten,2022,Dezember,...,...,...,...
+Campingplätze,2020,Januar,112.8,102,115.3,109.4
+Campingplätze,2020,Februar,65.1,110.7,67.1,119.2
+Campingplätze,2020,März,68.1,83.9,70.3,90.2
+Campingplätze,2020,April,80.4,75.5,85.8,81.5
+Campingplätze,2020,Mai,79.6,84.1,87.1,90.2
+Campingplätze,2020,Juni,153.3,118.5,168.1,124.6
+Campingplätze,2020,Juli,192.4,118.4,235.6,131.5
+Campingplätze,2020,August,212.6,124.3,255.8,137.2
+Campingplätze,2020,September,148,128.3,164.7,143
+Campingplätze,2020,Oktober,100.2,126.8,109.9,141.7
+Campingplätze,2020,November,34.5,84.9,36.5,94.8
+Campingplätze,2020,Dezember,33.8,84.8,36.4,95.2
+Campingplätze,2021,Januar,106.6,97,112.5,107.1
+Campingplätze,2021,Februar,45.2,93.4,47.8,103.1
+Campingplätze,2021,März,69.9,88.6,74,98
+Campingplätze,2021,April,60.3,57.3,65.4,63.2
+Campingplätze,2021,Mai,79.2,76.3,89.9,85.2
+Campingplätze,2021,Juni,147.7,125.3,177.5,143.7
+Campingplätze,2021,Juli,201.3,123.8,254.3,141.6
+Campingplätze,2021,August,206.7,120.1,260.1,138.4
+Campingplätze,2021,September,149.6,127,171.6,145.9
+Campingplätze,2021,Oktober,102.2,127.6,114.8,146.4
+Campingplätze,2021,November,54,130.5,59.2,151.3
+Campingplätze,2021,Dezember,48.9,124.2,54.5,144.5
+Campingplätze,2022,Januar,120.1,108.7,136.9,129.3
+Campingplätze,2022,Februar,57.6,123.8,65.5,147
+Campingplätze,2022,März,91.1,120.4,104,143.4
+Campingplätze,2022,April,121.6,117.8,142.8,140.7
+Campingplätze,2022,Mai,124.7,128.2,152.2,153.7
+Campingplätze,2022,Juni,161.6,124.9,203,149.9
+Campingplätze,2022,Juli,206.8,126.7,276.6,153.4
+Campingplätze,2022,August,193.4,112.1,257.9,136.8
+Campingplätze,2022,September,131.4,111,158.8,134.4
+Campingplätze,2022,Oktober,101.2,126.5,120.1,153.3
+Campingplätze,2022,November,...,...,...,...
+Campingplätze,2022,Dezember,...,...,...,...
+Sonstige Beherbergungsstätten,2020,Januar,110.6,114.9,119.2,124.6
+Sonstige Beherbergungsstätten,2020,Februar,101.9,111.9,110,121.2
+Sonstige Beherbergungsstätten,2020,März,82.8,86.7,89.9,94.3
+Sonstige Beherbergungsstätten,2020,April,63.2,65.4,68.7,71.1
+Sonstige Beherbergungsstätten,2020,Mai,68.1,65.6,74.1,71.3
+Sonstige Beherbergungsstätten,2020,Juni,75.4,72.3,82.1,78.4
+Sonstige Beherbergungsstätten,2020,Juli,82.4,78,90.8,85.7
+Sonstige Beherbergungsstätten,2020,August,82.8,85.2,91.3,93.9
+Sonstige Beherbergungsstätten,2020,September,86.8,84.3,96.1,92.7
+Sonstige Beherbergungsstätten,2020,Oktober,88.1,80.8,97.5,89.2
+Sonstige Beherbergungsstätten,2020,November,73.4,70.5,81,77.9
+Sonstige Beherbergungsstätten,2020,Dezember,68.7,72.6,75.8,80.4
+Sonstige Beherbergungsstätten,2021,Januar,65.4,70.6,71.9,78.1
+Sonstige Beherbergungsstätten,2021,Februar,65.9,72.9,72.6,80.6
+Sonstige Beherbergungsstätten,2021,März,70.3,72.6,77.6,80.3
+Sonstige Beherbergungsstätten,2021,April,68.1,69.9,75.4,77.5
+Sonstige Beherbergungsstätten,2021,Mai,70.9,70.1,78.5,77.5
+Sonstige Beherbergungsstätten,2021,Juni,79.3,73.5,88.2,81.5
+Sonstige Beherbergungsstätten,2021,Juli,86.5,82.6,96.3,91.6
+Sonstige Beherbergungsstätten,2021,August,87.4,88.8,97.3,98.7
+Sonstige Beherbergungsstätten,2021,September,92.5,90.2,103,100
+Sonstige Beherbergungsstätten,2021,Oktober,100.6,91.6,112,101.8
+Sonstige Beherbergungsstätten,2021,November,96.9,91.6,108.2,102.4
+Sonstige Beherbergungsstätten,2021,Dezember,85.9,90.8,95.9,101.8
+Sonstige Beherbergungsstätten,2022,Januar,81.4,90.7,91,102
+Sonstige Beherbergungsstätten,2022,Februar,82.1,92,92.6,104
+Sonstige Beherbergungsstätten,2022,März,88.7,93.6,100.3,106
+Sonstige Beherbergungsstätten,2022,April,96.1,97.8,109,111
+Sonstige Beherbergungsstätten,2022,Mai,105.1,99.3,119.9,113.2
+Sonstige Beherbergungsstätten,2022,Juni,106.5,101.6,122.2,116.2
+Sonstige Beherbergungsstätten,2022,Juli,104.8,99.7,120.9,114.6
+Sonstige Beherbergungsstätten,2022,August,99.7,99.2,115.8,114.9
+Sonstige Beherbergungsstätten,2022,September,104.9,101.7,122,117.8
+Sonstige Beherbergungsstätten,2022,Oktober,103.9,95.3,122.5,112.2
+Sonstige Beherbergungsstätten,2022,November,...,...,...,...
+Sonstige Beherbergungsstätten,2022,Dezember,...,...,...,...
+Gastronomie,2020,Januar,90.1,105.4,99.9,117
+Gastronomie,2020,Februar,90.3,104.2,100.3,115.9
+Gastronomie,2020,März,57.7,61.3,64.1,68.1
+Gastronomie,2020,April,32.2,32.8,35.8,36.5
+Gastronomie,2020,Mai,49.8,47.4,55.6,52.8
+Gastronomie,2020,Juni,71.2,68.4,80,76.7
+Gastronomie,2020,Juli,86.1,80,101.3,94
+Gastronomie,2020,August,88.8,83,104.6,97.6
+Gastronomie,2020,September,87.7,83.9,103.3,98.8
+Gastronomie,2020,Oktober,78.9,75.3,92.9,88.7
+Gastronomie,2020,November,41,42.5,47.8,49.6
+Gastronomie,2020,Dezember,39,36.5,45.5,42.7
+Gastronomie,2021,Januar,39.2,45.5,45.1,52.4
+Gastronomie,2021,Februar,38.9,46.1,44.9,53.3
+Gastronomie,2021,März,46,49.1,53.2,56.8
+Gastronomie,2021,April,43.8,44.2,50.7,51.1
+Gastronomie,2021,Mai,53.3,51,62.1,59.3
+Gastronomie,2021,Juni,74.1,71.4,87.9,84.5
+Gastronomie,2021,Juli,86,79.5,102.4,94.5
+Gastronomie,2021,August,86.6,81.6,103.3,97.2
+Gastronomie,2021,September,86.9,82.6,103.7,98.6
+Gastronomie,2021,Oktober,87.3,83.3,104.7,100
+Gastronomie,2021,November,74.4,77.4,88.9,92.6
+Gastronomie,2021,Dezember,70.2,65.1,84.2,78.3
+Gastronomie,2022,Januar,74.7,87,90,105
+Gastronomie,2022,Februar,76.2,90.2,92.5,109.7
+Gastronomie,2022,März,86.1,91.8,105.3,112.4
+Gastronomie,2022,April,91.7,92.2,113.1,113.7
+Gastronomie,2022,Mai,104.2,100.6,129.9,125.1
+Gastronomie,2022,Juni,101,96.7,127.5,121.8
+Gastronomie,2022,Juli,102.3,94.8,130.9,121
+Gastronomie,2022,August,98.9,93.5,127.3,120.2
+Gastronomie,2022,September,97.6,92.1,126,118.9
+Gastronomie,2022,Oktober,95.4,91.4,124,118.9
+Gastronomie,2022,November,...,...,...,...
+Gastronomie,2022,Dezember,...,...,...,...
+"Restaurants, Gaststätten, Imbissstuben, Cafes u.Ä.",2020,Januar,89.9,107.7,100.4,120.3
+"Restaurants, Gaststätten, Imbissstuben, Cafes u.Ä.",2020,Februar,89.4,107,100.2,120
+"Restaurants, Gaststätten, Imbissstuben, Cafes u.Ä.",2020,März,53.9,57.2,60.6,64.4
+"Restaurants, Gaststätten, Imbissstuben, Cafes u.Ä.",2020,April,29.6,29.8,33.2,33.4
+"Restaurants, Gaststätten, Imbissstuben, Cafes u.Ä.",2020,Mai,51.7,48.6,58.2,54.6
+"Restaurants, Gaststätten, Imbissstuben, Cafes u.Ä.",2020,Juni,77.2,73.3,87.3,82.8
+"Restaurants, Gaststätten, Imbissstuben, Cafes u.Ä.",2020,Juli,95.9,87.1,113.8,103.3
+"Restaurants, Gaststätten, Imbissstuben, Cafes u.Ä.",2020,August,98.1,88.3,116.8,105
+"Restaurants, Gaststätten, Imbissstuben, Cafes u.Ä.",2020,September,93.2,89.8,111.1,107
+"Restaurants, Gaststätten, Imbissstuben, Cafes u.Ä.",2020,Oktober,83.5,80.4,99.6,95.9
+"Restaurants, Gaststätten, Imbissstuben, Cafes u.Ä.",2020,November,36.2,38.5,43.1,45.9
+"Restaurants, Gaststätten, Imbissstuben, Cafes u.Ä.",2020,Dezember,34.4,32.6,41,38.9
+"Restaurants, Gaststätten, Imbissstuben, Cafes u.Ä.",2021,Januar,36.1,42.7,42.2,49.9
+"Restaurants, Gaststätten, Imbissstuben, Cafes u.Ä.",2021,Februar,34.9,43.3,40.8,50.7
+"Restaurants, Gaststätten, Imbissstuben, Cafes u.Ä.",2021,März,42.2,45,49.4,52.7
+"Restaurants, Gaststätten, Imbissstuben, Cafes u.Ä.",2021,April,40.5,40.3,47.5,47.3
+"Restaurants, Gaststätten, Imbissstuben, Cafes u.Ä.",2021,Mai,52.6,49.1,62.1,57.9
+"Restaurants, Gaststätten, Imbissstuben, Cafes u.Ä.",2021,Juni,79,76,94.5,90.7
+"Restaurants, Gaststätten, Imbissstuben, Cafes u.Ä.",2021,Juli,96.2,86.6,115.5,103.9
+"Restaurants, Gaststätten, Imbissstuben, Cafes u.Ä.",2021,August,96.9,88.2,116.6,106.1
+"Restaurants, Gaststätten, Imbissstuben, Cafes u.Ä.",2021,September,91.2,87.6,110.1,105.7
+"Restaurants, Gaststätten, Imbissstuben, Cafes u.Ä.",2021,Oktober,92.6,88.9,112,107.6
+"Restaurants, Gaststätten, Imbissstuben, Cafes u.Ä.",2021,November,73.1,78.2,88.6,94.9
+"Restaurants, Gaststätten, Imbissstuben, Cafes u.Ä.",2021,Dezember,71.4,67.1,86.7,81.6
+"Restaurants, Gaststätten, Imbissstuben, Cafes u.Ä.",2022,Januar,76.7,90.7,93.8,111
+"Restaurants, Gaststätten, Imbissstuben, Cafes u.Ä.",2022,Februar,78.3,97.3,96.2,119.7
+"Restaurants, Gaststätten, Imbissstuben, Cafes u.Ä.",2022,März,88.6,94.5,109.5,116.9
+"Restaurants, Gaststätten, Imbissstuben, Cafes u.Ä.",2022,April,95.7,94.6,119.1,117.7
+"Restaurants, Gaststätten, Imbissstuben, Cafes u.Ä.",2022,Mai,109.7,104.6,138,131.4
+"Restaurants, Gaststätten, Imbissstuben, Cafes u.Ä.",2022,Juni,106,100.6,135.3,128.1
+"Restaurants, Gaststätten, Imbissstuben, Cafes u.Ä.",2022,Juli,110.9,99.7,142.8,128.2
+"Restaurants, Gaststätten, Imbissstuben, Cafes u.Ä.",2022,August,107.7,98.5,139.4,127.4
+"Restaurants, Gaststätten, Imbissstuben, Cafes u.Ä.",2022,September,98.9,94.4,128.8,122.8
+"Restaurants, Gaststätten, Imbissstuben, Cafes u.Ä.",2022,Oktober,99.5,95.9,130.1,125.4
+"Restaurants, Gaststätten, Imbissstuben, Cafes u.Ä.",2022,November,...,...,...,...
+"Restaurants, Gaststätten, Imbissstuben, Cafes u.Ä.",2022,Dezember,...,...,...,...
+Caterer und sonstige Verpflegungsdienstleistungen,2020,Januar,94,104.3,101.8,113.1
+Caterer und sonstige Verpflegungsdienstleistungen,2020,Februar,95.5,104.3,103.7,113.3
+Caterer und sonstige Verpflegungsdienstleistungen,2020,März,75.1,73.8,81.7,80.2
+Caterer und sonstige Verpflegungsdienstleistungen,2020,April,47,49.5,51.2,53.8
+Caterer und sonstige Verpflegungsdienstleistungen,2020,Mai,51.1,51,55.8,55.6
+Caterer und sonstige Verpflegungsdienstleistungen,2020,Juni,59.4,57.3,65,62.6
+Caterer und sonstige Verpflegungsdienstleistungen,2020,Juli,63.6,63.5,71.2,71
+Caterer und sonstige Verpflegungsdienstleistungen,2020,August,67.9,72.2,75.7,80.6
+Caterer und sonstige Verpflegungsdienstleistungen,2020,September,79.8,72.6,89.1,81.1
+Caterer und sonstige Verpflegungsdienstleistungen,2020,Oktober,73.5,70.3,82.1,78.6
+Caterer und sonstige Verpflegungsdienstleistungen,2020,November,65.7,62.5,73.5,70
+Caterer und sonstige Verpflegungsdienstleistungen,2020,Dezember,63.1,59,70.5,66.1
+Caterer und sonstige Verpflegungsdienstleistungen,2021,Januar,52.7,60.2,58.7,67.2
+Caterer und sonstige Verpflegungsdienstleistungen,2021,Februar,54.2,59,60.6,66
+Caterer und sonstige Verpflegungsdienstleistungen,2021,März,62.2,60.4,69.5,67.4
+Caterer und sonstige Verpflegungsdienstleistungen,2021,April,58.2,61.3,65.3,68.6
+Caterer und sonstige Verpflegungsdienstleistungen,2021,Mai,62.9,63.8,70.6,71.5
+Caterer und sonstige Verpflegungsdienstleistungen,2021,Juni,70.2,65.7,80.1,74.8
+Caterer und sonstige Verpflegungsdienstleistungen,2021,Juli,70.9,71.9,80.8,81.8
+Caterer und sonstige Verpflegungsdienstleistungen,2021,August,71.5,75,81.4,85.4
+Caterer und sonstige Verpflegungsdienstleistungen,2021,September,84.4,76.6,96.1,87.3
+Caterer und sonstige Verpflegungsdienstleistungen,2021,Oktober,82.1,79.6,93.7,91
+Caterer und sonstige Verpflegungsdienstleistungen,2021,November,83.5,79,95.3,90.3
+Caterer und sonstige Verpflegungsdienstleistungen,2021,Dezember,75,69,85.8,79.2
+Caterer und sonstige Verpflegungsdienstleistungen,2022,Januar,80.4,91,92.4,104.7
+Caterer und sonstige Verpflegungsdienstleistungen,2022,Februar,81.3,88.6,94.5,103
+Caterer und sonstige Verpflegungsdienstleistungen,2022,März,88.9,86.3,104.3,101.2
+Caterer und sonstige Verpflegungsdienstleistungen,2022,April,90.3,96.4,106.5,113.4
+Caterer und sonstige Verpflegungsdienstleistungen,2022,Mai,99.7,97.2,118.5,115.2
+Caterer und sonstige Verpflegungsdienstleistungen,2022,Juni,96.7,93,116.1,111.4
+Caterer und sonstige Verpflegungsdienstleistungen,2022,Juli,90.2,92.9,110.6,113.7
+Caterer und sonstige Verpflegungsdienstleistungen,2022,August,86.1,89.2,106.1,110
+Caterer und sonstige Verpflegungsdienstleistungen,2022,September,102,92.3,126.4,114.5
+Caterer und sonstige Verpflegungsdienstleistungen,2022,Oktober,93.5,92.3,117.1,115.7
+Caterer und sonstige Verpflegungsdienstleistungen,2022,November,...,...,...,...
+Caterer und sonstige Verpflegungsdienstleistungen,2022,Dezember,...,...,...,...
+Ausschank von Getränken,2020,Januar,84.1,102.9,92.7,113.5
+Ausschank von Getränken,2020,Februar,86.4,100,95.6,110.6
+Ausschank von Getränken,2020,März,44.1,46.9,48.8,51.9
+Ausschank von Getränken,2020,April,15.2,15.6,16.9,17.3
+Ausschank von Getränken,2020,Mai,28.4,27.6,31.4,30.5
+Ausschank von Getränken,2020,Juni,49.8,49.4,55.5,55
+Ausschank von Getränken,2020,Juli,60.9,57.4,72.7,68.5
+Ausschank von Getränken,2020,August,63.5,57.9,76,69.3
+Ausschank von Getränken,2020,September,60.9,57.5,73.1,69
+Ausschank von Getränken,2020,Oktober,52.2,47.7,62.7,57.3
+Ausschank von Getränken,2020,November,16.1,17.4,19.3,20.9
+Ausschank von Getränken,2020,Dezember,14,12.3,16.8,14.8
+Ausschank von Getränken,2021,Januar,12.2,14.7,14.4,17.4
+Ausschank von Getränken,2021,Februar,12.7,15.1,15.1,18
+Ausschank von Getränken,2021,März,15.2,16.2,18.1,19.3
+Ausschank von Getränken,2021,April,15.1,15.3,18,18.2
+Ausschank von Getränken,2021,Mai,22.5,21.9,26.9,26.1
+Ausschank von Getränken,2021,Juni,52.1,52.9,63.2,64.2
+Ausschank von Getränken,2021,Juli,65.5,60.4,79.8,73.6
+Ausschank von Getränken,2021,August,65.3,60.6,79.8,74
+Ausschank von Getränken,2021,September,65.5,61.2,80.4,75.1
+Ausschank von Getränken,2021,Oktober,69.9,64,86.7,79.4
+Ausschank von Getränken,2021,November,53,57.7,65.9,71.8
+Ausschank von Getränken,2021,Dezember,44.8,38.9,55.5,48.3
+Ausschank von Getränken,2022,Januar,38.7,47.2,48.2,58.8
+Ausschank von Getränken,2022,Februar,42.3,50.5,53.1,63.4
+Ausschank von Getränken,2022,März,58.2,61.6,74,78.3
+Ausschank von Getränken,2022,April,69.3,69.3,89.1,89.2
+Ausschank von Getränken,2022,Mai,82.5,83.5,107,108.1
+Ausschank von Getränken,2022,Juni,82,81.3,108.2,107.2
+Ausschank von Getränken,2022,Juli,84.3,77.8,112.4,103.7
+Ausschank von Getränken,2022,August,82.5,76.9,110.7,103.1
+Ausschank von Getränken,2022,September,74.8,68.9,101.3,93.2
+Ausschank von Getränken,2022,Oktober,73.8,68.2,100.6,93
+Ausschank von Getränken,2022,November,...,...,...,...
+Ausschank von Getränken,2022,Dezember,...,...,...,...
+Gaststättengewerbe,2020,Januar,89.1,107.3,99.4,119.8
+Gaststättengewerbe,2020,Februar,88.8,103.6,99.4,116.1
+Gaststättengewerbe,2020,März,52.8,56.8,59.3,63.8
+Gaststättengewerbe,2020,April,28.1,28.4,31.6,31.9
+Gaststättengewerbe,2020,Mai,49.4,46.5,55.5,52.2
+Gaststättengewerbe,2020,Juni,74.4,71,84,80
+Gaststättengewerbe,2020,Juli,92.3,84.3,109.5,99.9
+Gaststättengewerbe,2020,August,94.6,85.5,112.5,101.6
+Gaststättengewerbe,2020,September,89.9,86.6,107.1,103.2
+Gaststättengewerbe,2020,Oktober,80.3,76.7,95.8,91.5
+Gaststättengewerbe,2020,November,34.2,36.4,40.7,43.4
+Gaststättengewerbe,2020,Dezember,32.4,30.4,38.6,36.3
+Gaststättengewerbe,2021,Januar,33.7,40.1,39.3,46.8
+Gaststättengewerbe,2021,Februar,32.6,39.1,38.1,45.7
+Gaststättengewerbe,2021,März,39.4,42.6,46.1,49.9
+Gaststättengewerbe,2021,April,37.9,38,44.5,44.6
+Gaststättengewerbe,2021,Mai,49.5,46.4,58.5,54.8
+Gaststättengewerbe,2021,Juni,76.3,73.7,91.3,88.1
+Gaststättengewerbe,2021,Juli,93.1,84.4,111.8,101.2
+Gaststättengewerbe,2021,August,93.7,85.7,112.8,103.1
+Gaststättengewerbe,2021,September,88.6,85.1,107.1,102.8
+Gaststättengewerbe,2021,Oktober,90.3,86,109.4,104.3
+Gaststättengewerbe,2021,November,71,76.1,86.2,92.4
+Gaststättengewerbe,2021,Dezember,68.7,63.8,83.5,77.6
+Gaststättengewerbe,2022,Januar,72.9,87.1,89.1,106.5
+Gaststättengewerbe,2022,Februar,74.7,89.2,91.8,109.8
+Gaststättengewerbe,2022,März,85.5,92.6,105.8,114.7
+Gaststättengewerbe,2022,April,93,92.5,116,115.3
+Gaststättengewerbe,2022,Mai,107,102.6,134.8,129.1
+Gaststättengewerbe,2022,Juni,103.6,98.8,132.5,126.1
+Gaststättengewerbe,2022,Juli,108.2,97.9,139.7,126.2
+Gaststättengewerbe,2022,August,105.2,96.8,136.5,125.5
+Gaststättengewerbe,2022,September,96.5,91.9,126,120
+Gaststättengewerbe,2022,Oktober,96.9,92.7,127.1,121.7
+Gaststättengewerbe,2022,November,...,...,...,...
+Gaststättengewerbe,2022,Dezember,...,...,...,...
+Gastgewerbe,2020,Januar,86.5,105.1,95,116
+Gastgewerbe,2020,Februar,88.4,104.7,97.3,115.6
+Gastgewerbe,2020,März,54.7,58.4,60.2,64.6
+Gastgewerbe,2020,April,25.5,26.4,28.2,29.2
+Gastgewerbe,2020,Mai,40.4,37.7,44.9,41.8
+Gastgewerbe,2020,Juni,66,61.9,73.4,68.5
+Gastgewerbe,2020,Juli,84.8,77.9,98.2,89.9
+Gastgewerbe,2020,August,90.2,83.2,104.4,96.1
+Gastgewerbe,2020,September,89,81.5,102.9,93.8
+Gastgewerbe,2020,Oktober,77.2,71.6,89.3,82.7
+Gastgewerbe,2020,November,33.3,35.1,38.4,40.5
+Gastgewerbe,2020,Dezember,31.2,30.9,36,35.8
+Gastgewerbe,2021,Januar,32.2,38.8,36.6,44.3
+Gastgewerbe,2021,Februar,31.8,38.8,36.2,44.3
+Gastgewerbe,2021,März,38.2,40.9,43.5,46.8
+Gastgewerbe,2021,April,36.4,37.2,41.5,42.5
+Gastgewerbe,2021,Mai,45.8,42.9,52.5,49
+Gastgewerbe,2021,Juni,70.6,66.8,82.1,77.2
+Gastgewerbe,2021,Juli,86.2,78.6,100.6,91.4
+Gastgewerbe,2021,August,90.6,84.2,105.9,98.2
+Gastgewerbe,2021,September,91.5,83.6,106.9,97.3
+Gastgewerbe,2021,Oktober,91.1,84.7,106.7,99
+Gastgewerbe,2021,November,75.3,79.4,88.1,93
+Gastgewerbe,2021,Dezember,65.1,64.1,76.5,75.6
+Gastgewerbe,2022,Januar,66.5,80.2,78.6,95.3
+Gastgewerbe,2022,Februar,68.8,83.8,81.9,100.1
+Gastgewerbe,2022,März,80.6,86.3,96.3,103.7
+Gastgewerbe,2022,April,89.9,91.6,108.6,110.8
+Gastgewerbe,2022,Mai,105.3,99.3,128.8,121.1
+Gastgewerbe,2022,Juni,104.7,98.8,129.6,121.5
+Gastgewerbe,2022,Juli,105.3,96.4,132.4,120.7
+Gastgewerbe,2022,August,103,96,130,120.9
+Gastgewerbe,2022,September,105.1,95.2,134.3,121.3
+Gastgewerbe,2022,Oktober,102.2,95.1,130.6,121.3
+Gastgewerbe,2022,November,...,...,...,...
+Gastgewerbe,2022,Dezember,...,...,...,...

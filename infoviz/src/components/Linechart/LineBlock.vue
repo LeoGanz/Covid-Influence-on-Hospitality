@@ -16,8 +16,8 @@
 </template>
 
 <script>
-import LineChart from "./linechart.vue";
-import BarChart from "./barchart.vue";
+import LineChart from "./LineChart.vue";
+import BarChart from "../Barchart/BarChart.vue";
 
 export default {
   name: "Line_block",

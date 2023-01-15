@@ -20,10 +20,10 @@
 </template>
 
 <script>
-import Description_block from "@/components/Description_block.vue";
-import Line_block from "@/components/Linechart/Line_block.vue";
-import Map_block from "@/components/Map/Map_block.vue";
-import Slider_block from "@/components/Slider_block.vue";
+import Description_block from "@/components/DescriptionBlock.vue";
+import Line_block from "@/components/Linechart/LineBlock.vue";
+import Map_block from "@/components/Map/MapBlock.vue";
+import Slider_block from "@/components/SliderBlock.vue";
 
 export default {
   components: { Slider_block, Line_block, Description_block, Map_block },

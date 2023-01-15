@@ -89378,7 +89378,7 @@
                     "type": "MultiPolygon",
                     "properties": {
                         "name": "Baden-Württemberg",
-                        "nameEN": null,
+                        "nameEN": "badenWuerttemberg",
                         "short": "BW"
                     },
                     "id": "08"
@@ -89581,7 +89581,7 @@
                     "type": "Polygon",
                     "properties": {
                         "name": "Brandenburg",
-                        "nameEN": null,
+                        "nameEN": "brandenburg",
                         "short": "BR"
                     },
                     "id": "12"
@@ -89614,7 +89614,7 @@
                     "type": "MultiPolygon",
                     "properties": {
                         "name": "Bremen",
-                        "nameEN": null,
+                        "nameEN": "bremen",
                         "short": "HB"
                     },
                     "id": "04"
@@ -89643,7 +89643,7 @@
                     "type": "MultiPolygon",
                     "properties": {
                         "name": "Hamburg",
-                        "nameEN": null,
+                        "nameEN": "hamburg",
                         "short": "HH"
                     },
                     "id": "02"
@@ -89710,7 +89710,7 @@
                     "type": "Polygon",
                     "properties": {
                         "name": "Hessen",
-                        "nameEN": "Hesse",
+                        "nameEN": "hessen",
                         "short": "HE"
                     },
                     "id": "06"
@@ -89926,7 +89926,7 @@
                     "type": "MultiPolygon",
                     "properties": {
                         "name": "Mecklenburg-Vorpommern",
-                        "nameEN": "Mecklenburg-West Pomerania",
+                        "nameEN": "mecklenburgVorpommern",
                         "short": "MV"
                     },
                     "id": "13"
@@ -90138,7 +90138,7 @@
                     "type": "MultiPolygon",
                     "properties": {
                         "name": "Niedersachsen",
-                        "nameEN": "Lower Saxony",
+                        "nameEN": "niedersachsen",
                         "short": "NI"
                     },
                     "id": "03"
@@ -90197,7 +90197,7 @@
                     "type": "Polygon",
                     "properties": {
                         "name": "Nordrhein-Westfalen",
-                        "nameEN": "North Rhine-Westphalia",
+                        "nameEN": "nordrheinWestfalen",
                         "short": "NW"
                     },
                     "id": "05"
@@ -90268,7 +90268,7 @@
                     "type": "Polygon",
                     "properties": {
                         "name": "Rheinland-Pfalz",
-                        "nameEN": "Rhineland-Palatinate",
+                        "nameEN": "rheinlandPfalz",
                         "short": "RP"
                     },
                     "id": "07"
@@ -90298,7 +90298,7 @@
                     "type": "Polygon",
                     "properties": {
                         "name": "Saarland",
-                        "nameEN": null,
+                        "nameEN": "saarland",
                         "short": "SL"
                     },
                     "id": "10"
@@ -90351,7 +90351,7 @@
                     "type": "Polygon",
                     "properties": {
                         "name": "Sachsen-Anhalt",
-                        "nameEN": "Saxony-Anhalt",
+                        "nameEN": "sachsenAnhalt",
                         "short": "ST"
                     },
                     "id": "15"
@@ -90389,7 +90389,7 @@
                     "type": "Polygon",
                     "properties": {
                         "name": "Sachsen",
-                        "nameEN": "Saxony",
+                        "nameEN": "sachsen",
                         "short": "SN"
                     },
                     "id": "14"
@@ -90653,7 +90653,7 @@
                     "type": "MultiPolygon",
                     "properties": {
                         "name": "Schleswig-Holstein",
-                        "nameEN": null,
+                        "nameEN": "schleswigHolstein",
                         "short": "SH"
                     },
                     "id": "01"
@@ -90709,7 +90709,7 @@
                     "type": "Polygon",
                     "properties": {
                         "name": "Thüringen",
-                        "nameEN": "Thuringia",
+                        "nameEN": "thueringen",
                         "short": "TH"
                     },
                     "id": "16"

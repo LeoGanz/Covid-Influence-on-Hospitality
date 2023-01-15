@@ -33,7 +33,7 @@ export default {
         y: (d) => d.value,
         //x = (d, i) => i, // given d in data, returns the (ordinal) x-value
         //y = d => d, // given d in data, returns the (quantitative) y-value
-        //title: undefined, // given d in data, returns the title text
+        title: undefined, // given d in data, returns the title text
         marginTop: 20, // the top margin, in pixels
         marginRight: 0, // the right margin, in pixels
         marginBottom: 30, // the bottom margin, in pixels
@@ -151,7 +151,20 @@ export default {
           .axisLeft(this.yScale)
           .ticks(this.chart.height / 40, this.chart.yFormat);
     },
-//TODO: Compute Titles
+
+    T() {
+      if (this.chart.title === undefined) {
+        const formatValue = this.yScale.tickFormat(100, this.yFormat);
+        return i => `${this.X[i]}\n${formatValue(this.Y[i])}`;
+      }else {
+        const O = d3.map(this.data, d => d);
+        const T = this.title;
+        return  i => T(O[i], i, this.data);
+      }
+
+    }
+
+
 
   },
   methods: {

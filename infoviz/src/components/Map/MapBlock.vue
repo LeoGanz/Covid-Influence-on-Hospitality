@@ -37,7 +37,9 @@ export default {
     MapHospitality
 },
   data() {
+
     return {
+
       display_hospitality: true,
       toggleClass: "ani1",
     };

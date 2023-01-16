@@ -50,41 +50,41 @@ export default {
 
     return {
       covidCasesStore: covidCasesStore,
-    regions: regions,
-    d3: d3,
-    chart: {
-      x: (d) => d.day,
-      y: (d) => d.value,
-      z: (d) => d.category,
-      //x: d => d., // given d in data, returns the (temporal) x-value
-      //y: ([, y]) => y, // given d in data, returns the (quantitative) y-value
-      //z: () => 1, // given d in data, returns the (categorical) z-value
-      title: undefined, // given d in data, returns the title text
-      defined: undefined, // for gaps in data
-      curve: d3.curveLinear, // method of interpolation between points
-      marginTop: 20, // top margin, in pixels
-      marginRight: 30, // right margin, in pixels
-      marginBottom: 30, // bottom margin, in pixels
-      marginLeft: 60, // left margin, in pixels
-      width: 600, // outer width, in pixels
-      height: 300, // outer height, in pixels
-      xType: d3.scaleUtc, // type of x-scale
-      xDomain: undefined, // [xmin, xmax]
-      xRange: undefined, // [left, right]
-      yType: d3.scaleLinear, // type of y-scale
-      yDomain: undefined, // [ymin, ymax]
-      yRange: undefined, // [bottom, top]
-      yFormat: undefined, // a format specifier string for the y-axis
-      yLabel: "Incidence", // a label for the y-axis
-      zDomain: undefined, // array of z-values
-      color: "currentColor", // stroke color of line, as a constant or a function of *z*
-      strokeLinecap: undefined, // stroke line cap of line
-      strokeLinejoin: undefined, // stroke line join of line
-      strokeWidth: 1.5, // stroke width of line
-      strokeOpacity: undefined, // stroke opacity of line
-      mixBlendMode: "multiply", // blend mode of lines
-    },
-  };
+      regions: regions,
+      d3: d3,
+      chart: {
+        x: (d) => d.day,
+        y: (d) => d.value,
+        z: (d) => d.category,
+        //x: d => d., // given d in data, returns the (temporal) x-value
+        //y: ([, y]) => y, // given d in data, returns the (quantitative) y-value
+        //z: () => 1, // given d in data, returns the (categorical) z-value
+        title: undefined, // given d in data, returns the title text
+        defined: undefined, // for gaps in data
+        curve: d3.curveLinear, // method of interpolation between points
+        marginTop: 20, // top margin, in pixels
+        marginRight: 30, // right margin, in pixels
+        marginBottom: 30, // bottom margin, in pixels
+        marginLeft: 60, // left margin, in pixels
+        width: 600, // outer width, in pixels
+        height: 300, // outer height, in pixels
+        xType: d3.scaleUtc, // type of x-scale
+        xDomain: undefined, // [xmin, xmax]
+        xRange: undefined, // [left, right]
+        yType: d3.scaleLinear, // type of y-scale
+        yDomain: undefined, // [ymin, ymax]
+        yRange: undefined, // [bottom, top]
+        yFormat: undefined, // a format specifier string for the y-axis
+        yLabel: "Incidence", // a label for the y-axis
+        zDomain: undefined, // array of z-values
+        color: "currentColor", // stroke color of line, as a constant or a function of *z*
+        strokeLinecap: undefined, // stroke line cap of line
+        strokeLinejoin: undefined, // stroke line join of line
+        strokeWidth: 1.5, // stroke width of line
+        strokeOpacity: undefined, // stroke opacity of line
+        mixBlendMode: "multiply", // blend mode of lines
+      },
+    };
 },
 async mounted() {
   await this.covidCasesStore.initValues();

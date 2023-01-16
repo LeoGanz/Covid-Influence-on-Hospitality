@@ -10,6 +10,8 @@
 </template>
 
 <script>
+import { useDateStore } from '../stores/selectedDate.js';
+
 export default {
   data() {
     return {
@@ -27,6 +29,7 @@ export default {
   methods: {
     updateCurrentDate(event) {
       this.currentTimestamp = event.target.value;
+      useDateStore().count = event.target.value;
       this.thumbLeft = this.calculateThumbLeft();
     },
     formatDate(timestamp) {

@@ -85,12 +85,12 @@ export default {
         .attr("transform", `translate(0, ${this.svgHeight})`)
         .call(xAxis)
         .selectAll("text")
-              .style("text-anchor", "end")
-              .attr("dx", "-.8em")
-              .attr("dy", ".15em")
-              .attr("transform", function(d) {
-                return "rotate(-65)"
-              });
+          .style("text-anchor", "end")
+          .attr("dx", "-.8em")
+          .attr("dy", ".15em")
+          .attr("transform", function(d) {
+            return "rotate(-65)"
+          });
     },
     createYAxis() {
       const yAxis = axisLeft(this.yScale);

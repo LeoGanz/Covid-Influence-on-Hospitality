@@ -31,7 +31,7 @@ export default {
       const data = [];
       const selectedDate = moment(useDateStore().count * 1).format('YYYY-MM')
       const dataJson =
-        this.hospitalityStore.getRegionsByMonth(selectedDate).real.original;
+        this.hospitalityStore.getSectorsByMonth(selectedDate).real.original;
       const dataArray = Object.entries(dataJson);
       dataArray.forEach((entry) => {
         const region = entry[0];

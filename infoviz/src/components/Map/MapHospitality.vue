@@ -18,7 +18,6 @@ import { useHospitalityStore } from "@/stores/hospitality";
 import { useMeasuresStore } from "@/stores/politicalMeasures";
 import { regions } from "@/data/dataKeys";
 import { useDateStore } from "@/stores/selectedDate";
-import moment from 'moment';
 
 
 // loading map data based on https://observablehq.com/@ch-bu/map-of-germany-unemployment-rate
@@ -38,7 +37,7 @@ export default {
 
     const hospitalityStore1 = useHospitalityStore();
     const politicalMeasures = useMeasuresStore();
-    var currentMonth = "2022-03"; // TODO: this date should be adjusted according to the current slider position.
+    var currentMonth = "2020-01"; // Start date
  
 
     return {
@@ -64,14 +63,31 @@ export default {
 
   },
   computed: {
-    
-
     dataHospitality() {
 
-      // const currentDate = moment(useDateStore().count * 1).format('YYYY-MM');
-      // console.log(moment(useDateStore().count * 1)).format('YYYY-MM');
+      const year = new Date(useDateStore().count * 1).getFullYear();
+      var month = new Date(useDateStore().count * 1).getMonth() + 1;
+
+      if (month < 10) {
+        month = "0" + month;
+      } else {
+        month = "" + month;
+      }
+
+      this.currentMonth = "" + year + "-" + month;
+
       return this.hospitalityStore1.getRegionsByMonth(this.currentMonth).real.original;
     },
+  },
+  watch: {
+    dataHospitality: function() {
+
+      d3.select("#map_container")
+        .selectAll("g")
+        .remove();
+
+      this.plotMapData();
+    }
   },
   methods: {
     renderMap() {
@@ -85,16 +101,9 @@ export default {
           .attr("transform", "translate(-50, 0)")
           .attr("id", "test");
     },
-
-    test() {
-      console.log(this.lastClickedRegion);
-    },  
-
     plotMapData(lastClickedRegion) {
       // chose filling
       var myColor = d3.scaleQuantize([0, 100], d3.schemeOranges[6]);
-
-      console.log(this.lastClickedRegion);
     
       d3.select("#map_container")
       .append("g")

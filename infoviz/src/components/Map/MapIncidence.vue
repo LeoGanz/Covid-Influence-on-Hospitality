@@ -15,6 +15,7 @@ import germany from "./germany.json";
 
 import { useCovidCasesStore } from "@/stores/covidCases";
 import { germanyKey, regions } from "@/data/dataKeys";
+import { useDateStore } from "@/stores/selectedDate";
 
 // loading map data based on https://observablehq.com/@ch-bu/map-of-germany-unemployment-rate
 const mapDataGermany = topojson.feature(germany, germany.objects.states)
@@ -24,16 +25,13 @@ const mesh = topojson.mesh(germany, germany.objects.states, (a, b) => a !== b);
 var projection1 = d3.geoConicConformal()
 .fitSize([650, 325], mesh);
 
-var lastClickedRegion = "";
-
-
 export default {
   name: "vue-map",
   components: { },  
   data() {
 
     const covidCasesStore1 = useCovidCasesStore();
-    var currentDay = "2022-03-28"; // TODO: this date should be adjusted according to the current slider position.
+    var currentDay = "2020-01-07"; // TODO: this date should be adjusted according to the current slider position.
     
     return {
       covidCasesStore1: covidCasesStore1,
@@ -76,6 +74,26 @@ export default {
 
     },
     dataIncidence() {
+
+      // retrieve current time stamp
+      const year = new Date(useDateStore().count * 1).getFullYear();
+      var month = new Date(useDateStore().count * 1).getMonth() + 1;
+      var day = new Date(useDateStore().count * 1).toLocaleDateString("en-US", {day: "numeric"});
+
+      if (month < 10) {
+        month = "0" + month;
+      } else {
+        month = "" + month;
+      }
+
+      if (day < 10) {
+        day = "0" + day;
+      } else {
+        day = "" + day;
+      }
+
+      this.currentDay = "" + year + "-" + month + "-" + day;
+
       // load current incidence value per state per day (currentDay)
       var data = {};
 
@@ -89,6 +107,16 @@ export default {
         }
         return data;
     },
+  },
+  watch: {
+    dataIncidence: function() {
+
+      d3.select("#map_container")
+        .selectAll("g")
+        .remove();
+
+      this.plotMapData();
+    }
   },
   methods: {
     renderMap() {

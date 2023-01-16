@@ -23,7 +23,7 @@ const mesh = topojson.mesh(germany, germany.objects.states, (a, b) => a !== b);
 
 // project and scale map
 var projection1 = d3.geoConicConformal()
-   .fitSize([700, 375], mesh);
+  .fitSize([650, 325], mesh);
 
 var lastClickedRegion = "";
 
@@ -73,7 +73,7 @@ export default {
           .attr("stroke", "#101010")
           .attr("stroke-linejoin", "round")   
           .attr("d", d3.geoPath().projection(projection1))
-          .attr("transform", "translate(-50, -25)")
+          .attr("transform", "translate(-50, 0)")
           .attr("id", "test");
     },
 
@@ -95,7 +95,7 @@ export default {
       .attr("fill", d => isNaN(this.dataHospitality[d.properties.nameEN]) ? "#686464" : myColor(this.dataHospitality[d.properties.nameEN]))   
       .attr("fill-opacity", 1)
       .attr("d", d3.geoPath().projection(projection1))
-      .attr("transform", "translate(-50, -25)")
+      .attr("transform", "translate(-50, 0)")
       .attr("id", d => d.properties.nameEN)
       // visually display clicked region
       .on("click", function(lastClickedRegion){

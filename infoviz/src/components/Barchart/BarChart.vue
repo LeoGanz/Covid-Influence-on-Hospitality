@@ -6,9 +6,6 @@
       :height="chart.height"
       :viewBox="[0, 0, chart.width, chart.height]"
       v-else>
-    <g id="yaxis" :transform="`translate(${chart.marginLeft},0)`"></g>
-    <g id="rect" fill="colour"></g>
-    <g id="xaxis" :transform="`translate(0,${chart.height - chart.marginBottom})`"></g>
   </svg>
 </template>
 
@@ -16,7 +13,6 @@
 // source: https://observablehq.com/@d3/bar-chart
 import * as d3 from "d3";
 //import { useCovidCasesStore } from "@/stores/covidCases.js";
-import { germanyKey, regions } from "@/data/dataKeys";
 import {useHospitalityStore} from "@/stores/hospitality";
 
 export default {
@@ -26,7 +22,6 @@ export default {
     const hospitalityStore = useHospitalityStore();
     return {
       hospitalityStore: hospitalityStore.getRegionsByMonth('2021-02').real.original,
-      regions: regions,
       d3: d3,
       chart: {
         x: (d) => d.region,
@@ -198,8 +193,9 @@ export default {
           .attr("x", (i) => this.xScale(this.X[i]))
           .attr("y", (i) => this.yScale(this.Y[i]))
           .attr("height", (i) => this.yScale(0) - this.yScale(this.Y[i]))
-          .attr("width", this.xScale.scaleBand);
-          //.attr("width", 10);
+          //.attr("width", this.xScale.scaleBand);
+          .attr("width", 10);
+          console.log("rendered");
     },
   },
 };

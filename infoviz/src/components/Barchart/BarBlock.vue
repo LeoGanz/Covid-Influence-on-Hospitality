@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import BarChart from "./BarChart.vue";
+//import BarChart from "./BarChart.vue";
 import BarChartTest from "./BarChartTest.vue";
 import { useHospitalityStore } from "@/stores/hospitality";
 import { useDateStore } from "@/stores/selectedDate";
@@ -17,7 +17,7 @@ export default {
   name: "App",
   components: {
     BarChartTest,
-    BarChart,
+    //BarChart,
   },
   setup() {
     const hospitalityStore = useHospitalityStore();

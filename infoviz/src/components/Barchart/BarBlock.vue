@@ -43,7 +43,7 @@ export default {
         }
       });
 
-      console.log("Hospitality data: ");
+      console.log("Hospitality data (BarBlock.vue): ");
       console.log(data);
       return data;
     },

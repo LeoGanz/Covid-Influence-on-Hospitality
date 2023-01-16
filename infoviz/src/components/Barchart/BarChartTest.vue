@@ -55,9 +55,9 @@ export default {
         .data(this.data)
         .transition()
         .delay((d, i) => {
-          return i * 150;
+          return i * 15;
         })
-        .duration(1000)
+        .duration(500)
         .attr("y", d => {
           return this.yScale(d[this.yKey]);
         })
@@ -83,7 +83,14 @@ export default {
         .append("g")
         .attr("class", "x-axis")
         .attr("transform", `translate(0, ${this.svgHeight})`)
-        .call(xAxis);
+        .call(xAxis)
+        .selectAll("text")
+              .style("text-anchor", "end")
+              .attr("dx", "-.8em")
+              .attr("dy", ".15em")
+              .attr("transform", function(d) {
+                return "rotate(-65)"
+              });
     },
     createYAxis() {
       const yAxis = axisLeft(this.yScale);
@@ -121,7 +128,12 @@ export default {
         .domain([this.dataMin > 0 ? 0 : this.dataMin, this.dataMax]);
     },
     svgHeight() {
-      return this.svgWidth / 1.61803398875; // golden ratio
+      return 170; // define height here
+    }
+  },
+  watch: {
+    data: function() {
+      this.AnimateLoad();
     }
   }
 };
@@ -134,13 +146,13 @@ export default {
 }
 
 .bar-positive:hover {
-  fill: brown;
+  fill: #345c7c;
 }
 
 .svg-container {
   display: inline-block;
   position: relative;
-  width: 100%;
+  width: 120%;
   padding-bottom: 1%;
   vertical-align: top;
   overflow: hidden;

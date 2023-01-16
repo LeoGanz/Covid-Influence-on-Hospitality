@@ -85,111 +85,111 @@ export default {
         mixBlendMode: "multiply", // blend mode of lines
       },
     };
-  },
-  async mounted() {
-    await this.covidCasesStore.initValues();
-    this.renderChart();
-  },
-  computed: {
-    data() {
-      const data = [];
-      for (var state in this.covidCasesStore.cases) {
-        if (state != germanyKey) {
-          data.push(
+},
+async mounted() {
+  await this.covidCasesStore.initValues();
+  this.renderChart();
+},
+computed: {
+  data() {
+    const data = [];
+    for (var state in this.covidCasesStore.cases) {
+      if (state != germanyKey) {
+        data.push(
             ...this.covidCasesStore.cases[state].map((value) => {
               value.day = new Date(value.day).getTime();
               value.category = this.regions.find(
-                (region) => region.key == state
+                  (region) => region.key == state
               ).covid;
               return value;
             })
-          );
-        }
+        );
       }
+    }
 
-      return data;
-    },
-    getColorId() {
-      return d3
+    return data;
+  },
+  getColorId() {
+    return d3
         .scaleOrdinal()
         .domain(this.Z)
         .range(d3.range(0, this.regions.length));
-    },
-    getColor() {
-      return d3.scaleLinear().domain([0, this.regions.length]).range([0, 1]);
-    },
-    // // Compute values.
-    //  const X = d3.map(data, x);
-    xRange() {
-      if (this.chart.xRange === undefined) {
-        return [
-          this.chart.marginLeft,
-          this.chart.width - this.chart.marginRight,
-        ];
-      }
-      return this.chart.xRange;
-    },
-    yRange() {
-      if (this.chart.yRange === undefined) {
-        return [
-          this.chart.height - this.chart.marginBottom,
-          this.chart.marginTop,
-        ];
-      }
-      return this.chart.yRange;
-    },
-    X() {
-      return d3.map(this.data, this.chart.x);
-    },
-    //  const Y = d3.map(data, y);
-    Y() {
-      return d3.map(this.data, this.chart.y);
-    },
-    //  const Z = d3.map(data, z);
-    Z() {
-      return d3.map(this.data, this.chart.z);
-    },
-    //  const O = d3.map(data, (d) => d);
-    O() {
-      return d3.map(this.data, (d) => d);
-    },
-    defined() {
-      if (this.chart.defined === undefined) {
-        return (d, i) => !isNaN(this.X[i]) && !isNaN(this.Y[i]);
-      }
-      return this.chart.defined;
-    },
-    D() {
-      return d3.map(this.data, this.defined);
-    },
-    //  if (defined === undefined)
-    //    defined = (d, i) => !isNaN(X[i]) && !isNaN(Y[i]);
-    //  const D = d3.map(data, defined);
-    //
-    //  // Compute default domains, and unique the z-domain.
-    //  if (xDomain === undefined) xDomain = d3.extent(X);
-    xDomain() {
-      return d3.extent(this.X);
-    },
-    //  if (yDomain === undefined)
-    //    yDomain = [0, d3.max(Y, (d) => (typeof d === "string" ? +d : d))];
-    yDomain() {
-      return [0, d3.max(this.Y, (d) => (typeof d === "string" ? +d : d))];
-    },
-    //  if (zDomain === undefined) zDomain = Z;
-    //  zDomain = new d3.InternSet(zDomain);
-    zDomain() {
-      return new d3.InternSet(this.Z);
-    },
-    //
-    //  // Omit any data not present in the z-domain.
-    //  const I = d3.range(X.length).filter((i) => zDomain.has(Z[i]));
-    I() {
-      return d3.range(this.X.length).filter((i) => this.zDomain.has(this.Z[i]));
-    },
-    //
-    //  // Construct scales and axes.
-    //  const xScale = xType(xDomain, xRange);
+  },
+  getColor() {
+    return d3.scaleLinear().domain([0, this.regions.length]).range([0, 1]);
+  },
+  // // Compute values.
+  //  const X = d3.map(data, x);
+  xRange() {
+    if (this.chart.xRange === undefined) {
+      return [
+        this.chart.marginLeft,
+        this.chart.width - this.chart.marginRight,
+      ];
+    }
+    return this.chart.xRange;
+  },
+  yRange() {
+    if (this.chart.yRange === undefined) {
+      return [
+        this.chart.height - this.chart.marginBottom,
+        this.chart.marginTop,
+      ];
+    }
+    return this.chart.yRange;
+  },
+  X() {
+    return d3.map(this.data, this.chart.x);
+  },
+  //  const Y = d3.map(data, y);
+  Y() {
+    return d3.map(this.data, this.chart.y);
+  },
+  //  const Z = d3.map(data, z);
+  Z() {
+    return d3.map(this.data, this.chart.z);
+  },
+  //  const O = d3.map(data, (d) => d);
+  O() {
+    return d3.map(this.data, (d) => d);
+  },
+  defined() {
+    if (this.chart.defined === undefined) {
+      return (d, i) => !isNaN(this.X[i]) && !isNaN(this.Y[i]);
+    }
+    return this.chart.defined;
+  },
+  D() {
+    return d3.map(this.data, this.defined);
+  },
+  //  if (defined === undefined)
+  //    defined = (d, i) => !isNaN(X[i]) && !isNaN(Y[i]);
+  //  const D = d3.map(data, defined);
+  //
+  //  // Compute default domains, and unique the z-domain.
+  //  if (xDomain === undefined) xDomain = d3.extent(X);
+  xDomain() {
+    return d3.extent(this.X);
+  },
+  //  if (yDomain === undefined)
+  //    yDomain = [0, d3.max(Y, (d) => (typeof d === "string" ? +d : d))];
+  yDomain() {
+    return [0, d3.max(this.Y, (d) => (typeof d === "string" ? +d : d))];
+  },
+  //  if (zDomain === undefined) zDomain = Z;
+  //  zDomain = new d3.InternSet(zDomain);
+  zDomain() {
+    return new d3.InternSet(this.Z);
+  },
+  //
+  //  // Omit any data not present in the z-domain.
+  //  const I = d3.range(X.length).filter((i) => zDomain.has(Z[i]));
+  I() {
+    return d3.range(this.X.length).filter((i) => this.zDomain.has(this.Z[i]));
+  },
+  //
+  //  // Construct scales and axes.
+  //  const xScale = xType(xDomain, xRange);
     xScale() {
       return this.chart.xType(this.xDomain, this.xRange);
     },

@@ -13,7 +13,7 @@ import LineChart from "./LineChart.vue";
 export default {
   name: "Line_block",
   components: {
-    LineChart
+    LineChart,
   },
 
   data() {

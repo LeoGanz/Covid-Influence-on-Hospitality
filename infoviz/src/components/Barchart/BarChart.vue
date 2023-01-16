@@ -1,38 +1,34 @@
 <template>
-  <div v-if="!covidCasesStore.initialized">Loading...</div>
+  <div v-if="!hospitalityStore.initialized">Loading...</div>
   <svg
       id="svg"
       :width="chart.width"
       :height="chart.height"
       :viewBox="[0, 0, chart.width, chart.height]"
-      v-else
-  >
-    <g id="yaxis" :transform="`translate(${chart.marginLeft},0)`"></g>
-    <g id="rect" fill="colour"></g>
-    <g id="xaxis" :transform="`translate(0,${chart.height - chart.marginBottom})`"></g>
+      v-else>
   </svg>
 </template>
 
 <script>
 // source: https://observablehq.com/@d3/bar-chart
 import * as d3 from "d3";
-import { useCovidCasesStore } from "@/stores/covidCases.js";
-import { germanyKey, regions } from "@/data/dataKeys";
+//import { useCovidCasesStore } from "@/stores/covidCases.js";
+import {useHospitalityStore} from "@/stores/hospitality";
+
 export default {
   name: "vue-bar-chart",
   components: {},
   data() {
-    const covidCasesStore = useCovidCasesStore();
+    const hospitalityStore = useHospitalityStore();
     return {
-      covidCasesStore: covidCasesStore,
-      regions: regions,
+      hospitalityStore: hospitalityStore.getRegionsByMonth('2021-02').real.original,
       d3: d3,
       chart: {
-        x: (d) => d.regions,
+        x: (d) => d.region,
         y: (d) => d.value,
         //x = (d, i) => i, // given d in data, returns the (ordinal) x-value
         //y = d => d, // given d in data, returns the (quantitative) y-value
-        //title: undefined, // given d in data, returns the title text
+        title: undefined, // given d in data, returns the title text
         marginTop: 20, // the top margin, in pixels
         marginRight: 0, // the right margin, in pixels
         marginBottom: 30, // the bottom margin, in pixels
@@ -51,25 +47,47 @@ export default {
       },
     };
   },
+  setup() {
+    const hospitalityStore = useHospitalityStore();
+    return { hospitalityStore };
+  },
   async mounted() {
-    await this.covidCasesStore.initValues();
+    await this.hospitalityStore.initValues();
+    //this.hospitalityStore.initValues();
     this.renderChart();
   },
   computed: {
     data() {
+
       const data = [];
-      for (var state in this.covidCasesStore.cases) {
-        if (state != germanyKey) {
-          data.push(
-              ...this.covidCasesStore.cases[state].map((value) => {
-                value.category = this.regions.find(
-                    (region) => region.key == state
-                ).covid;
-                return value;
-              })
-          );
+
+      const dataJson = this.hospitalityStore.getRegionsByMonth('2021-02').real.original
+      const dataArray = Object.entries(dataJson);
+      dataArray.forEach((entry) => {
+        const region = entry[0];
+        const value = entry[1];
+        if (Number.isFinite(value)) {
+          data.push({region, value});
         }
-      }
+        //data.push({region, value});
+      });
+
+      console.log("Hospitality data: ");
+      console.log(data);
+
+      // for (var dataPair in this.hospitalityStore.getRegionsByMonth('2021-02').real.original) {
+      //   console.log(dataPair);
+        //if (state != germanyKey) {
+        //   data.push(
+        //       ...this.hospitalityStore.value[state].map((value) => {
+        //         value.category = this.regions.find(
+        //             (region) => region.key == state
+        //         ).covid;
+        //         return value;
+        //       })
+        //   );
+        //}
+      // }
 
       return data;
     },
@@ -128,7 +146,20 @@ export default {
           .axisLeft(this.yScale)
           .ticks(this.chart.height / 40, this.chart.yFormat);
     },
-//TODO: Compute Titles
+
+    T() {
+      if (this.chart.title === undefined) {
+        const formatValue = this.yScale.tickFormat(100, this.yFormat);
+        return i => `${this.X[i]}\n${formatValue(this.Y[i])}`;
+      }else {
+        const O = d3.map(this.data, d => d);
+        const T = this.title;
+        return  i => T(O[i], i, this.data);
+      }
+
+    }
+
+
 
   },
   methods: {
@@ -162,7 +193,9 @@ export default {
           .attr("x", (i) => this.xScale(this.X[i]))
           .attr("y", (i) => this.yScale(this.Y[i]))
           .attr("height", (i) => this.yScale(0) - this.yScale(this.Y[i]))
-          .attr("width", this.xScale.scaleBand);
+          //.attr("width", this.xScale.scaleBand);
+          .attr("width", 10);
+          console.log("rendered");
     },
   },
 };

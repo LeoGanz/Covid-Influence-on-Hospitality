@@ -4,6 +4,7 @@
     :width="map.width"
     :height="map.height"
     :viewBox="[0, 0, map.width, map.height]"
+    v-bind:dataHospitality="dataHospitality"
   >      
   </svg>
 </template>
@@ -16,6 +17,9 @@ import germany from "./germany.json";
 import { useHospitalityStore } from "@/stores/hospitality";
 import { useMeasuresStore } from "@/stores/politicalMeasures";
 import { regions } from "@/data/dataKeys";
+import { useDateStore } from "@/stores/selectedDate";
+import moment from 'moment';
+
 
 // loading map data based on https://observablehq.com/@ch-bu/map-of-germany-unemployment-rate
 const mapDataGermany = topojson.feature(germany, germany.objects.states)
@@ -51,6 +55,7 @@ export default {
     }
   }, 
   async mounted() {
+
     await this.hospitalityStore1.initValues();
     await this.politicalMeasures.initValues();
 
@@ -59,8 +64,12 @@ export default {
 
   },
   computed: {
+    
 
     dataHospitality() {
+
+      // const currentDate = moment(useDateStore().count * 1).format('YYYY-MM');
+      // console.log(moment(useDateStore().count * 1)).format('YYYY-MM');
       return this.hospitalityStore1.getRegionsByMonth(this.currentMonth).real.original;
     },
   },

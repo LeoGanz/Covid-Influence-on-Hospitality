@@ -131,15 +131,26 @@ export default {
     },
 
     plotMapData() {
-      // chose filling
-      var myColor = d3.scaleQuantize([0, this.retrieveMaxIncidence], d3.schemePurples[6]);
+      // continous filling
+      //var myColor = d3.scaleQuantize([0, this.retrieveMaxIncidence], d3.schemePurples[6]);
+
+      // log scale filling
+      // var myColor = d3.scaleLinear().domain([1,Math.log(this.retrieveMaxIncidence)])
+      //   .range(["white", "blue"]);
+
+      // linear filling incremented in steps of 250
+      var myColor =  d3.scaleLinear().domain([0, this.retrieveMaxIncidence]) 
+        .range(["white", "blue"], 250);
     
       d3.select("#map_container")
       .append("g")
       .selectAll("path")
       .data(mapDataGermany.features)
       .join("path")
-      .attr("fill", d => myColor(this.dataIncidence[d.properties.nameEN]))   
+      .attr("fill", d => myColor(this.dataIncidence[d.properties.nameEN]))
+
+      // filling for logarithmic scale
+      //.attr("fill", d => myColor(Math.log(this.dataIncidence[d.properties.nameEN])))   
       .attr("fill-opacity", 1)
       .attr("d", d3.geoPath().projection(projection1))
       .attr("transform", "translate(-50, 0)")

@@ -41,8 +41,6 @@ export default {
   },
   async mounted() {
     await this.covidCasesStore.initValues();
-
-    this.plotMapData();
     this.renderMap();
   },
   computed: {

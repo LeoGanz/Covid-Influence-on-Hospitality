@@ -1,15 +1,49 @@
 import { defineStore } from "pinia";
 import moment from "moment";
 
-export const useDateStore = defineStore("counter", {
+export const useDateStore = defineStore("date", {
   state: () => {
     return {
-      count: 1578355200000, // 2020-01-07
+      date: 1578355200000, // 2020-01-07
     };
   },
   getters: {
-    formatted(state) {
-      return moment(state.count * 1).format("YYYY-MM");
+    currentMonth(state) {
+      return moment(state.date * 1).format("YYYY-MM");
+    },
+    currentDate(state) {
+      return moment(state.date * 1).format("YYYY-MM-DD");
+    },
+    currentTimestamp(state) {
+      return new Date(state.currentDate).getTime();
+    },
+  },
+  actions: {
+    setNewDate(timestamp) {
+      this.date = timestamp * 1;
+    },
+    formatDate(date) {
+      return moment(date).format("YYYY-MM-DD");
+    },
+    formatMonth(date) {
+      return moment(date).format("YYYY-MM");
+    },
+    formatTimestampDate(timestamp) {
+      //console.log(timestamp);
+      var date = new Date(timestamp * 1);
+      //console.log(date);
+      var year = date.getFullYear();
+      var month = (1 + date.getMonth()).toString().padStart(2, "0");
+      var day = date.getDate().toString().padStart(2, "0");
+      return year + "-" + month + "-" + day;
+    },
+    formatTimestampMonth(timestamp) {
+      //console.log(timestamp);
+      var date = new Date(timestamp * 1);
+      //console.log(date);
+      var year = date.getFullYear();
+      var month = (1 + date.getMonth()).toString().padStart(2, "0");
+      return year + "-" + month;
     },
   },
 });

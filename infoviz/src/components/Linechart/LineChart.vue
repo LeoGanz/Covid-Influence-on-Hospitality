@@ -4,7 +4,7 @@
     id="svg"
     :width="chart.width"
     :height="chart.height"
-    :viewBox="[0, 0, chart.width + chart.marginRight, chart.height]"
+    :viewBox="[0, -chart.marginTop, chart.width + chart.marginRight, chart.height]"
     @pointerenter="pointerentered"
     @pointermove="pointermoved"
     @pointerleave="pointerleft"
@@ -38,14 +38,25 @@
         y="-8"
       ></text>
     </g>
-    <line
-      id="line"
-      display="none"
-      x1="0"
-      :y1="chart.marginTop"
-      x2="0"
-      :y2="chart.height - chart.marginTop"
-    ></line>
+    <g>
+      <text
+        font-size="15"
+        text-anchor="middle"
+        text-color="black"
+        y="-8"
+        :x="xScale(dateStore.currentTimestamp)"
+      >
+        {{ dateStore.currentDate }}
+      </text>
+      <line
+        id="line"
+        display="block"
+        :x1="xScale(dateStore.currentTimestamp)"
+        :y1="chart.marginTop"
+        :x2="xScale(dateStore.currentTimestamp)"
+        :y2="chart.height - chart.marginTop"
+      ></line>
+    </g>
   </svg>
 </template>
 
@@ -116,6 +127,9 @@ export default {
     data: function (val) {
       if (val.length > 0) this.renderChart();
     },
+    dateStore: function (val) {
+      d3.select();
+    },
   },
   computed: {
     loading() {
@@ -148,7 +162,6 @@ export default {
         } else {
           hospitalityData = this.hospitalityStore.revenue[state];
         }
-        console.log(hospitalityData);
         data.push(
           ...hospitalityData.real.original.map((value) => {
             value.day = new Date(value.month).getTime();
@@ -419,9 +432,6 @@ export default {
           })`
         )
         .attr("display", "block");
-      d3.select("#line")
-        .attr("transform", `translate(${this.xScale(this.X[xi])},0)`)
-        .attr("display", "block");
       d3.select("#dot")
         .select("text")
         .text(this.T[i] + " - " + Math.round(this.Y[i]));
@@ -442,7 +452,6 @@ export default {
         .style("mix-blend-mode", this.chart.mixBlendMode)
         .style("stroke", null);
       d3.select("#dot").attr("display", "none");
-      d3.select("#line").attr("display", "none");
       d3.select("#svg").value = null;
       d3.select("#svg").dispatch("input", { bubbles: true });
     },

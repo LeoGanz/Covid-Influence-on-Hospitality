@@ -30,7 +30,7 @@ export default {
     data() {
       const data = [];
       const dataJson = this.hospitalityStore.getSectorsByMonth(
-        this.dateStore.formatted
+        this.dateStore.currentMonth
       ).real.original;
       const dataArray = Object.entries(dataJson);
       dataArray.forEach((entry) => {
@@ -42,9 +42,6 @@ export default {
           data.push({ region, value: 0 });
         }
       });
-
-      console.log("Hospitality data (BarBlock.vue): ");
-      // console.log(data);
       return data;
     },
   },

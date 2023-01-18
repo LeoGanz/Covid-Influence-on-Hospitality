@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="header">
-      <h3>Trend: Germany</h3>
+      <h3><b>Trend for: </b>{{ regionStore.currentRegionName }}</h3>
     </div>
     <LineChart v-bind:class="[toggleClass]" />
   </div>
@@ -9,6 +9,7 @@
 
 <script>
 import LineChart from "./LineChart.vue";
+import { useCurrentRegionStore } from "@/stores/currentRegion";
 
 export default {
   name: "Line_block",
@@ -17,7 +18,9 @@ export default {
   },
 
   data() {
+    const regionStore = useCurrentRegionStore();
     return {
+      regionStore,
       lineChart: true,
       barChart: false,
       toggleClass: "ani1",
@@ -46,5 +49,8 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 0px 20px;
+}
+h3 b {
+  font-weight: 600;
 }
 </style>

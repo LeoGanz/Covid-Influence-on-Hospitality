@@ -14,6 +14,9 @@ export const useDateStore = defineStore("date", {
     currentDate(state) {
       return moment(state.date * 1).format("YYYY-MM-DD");
     },
+    currentWrittenDate(state) {
+      return moment(state.date * 1).format("MMM DD YYYY");
+    },
     currentTimestamp(state) {
       return new Date(state.currentDate).getTime();
     },
@@ -44,6 +47,10 @@ export const useDateStore = defineStore("date", {
       var year = date.getFullYear();
       var month = (1 + date.getMonth()).toString().padStart(2, "0");
       return year + "-" + month;
+    },
+    formatSlider(timestamp) {
+      var date = new Date(timestamp * 1);
+      return moment(date).format("MMM DD YYYY");
     },
   },
 });

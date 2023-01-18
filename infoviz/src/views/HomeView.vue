@@ -31,7 +31,14 @@ import BarBlock from "@/components/Barchart/BarBlock.vue";
 import BarChart from "@/components/Barchart/BarChart.vue";
 
 export default {
-  components: { SliderBlock, LineBlock, DescriptionBlock, MapBlock, BarBlock, BarChart},
+  components: {
+    SliderBlock,
+    LineBlock,
+    DescriptionBlock,
+    MapBlock,
+    BarBlock,
+    BarChart,
+  },
 };
 </script>
 
@@ -56,18 +63,24 @@ export default {
 
 .line_block {
   padding: 32px 16px;
+  display: flex;
+  flex-flow: column;
   background-color: #f5f5f5;
   height: 437px;
 }
 
 .slider_block {
   padding: 32px 16px;
+  display: flex;
+  flex-flow: column;
   background-color: #f5f5f5;
   height: 150px;
 }
 
 .bar_block {
   padding: 32px 16px;
+  display: flex;
+  flex-flow: column;
   background-color: #f5f5f5;
   height: 325px;
 }

@@ -1,10 +1,11 @@
 <template>
-  <div>
+  <div class="slider">
     <input
       ref="slider"
       type="range"
       :min="startTimestamp"
       :max="endTimestamp"
+      step="10000"
       v-model="currentTimestamp"
       @input="updateCurrentDate"
     />
@@ -12,8 +13,8 @@
       {{ currentDate }}
     </div>
     <div class="legend">
-      <p>{{ dateStore.formatTimestampDate(startTimestamp) }}</p>
-      <p>{{ dateStore.formatTimestampDate(endTimestamp) }}</p>
+      <p>{{ dateStore.formatSlider(startTimestamp) }}</p>
+      <p>{{ dateStore.formatSlider(endTimestamp) }}</p>
     </div>
   </div>
 </template>
@@ -34,7 +35,7 @@ export default {
   },
   computed: {
     currentDate() {
-      return this.dateStore.formatTimestampDate(this.currentTimestamp * 1);
+      return this.dateStore.formatSlider(this.currentTimestamp);
     },
   },
   methods: {
@@ -45,7 +46,7 @@ export default {
     },
     calculateThumbLeft() {
       let slider = this.$refs.slider;
-      let sliderWidth = slider.offsetWidth;
+      let sliderWidth = slider.offsetWidth * 0.9;
       let thumbWidth =
         (slider.offsetWidth / (this.endTimestamp - this.startTimestamp)) *
         sliderWidth;
@@ -63,18 +64,25 @@ export default {
 </script>
 
 <style>
+.slider {
+  width: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
 input[type="range"] {
   -webkit-appearance: none;
-  width: 100%;
+  width: 70%;
   margin: 30px 0;
 }
 input[type="range"]::-webkit-slider-runnable-track {
-  width: 100%;
+  width: 50%;
   height: 6px;
   background: #c2c2c2;
   border-radius: 3px;
   cursor: pointer;
-  animate: 0.2s;
 }
 
 input[type="range"]::-webkit-slider-thumb {
@@ -95,11 +103,12 @@ input[type="range"]::-webkit-slider-thumb {
   font-size: 20px;
   line-height: 23px;
   color: #19191c;
-  left: 0%;
+  left: 10%;
 }
 
 .legend {
   display: flex;
+  width: 90%;
   justify-content: space-between;
   align-items: center;
   padding: 0px 20px;

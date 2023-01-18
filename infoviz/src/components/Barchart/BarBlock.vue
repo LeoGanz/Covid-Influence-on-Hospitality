@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h3>Sectors: Germany</h3>
     <div v-if="!hospitalityStore.initialized">Loading...</div>
     <BarChartTest v-else xKey="region" yKey="value" v-bind:data="data" />
   </div>

@@ -1,6 +1,6 @@
 <template>
   <svg
-    id="map_container"
+    id="hospitality_container"
     :width="map.width"
     :height="map.height"
     :viewBox="[0, 0, map.width, map.height]"
@@ -63,14 +63,14 @@ export default {
   },
   watch: {
     dataHospitality: function () {
-      d3.select("#map_container").selectAll("g").remove();
+      d3.select("#hospitality_container").selectAll("g").remove();
 
       this.plotMapData();
     },
   },
   methods: {
     renderMap() {
-      d3.select("#map_container")
+      d3.select("#hospitality_container")
         .append("path")
         .datum(mapDataGermany)
         .attr("fill", "none")
@@ -81,8 +81,8 @@ export default {
         .attr("id", "test");
 
       // create legend for map
-      var legendColor = d3.select("#map_container");
-      var missingValueColor = d3.select("#map_container");
+      var legendColor = d3.select("#hospitality_container");
+      var missingValueColor = d3.select("#hospitality_container");
       var myColor = d3
         .scaleLinear()
         .domain([0, 100])
@@ -177,7 +177,7 @@ export default {
       //   </mask>
       // </defs>
 
-      d3.select("#map_container")
+      d3.select("#hospitality_container")
         .append("g")
         // try to add hatch
         // .attr("id", "ha");

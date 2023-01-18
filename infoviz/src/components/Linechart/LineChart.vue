@@ -2,9 +2,14 @@
   <div v-if="loading">Loading...</div>
   <svg
     id="svg"
-    :width="chart.width"
-    :height="chart.height"
-    :viewBox="[0, -chart.marginTop, chart.width + chart.marginRight, chart.height]"
+    :width="chart.width + chart.marginRight"
+    :height="chart.height + chart.marginTop"
+    :viewBox="[
+      0,
+      -chart.marginTop,
+      chart.width + chart.marginRight,
+      chart.height + chart.marginTop,
+    ]"
     @pointerenter="pointerentered"
     @pointermove="pointermoved"
     @pointerleave="pointerleft"
@@ -39,15 +44,6 @@
       ></text>
     </g>
     <g>
-      <text
-        font-size="15"
-        text-anchor="middle"
-        text-color="black"
-        y="-8"
-        :x="xScale(dateStore.currentTimestamp)"
-      >
-        {{ dateStore.currentDate }}
-      </text>
       <line
         id="line"
         display="block"
@@ -61,6 +57,15 @@
 </template>
 
 <script>
+//<text
+//        font-size="15"
+//        text-anchor="middle"
+//        text-color="black"
+//        y="-8"
+//        :x="xScale(dateStore.currentTimestamp)"
+//      >
+//        {{ dateStore.currentWrittenDate }}
+//      </text>
 // we took this link: https://observablehq.com/@d3/multi-line-chart and transformed to be usable with Vue
 import * as d3 from "d3";
 import { useCovidCasesStore } from "@/stores/covidCases.js";
@@ -141,8 +146,9 @@ export default {
       const data = [];
       if (!this.loading) {
         const state = this.currentRegionStore.currentRegion;
+        const relevantCases = this.covidCasesStore.cases[state];
         data.push(
-          ...this.covidCasesStore.cases[state].map((value) => {
+          ...relevantCases.map((value) => {
             value.day = new Date(value.day).getTime();
             if (state == germanyKey) {
               value.category = "Germany";
@@ -391,9 +397,10 @@ export default {
         .style("mix-blend-mode", this.chart.mixBlendMode)
         .attr(
           "stroke",
-          typeof this.chart.color === "function"
-            ? ([z]) => this.chart.color(z)
-            : ([z]) => d3.interpolateTurbo(this.getColor(this.getColorId(z)))
+          //typeof this.chart.color === "function"
+          //  ? ([z]) => this.chart.color(z)
+          //  : ([z]) => d3.interpolateTurbo(this.getColor(this.getColorId(z)))
+          ([z]) => (z == "covid" ? "blue" : z == "hospitality" ? "orange" : "black")
         )
         .attr("d", ([, I]) => this.line(I));
     },

@@ -1,7 +1,11 @@
 <template>
-  <div id="container" class="svg-container" align="center">
-    <h1>{{ title }}</h1>
-    <svg v-if="redrawToggle === true" :width="svgWidth" :height="svgHeight">
+  <div id="container" class="svg-container">
+    <svg
+      id="barchart"
+      v-if="redrawToggle === true"
+      :width="svgWidth"
+      :height="svgHeight"
+    >
       <g>
         <rect
           v-for="item in data"
@@ -20,9 +24,9 @@
 <script>
 import { scaleLinear, scaleBand } from "d3-scale";
 import { max, min } from "d3-array";
-import {select, selectAll} from "d3-selection";
+import { select, selectAll } from "d3-selection";
 import { transition } from "d3-transition";
-import { axisBottom, axisLeft } from 'd3-axis';
+import { axisBottom, axisLeft } from "d3-axis";
 
 export default {
   name: "BarChart",
@@ -30,7 +34,7 @@ export default {
     title: String,
     xKey: String,
     yKey: String,
-    data: Array
+    data: Array,
   },
   mounted() {
     this.svgWidth = document.getElementById("container").offsetWidth * 0.75;
@@ -46,22 +50,23 @@ export default {
       top: 20,
       right: 20,
       bottom: 30,
-      left: 40
-    }
+      left: 40,
+    },
   }),
   methods: {
     AnimateLoad() {
-      selectAll("rect")
+      select("#barchart")
+        .selectAll("rect")
         .data(this.data)
         .transition()
         .delay((d, i) => {
           return i * 15;
         })
         .duration(500)
-        .attr("y", d => {
+        .attr("y", (d) => {
           return this.yScale(d[this.yKey]);
         })
-        .attr("height", d => {
+        .attr("height", (d) => {
           return this.svgHeight - this.yScale(d[this.yKey]);
         });
     },
@@ -79,36 +84,36 @@ export default {
     },
     createXAxis() {
       const xAxis = axisBottom(this.xScale);
-      select("svg")
+      select("#barchart")
         .append("g")
         .attr("class", "x-axis")
         .attr("transform", `translate(0, ${this.svgHeight})`)
         .call(xAxis)
         .selectAll("text")
-          .style("text-anchor", "end")
-          .attr("dx", "-.8em")
-          .attr("dy", ".15em")
-          .attr("transform", function(d) {
-            return "rotate(-65)"
-          });
+        .style("text-anchor", "end")
+        .attr("dx", "-.8em")
+        .attr("dy", ".15em")
+        .attr("transform", function (d) {
+          return "rotate(-65)";
+        });
     },
     createYAxis() {
       const yAxis = axisLeft(this.yScale);
-      select("svg")
+      select("#barchart")
         .append("g")
         .attr("class", "y-axis")
         .attr("transform", `translate(${this.svgWidth + 20}, 0)`)
         .call(yAxis);
-    }
+    },
   },
   computed: {
     dataMax() {
-      return max(this.data, d => {
+      return max(this.data, (d) => {
         return d[this.yKey];
       });
     },
     dataMin() {
-      return min(this.data, d => {
+      return min(this.data, (d) => {
         return d[this.yKey];
       });
     },
@@ -117,7 +122,7 @@ export default {
         .rangeRound([0, this.svgWidth])
         .padding(0.1)
         .domain(
-          this.data.map(d => {
+          this.data.map((d) => {
             return d[this.xKey];
           })
         );
@@ -129,17 +134,27 @@ export default {
     },
     svgHeight() {
       return 170; // define height here
-    }
+    },
   },
   watch: {
-    data: function() {
+    data: function () {
       this.AnimateLoad();
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style scoped>
+.svg-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  justify-items: center;
+}
 .bar-positive {
   fill: steelblue;
   transition: r 0.2s ease-in-out;
@@ -156,7 +171,6 @@ export default {
   padding-bottom: 1%;
   vertical-align: top;
   overflow: hidden;
-
 }
 
 .x-axis path,

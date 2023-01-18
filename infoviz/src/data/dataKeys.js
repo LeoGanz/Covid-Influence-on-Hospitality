@@ -167,4 +167,10 @@ const sectors = [
   },
 ];
 
-export { regions, germanyKey, measures, zpidKeys, sectors };
+const names = {
+  germany: "Germany",
+};
+regions.forEach((value) => {
+  names[value.key] = value.covid;
+});
+export { regions, germanyKey, measures, zpidKeys, sectors, names };

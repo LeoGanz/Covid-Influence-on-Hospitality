@@ -11,7 +11,6 @@
 import BarChartTest from "./BarChartTest.vue";
 import { useHospitalityStore } from "@/stores/hospitality";
 import { useDateStore } from "@/stores/selectedDate";
-import moment from 'moment';
 
 export default {
   name: "App",
@@ -21,7 +20,8 @@ export default {
   },
   setup() {
     const hospitalityStore = useHospitalityStore();
-    return { hospitalityStore };
+    const dateStore = useDateStore();
+    return { hospitalityStore, dateStore };
   },
   async mounted() {
     await this.hospitalityStore.initValues();
@@ -29,9 +29,9 @@ export default {
   computed: {
     data() {
       const data = [];
-      const selectedDate = moment(useDateStore().count * 1).format('YYYY-MM')
-      const dataJson =
-        this.hospitalityStore.getSectorsByMonth(selectedDate).real.original;
+      const dataJson = this.hospitalityStore.getSectorsByMonth(
+        this.dateStore.formatted
+      ).real.original;
       const dataArray = Object.entries(dataJson);
       dataArray.forEach((entry) => {
         const region = entry[0];

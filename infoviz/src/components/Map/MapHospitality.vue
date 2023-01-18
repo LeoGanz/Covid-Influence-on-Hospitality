@@ -6,9 +6,10 @@
     :viewBox="[0, 0, map.width, map.height]"
     v-bind:dataHospitality="dataHospitality"
   >   
-
-
   </svg>
+  <div>
+  <svg id="legend_hospitality" height=300 width=450 color="green"></svg>
+</div>
 </template>
 
 <script>
@@ -101,8 +102,69 @@ export default {
           .attr("stroke-linejoin", "round")   
           .attr("d", d3.geoPath().projection(projection1))
           .attr("transform", "translate(-50, 0)")
-          .attr("id", "test");
+          .attr("id", "test")
+    
+    // create legend for map
+    var legendColor = d3.select("#map_container")  
+    var missingValueColor = d3.select("#map_container")
+    var myColor =  d3.scaleLinear().domain([0, 100]) 
+            .range(["white", "orange"], 11);
+            var keys = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+    var rectSize = 20
+
+   // rects to display color values in legend
+  legendColor.selectAll("legendRect")
+    .data(keys)
+    .enter()
+    .append("rect")
+      .attr("x", 50)
+      .attr("y", function(d, i){ return 100 + i*(rectSize)})
+      .attr("width", rectSize)
+      .attr("height", rectSize)
+      .style("fill", function(d){ return myColor(d)})
+      .attr("transform", "translate(400, -100)")
+
+    // text for each color
+    legendColor.selectAll("legendLabels")
+    .data(keys)
+    .enter()
+    .append("text")
+    .attr("x", 50 + rectSize*1.2)
+    .attr("y", function(d,i){ return 100 + i*(rectSize) + (rectSize/2)})
+    .style("fill", "black")
+    .text(function(d){ return d})
+    .attr("text-anchor", "left")
+    .style("alignment-baseline", "middle")
+    .attr("transform", "translate(400, -100)")
+
+    // customized rect for not available data
+    missingValueColor.selectAll("legendValueMissing")
+    legendColor.selectAll("legendRect")
+    .data(keys)
+    .enter()
+    .append("rect")
+      .attr("x", 50)
+      .attr("y", 100)
+      .attr("width", rectSize)
+      .attr("height", rectSize)
+      .style("fill", "#686464")
+      .attr("transform", "translate(400, -130)")
+
+    // customized text for not available data
+    missingValueColor.selectAll("legendValueMissing")
+    legendColor.selectAll("legendLabels")
+    .data(keys)
+    .enter()
+    .append("text")
+    .attr("x", 50 + rectSize*1.2)
+    .attr("y", 110) 
+    .style("fill", "black")
+    .text("Data not available")
+    .attr("text-anchor", "left")
+    .style("alignment-baseline", "middle")
+    .attr("transform", "translate(400, -130)");
     },
+
     plotMapData(lastClickedRegion) {
       // chose filling
       // var myColor = d3.scaleQuantize([0, 100], d3.schemeOranges[6]);
@@ -112,19 +174,20 @@ export default {
         .range(["white", "orange"], 10);
 
        // <!-- hatch for lockdowns based on https://jsfiddle.net/sqrz3/    -->
-  // <defs>
-  //   <pattern id="stripe" patternUnits="userSpaceOnUse" width="40" height="20">
-  //     <line x1="10" y1="0" x2="30" y2="20" />
-  //     <line x1="-10" y1="0" x2="10" y2="20" />
-  //     <line x1="30" y1="0" x2="50" y2="20" />
-  //   </pattern>
-  //   <mask id="mask">
-  //     <rect height="500" width="500" style="fill: url(#stripe)" />
-  //   </mask>
-  // </defs>
+        // <defs>
+        //   <pattern id="stripe" patternUnits="userSpaceOnUse" width="40" height="20">
+        //     <line x1="10" y1="0" x2="30" y2="20" />
+        //     <line x1="-10" y1="0" x2="10" y2="20" />
+        //     <line x1="30" y1="0" x2="50" y2="20" />
+        //   </pattern>
+        //   <mask id="mask">
+        //     <rect height="500" width="500" style="fill: url(#stripe)" />
+        //   </mask>
+        // </defs>
 
       d3.select("#map_container")
       .append("g")
+      // try to add hatch
       // .attr("id", "ha");
       // d3.select("#ha")
       // .append("defs");

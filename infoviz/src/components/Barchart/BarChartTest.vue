@@ -37,6 +37,7 @@ export default {
     data: Array,
   },
   mounted() {
+    console.log(this.data);
     this.svgWidth = document.getElementById("container").offsetWidth * 0.75;
     this.AddResizeListener();
     this.AnimateLoad();
@@ -83,7 +84,7 @@ export default {
       });
     },
     createXAxis() {
-      const xAxis = axisBottom(this.xScale);
+      var xAxis = axisBottom(this.xScale)
       select("#barchart")
         .append("g")
         .attr("class", "x-axis")
@@ -156,12 +157,12 @@ export default {
   justify-items: center;
 }
 .bar-positive {
-  fill: steelblue;
+  fill: #9684d8;
   transition: r 0.2s ease-in-out;
 }
 
 .bar-positive:hover {
-  fill: #345c7c;
+  fill: #332566;
 }
 
 .svg-container {
@@ -171,12 +172,13 @@ export default {
   padding-bottom: 1%;
   vertical-align: top;
   overflow: hidden;
+
 }
 
 .x-axis path,
 .x-axis line {
   fill: none;
-  stroke: black;
+  stroke: #686464;
   shape-rendering: crispEdges;
 }
 

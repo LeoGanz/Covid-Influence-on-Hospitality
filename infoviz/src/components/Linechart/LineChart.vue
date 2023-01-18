@@ -1,10 +1,10 @@
 <template>
-  <div v-if="!covidCasesStore.initialized">Loading...</div>
+  <div v-if="loading">Loading...</div>
   <svg
     id="svg"
     :width="chart.width"
     :height="chart.height"
-    :viewBox="[0, 0, chart.width, chart.height]"
+    :viewBox="[0, 0, chart.width + chart.marginRight, chart.height]"
     @pointerenter="pointerentered"
     @pointermove="pointermoved"
     @pointerleave="pointerleft"
@@ -15,7 +15,11 @@
       id="xaxis"
       :transform="`translate(0,${chart.height - chart.marginBottom})`"
     ></g>
-    <g id="yaxis" :transform="`translate(${chart.marginLeft},0)`"></g>
+    <g id="yaxisleft" :transform="`translate(${chart.marginLeft},0)`"></g>
+    <g
+      id="yaxisright"
+      :transform="`translate(${chart.width - chart.marginRight},0)`"
+    ></g>
     <g
       id="paths"
       fill="none"
@@ -34,6 +38,14 @@
         y="-8"
       ></text>
     </g>
+    <line
+      id="line"
+      display="none"
+      x1="0"
+      :y1="chart.marginTop"
+      x2="0"
+      :y2="chart.height - chart.marginTop"
+    ></line>
   </svg>
 </template>
 
@@ -41,21 +53,30 @@
 // we took this link: https://observablehq.com/@d3/multi-line-chart and transformed to be usable with Vue
 import * as d3 from "d3";
 import { useCovidCasesStore } from "@/stores/covidCases.js";
+import { useCurrentRegionStore } from "@/stores/currentRegion.js";
+import { useHospitalityStore } from "@/stores/hospitality.js";
+import { useDateStore } from "@/stores/selectedDate";
 import { germanyKey, regions } from "@/data/dataKeys";
 export default {
   name: "vue-line-chart",
   components: {},
   data() {
     const covidCasesStore = useCovidCasesStore();
+    const currentRegionStore = useCurrentRegionStore();
+    const hospitalityStore = useHospitalityStore();
+    const dateStore = useDateStore();
 
     return {
-      covidCasesStore: covidCasesStore,
+      covidCasesStore,
+      currentRegionStore,
+      hospitalityStore,
+      dateStore,
       regions: regions,
       d3: d3,
       chart: {
         x: (d) => d.day,
         y: (d) => d.value,
-        z: (d) => d.category,
+        z: (d) => d.type,
         //x: d => d., // given d in data, returns the (temporal) x-value
         //y: ([, y]) => y, // given d in data, returns the (quantitative) y-value
         //z: () => 1, // given d in data, returns the (categorical) z-value
@@ -85,117 +106,169 @@ export default {
         mixBlendMode: "multiply", // blend mode of lines
       },
     };
-},
-async mounted() {
-  await this.covidCasesStore.initValues();
-  this.renderChart();
-},
-computed: {
-  data() {
-    const data = [];
-    for (var state in this.covidCasesStore.cases) {
-      if (state != germanyKey) {
+  },
+  async mounted() {
+    await this.covidCasesStore.initValues();
+    await this.hospitalityStore.initValues();
+    this.renderChart();
+  },
+  watch: {
+    data: function (val) {
+      if (val.length > 0) this.renderChart();
+    },
+  },
+  computed: {
+    loading() {
+      return (
+        !this.covidCasesStore.initialized || !this.hospitalityStore.initialized
+      );
+    },
+    data() {
+      const data = [];
+      if (!this.loading) {
+        const state = this.currentRegionStore.currentRegion;
         data.push(
-            ...this.covidCasesStore.cases[state].map((value) => {
-              value.day = new Date(value.day).getTime();
+          ...this.covidCasesStore.cases[state].map((value) => {
+            value.day = new Date(value.day).getTime();
+            if (state == germanyKey) {
+              value.category = "Germany";
+            } else {
               value.category = this.regions.find(
-                  (region) => region.key == state
+                (region) => region.key == state
               ).covid;
-              return value;
-            })
+            }
+            value.type = "covid";
+            return value;
+          })
+        );
+        let hospitalityData = [];
+
+        if (state == germanyKey) {
+          hospitalityData = this.hospitalityStore.revenue[state]["hospitality"];
+        } else {
+          hospitalityData = this.hospitalityStore.revenue[state];
+        }
+        console.log(hospitalityData);
+        data.push(
+          ...hospitalityData.real.original.map((value) => {
+            value.day = new Date(value.month).getTime();
+            value.category = "Hospitality";
+            value.type = "hospitality";
+            return value;
+          })
         );
       }
-    }
 
-    return data;
-  },
-  getColorId() {
-    return d3
+      return data;
+    },
+    getColorId() {
+      return d3
         .scaleOrdinal()
         .domain(this.Z)
         .range(d3.range(0, this.regions.length));
-  },
-  getColor() {
-    return d3.scaleLinear().domain([0, this.regions.length]).range([0, 1]);
-  },
-  // // Compute values.
-  //  const X = d3.map(data, x);
-  xRange() {
-    if (this.chart.xRange === undefined) {
+    },
+    getColor() {
+      return d3.scaleLinear().domain([0, this.regions.length]).range([0, 1]);
+    },
+    // // Compute values.
+    //  const X = d3.map(data, x);
+    xRange() {
+      if (this.chart.xRange === undefined) {
+        return [
+          this.chart.marginLeft,
+          this.chart.width - this.chart.marginRight,
+        ];
+      }
+      return this.chart.xRange;
+    },
+    yRange() {
+      if (this.chart.yRange === undefined) {
+        return [
+          this.chart.height - this.chart.marginBottom,
+          this.chart.marginTop,
+        ];
+      }
+      return this.chart.yRange;
+    },
+    X() {
+      return d3.map(this.data, this.chart.x);
+    },
+    //  const Y = d3.map(data, y);
+    Y() {
+      return d3.map(this.data, this.chart.y);
+    },
+    YCovid() {
+      return d3.map(
+        this.data.filter((value) => value.type == "covid"),
+        this.chart.y
+      );
+    },
+    YHospitality() {
+      return d3.map(
+        this.data.filter((value) => value.type == "hospitality"),
+        this.chart.y
+      );
+    },
+    //  const Z = d3.map(data, z);
+    Z() {
+      return d3.map(this.data, this.chart.z);
+    },
+    //  const O = d3.map(data, (d) => d);
+    O() {
+      return d3.map(this.data, (d) => d);
+    },
+    defined() {
+      if (this.chart.defined === undefined) {
+        return (d, i) => !isNaN(this.X[i]) && !isNaN(this.Y[i]);
+      }
+      return this.chart.defined;
+    },
+    D() {
+      return d3.map(this.data, this.defined);
+    },
+    //  if (defined === undefined)
+    //    defined = (d, i) => !isNaN(X[i]) && !isNaN(Y[i]);
+    //  const D = d3.map(data, defined);
+    //
+    //  // Compute default domains, and unique the z-domain.
+    //  if (xDomain === undefined) xDomain = d3.extent(X);
+    xDomain() {
+      return d3.extent(this.X);
+    },
+    //  if (yDomain === undefined)
+    //    yDomain = [0, d3.max(Y, (d) => (typeof d === "string" ? +d : d))];
+    yDomainCovid() {
+      return [0, d3.max(this.YCovid, (d) => (typeof d === "string" ? +d : d))];
+    },
+    yDomainHospitality() {
       return [
-        this.chart.marginLeft,
-        this.chart.width - this.chart.marginRight,
+        0,
+        d3.max(this.YHospitality, (d) => (typeof d === "string" ? +d : d)),
       ];
-    }
-    return this.chart.xRange;
-  },
-  yRange() {
-    if (this.chart.yRange === undefined) {
-      return [
-        this.chart.height - this.chart.marginBottom,
-        this.chart.marginTop,
-      ];
-    }
-    return this.chart.yRange;
-  },
-  X() {
-    return d3.map(this.data, this.chart.x);
-  },
-  //  const Y = d3.map(data, y);
-  Y() {
-    return d3.map(this.data, this.chart.y);
-  },
-  //  const Z = d3.map(data, z);
-  Z() {
-    return d3.map(this.data, this.chart.z);
-  },
-  //  const O = d3.map(data, (d) => d);
-  O() {
-    return d3.map(this.data, (d) => d);
-  },
-  defined() {
-    if (this.chart.defined === undefined) {
-      return (d, i) => !isNaN(this.X[i]) && !isNaN(this.Y[i]);
-    }
-    return this.chart.defined;
-  },
-  D() {
-    return d3.map(this.data, this.defined);
-  },
-  //  if (defined === undefined)
-  //    defined = (d, i) => !isNaN(X[i]) && !isNaN(Y[i]);
-  //  const D = d3.map(data, defined);
-  //
-  //  // Compute default domains, and unique the z-domain.
-  //  if (xDomain === undefined) xDomain = d3.extent(X);
-  xDomain() {
-    return d3.extent(this.X);
-  },
-  //  if (yDomain === undefined)
-  //    yDomain = [0, d3.max(Y, (d) => (typeof d === "string" ? +d : d))];
-  yDomain() {
-    return [0, d3.max(this.Y, (d) => (typeof d === "string" ? +d : d))];
-  },
-  //  if (zDomain === undefined) zDomain = Z;
-  //  zDomain = new d3.InternSet(zDomain);
-  zDomain() {
-    return new d3.InternSet(this.Z);
-  },
-  //
-  //  // Omit any data not present in the z-domain.
-  //  const I = d3.range(X.length).filter((i) => zDomain.has(Z[i]));
-  I() {
-    return d3.range(this.X.length).filter((i) => this.zDomain.has(this.Z[i]));
-  },
-  //
-  //  // Construct scales and axes.
-  //  const xScale = xType(xDomain, xRange);
+    },
+    //  if (zDomain === undefined) zDomain = Z;
+    //  zDomain = new d3.InternSet(zDomain);
+    zDomain() {
+      return new d3.InternSet(this.Z);
+    },
+    //
+    //  // Omit any data not present in the z-domain.
+    //  const I = d3.range(X.length).filter((i) => zDomain.has(Z[i]));
+    I() {
+      return d3.range(this.X.length).filter((i) => this.zDomain.has(this.Z[i]));
+    },
+    //
+    //  // Construct scales and axes.
+    //  const xScale = xType(xDomain, xRange);
     xScale() {
       return this.chart.xType(this.xDomain, this.xRange);
     },
     //  const yScale = yType(yDomain, yRange);
-    yScale() {
-      return this.chart.yType(this.yDomain, this.yRange);
+    yScaleCovid() {
+      return this.chart.yType(this.yDomainCovid, this.yRange).nice();
+    },
+    yScaleHospitality() {
+      return this.chart.yType(this.yDomainHospitality, this.yRange).nice();
     },
     //  const xAxis = d3
     //    .axisBottom(xScale)
@@ -208,10 +281,13 @@ computed: {
         .tickSizeOuter(0);
     },
     //  const yAxis = d3.axisLeft(yScale).ticks(height / 60, yFormat);
-    yAxis() {
-      return d3
-        .axisLeft(this.yScale)
-        .ticks(this.chart.height / 60, this.chart.yFormat);
+    yAxisLeft() {
+      const yTicks = this.generateTicksForYAxis(this.yScaleCovid);
+      return d3.axisLeft(this.yScaleCovid).tickValues(yTicks);
+    },
+    yAxisRight() {
+      const yTicks = this.generateTicksForYAxis(this.yScaleHospitality);
+      return d3.axisRight(this.yScaleHospitality).tickValues(yTicks);
     },
     //
     //  // Compute titles.
@@ -219,7 +295,7 @@ computed: {
     //    title === undefined ? Z : title === null ? null : d3.map(data, title);
     T() {
       return this.chart.title === undefined
-        ? this.Z
+        ? d3.map(this.data, (v) => v.category)
         : this.chart.title === null
         ? null
         : d3.map(this.data, this.chart.title);
@@ -237,14 +313,30 @@ computed: {
         .defined((i) => this.D[i])
         .curve(this.chart.curve)
         .x((i) => this.xScale(this.X[i]))
-        .y((i) => this.yScale(this.Y[i]));
+        .y((i) => {
+          if (this.Z[i] == "covid") {
+            return this.yScaleCovid(this.Y[i]);
+          } else {
+            return this.yScaleHospitality(this.Y[i]);
+          }
+        });
     },
   },
   methods: {
+    generateTicksForYAxis(yScale) {
+      var domain = yScale.domain();
+      var min = domain[0];
+      var max = domain[1];
+      var step = (max - min) / (this.chart.height / 60);
+      var tickArray = d3.range(min, max + step, step);
+      return tickArray;
+    },
     renderChart() {
+      d3.select("#xaxis").selectAll("*").remove();
       d3.select("#xaxis").call(this.xAxis);
-      d3.select("#yaxis")
-        .call(this.yAxis)
+      d3.select("#yaxisleft").selectAll("*").remove();
+      d3.select("#yaxisleft")
+        .call(this.yAxisLeft)
         .call((g) => g.select(".domain").remove())
         .call((g) =>
           g
@@ -265,6 +357,20 @@ computed: {
             .attr("text-anchor", "start")
             .text(this.chart.yLabel)
         );
+      d3.select("#yaxisright").selectAll("*").remove();
+      d3.select("#yaxisright")
+        .call(this.yAxisRight)
+        .call((g) => g.select(".domain").remove())
+        .call((g) =>
+          g
+            .append("text")
+            .attr("x", this.chart.marginLeft)
+            .attr("y", 10)
+            .attr("fill", "currentColor")
+            .attr("text-anchor", "end")
+            .text("Hospitality")
+        );
+      d3.select("#paths").selectAll("*").remove();
       d3.select("#paths")
         .selectAll("path")
         .data(d3.group(this.I, (i) => this.Z[i]))
@@ -281,8 +387,23 @@ computed: {
     pointermoved(event) {
       const [xm, ym] = d3.pointer(event);
       const i = d3.least(this.I, (i) =>
-        Math.hypot(this.xScale(this.X[i]) - xm, this.yScale(this.Y[i]) - ym)
+        Math.hypot(
+          this.xScale(this.X[i]) - xm,
+          this.Z[i] == "covid"
+            ? this.yScaleCovid(this.Y[i]) - ym
+            : this.yScaleHospitality(this.Y[i]) - ym
+        )
       ); // closest point
+      const xi = d3.least(this.I, (i) =>
+        Math.hypot(this.xScale(this.X[i]) - xm)
+      );
+      const yi = d3.least(this.I, (i) =>
+        Math.hypot(
+          this.Z[i] == "covid"
+            ? this.yScaleCovid(this.Y[i]) - ym
+            : this.yScaleHospitality(this.Y[i]) - ym
+        )
+      );
       d3.select("#paths")
         .selectAll("path")
         .style("stroke", ([z]) => (this.Z[i] === z ? null : "#ddd"))
@@ -291,15 +412,22 @@ computed: {
       d3.select("#dot")
         .attr(
           "transform",
-          `translate(${this.xScale(this.X[i])},${this.yScale(this.Y[i])})`
+          `translate(${this.xScale(this.X[i])},${
+            this.Z[i] == "covid"
+              ? this.yScaleCovid(this.Y[i])
+              : this.yScaleHospitality(this.Y[i])
+          })`
         )
+        .attr("display", "block");
+      d3.select("#line")
+        .attr("transform", `translate(${this.xScale(this.X[xi])},0)`)
         .attr("display", "block");
       d3.select("#dot")
         .select("text")
         .text(this.T[i] + " - " + Math.round(this.Y[i]));
-      d3.select("#svg")
-        .property("value", this.O[i])
-        .dispatch("input", { bubbles: true });
+      //d3.select("#svg")
+      //  .property("value", this.O[i])
+      //  .dispatch("input", { bubbles: true });
     },
     pointerentered() {
       d3.select("#paths")
@@ -314,6 +442,7 @@ computed: {
         .style("mix-blend-mode", this.chart.mixBlendMode)
         .style("stroke", null);
       d3.select("#dot").attr("display", "none");
+      d3.select("#line").attr("display", "none");
       d3.select("#svg").value = null;
       d3.select("#svg").dispatch("input", { bubbles: true });
     },
@@ -321,7 +450,7 @@ computed: {
 };
 </script>
 
-<style>
+<style scoped>
 path {
   color: #000;
   mix-blend-mode: multiply;
@@ -333,5 +462,10 @@ svg {
   max-height: 100%;
   -webkit-tap-highlight-color: transparent;
   color: #000;
+}
+
+line {
+  stroke: black;
+  stroke-width: 1;
 }
 </style>

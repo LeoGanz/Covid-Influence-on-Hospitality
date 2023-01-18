@@ -1,13 +1,13 @@
-import { createStore } from 'pinia'
+import { defineStore } from "pinia";
 
-export const useStore = createStore({
+export const useCurrentRegionStore = defineStore({
   id: "currentRegion",
   state: () => ({
-    currentRegion: null, //TODO: Set default state
+    currentRegion: "germany", //TODO: Set default state
   }),
-  mutations: {
-    updateCurrentTimestamp(state, region) {
-      state.currentRegion = region;
-    }
-  }
-})
+  actions: {
+    updateRegion(region) {
+      this.currentRegion = region;
+    },
+  },
+});

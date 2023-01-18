@@ -109,9 +109,12 @@ export default {
         .range(["white", "blue"], 2);
       var keys = [
         "0",
-        Math.round(this.retrieveMaxIncidence * 0.25),
-        Math.round(this.retrieveMaxIncidence * 0.5),
+        Math.round(this.retrieveMaxIncidence * 0.15),
+        Math.round(this.retrieveMaxIncidence * 0.3),
+        Math.round(this.retrieveMaxIncidence * 0.45),
+        Math.round(this.retrieveMaxIncidence * 0.6),
         Math.round(this.retrieveMaxIncidence * 0.75),
+        Math.round(this.retrieveMaxIncidence * 0.9),
         Math.round(this.retrieveMaxIncidence),
       ];
       var rectSize = 20;

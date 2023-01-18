@@ -124,46 +124,57 @@ const sectors = [
   {
     key: "accommodation",
     genesis: "Beherbergung",
+    abbreviation: "Lodging",
   },
   {
     key: "hotelsInnsGuesthouses",
     genesis: "Hotels, Gasthöfe und Pensionen",
+    abbreviation: "Hotels",
   },
   {
     key: "holidayAccommodation",
     genesis: "Ferienunterkünfte u. ähnliche Beherbergungsstätten",
+    abbreviation: "Holiday Home",
   },
   {
     key: "campingSites",
     genesis: "Campingplätze",
+    abbreviation: "Camping",
   },
   {
     key: "otherAccommodation",
     genesis: "Sonstige Beherbergungsstätten",
+    abbreviation: "Other Lodging",
   },
   {
     key: "gastronomy",
     genesis: "Gastronomie",
+    abbreviation: "Gastronomy",
   },
   {
     key: "restaurantsTavernsSnackbarsCafes",
     genesis: "Restaurants, Gaststätten, Imbissstuben, Cafes u.Ä.",
+    abbreviation: "Taverns",
   },
   {
     key: "catereing",
     genesis: "Caterer und sonstige Verpflegungsdienstleistungen",
+    abbreviation: "Catering",
   },
   {
     key: "beverages",
     genesis: "Ausschank von Getränken",
+    abbreviation: "Beverages",
   },
   {
     key: "restaurantBusiness",
     genesis: "Gaststättengewerbe",
+    abbreviation: "Restaurants",
   },
   {
     key: "hospitality",
     genesis: "Gastgewerbe",
+    abbreviation: "Hospitality",
   },
 ];
 

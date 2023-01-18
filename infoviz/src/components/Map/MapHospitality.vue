@@ -53,6 +53,7 @@ export default {
 
     this.plotMapData();
     this.renderMap();
+
   },
   computed: {
     dataHospitality() {
@@ -60,6 +61,9 @@ export default {
         this.dateStore.currentMonth
       ).real.original;
     },
+    maxValue(){
+      console.log( this.hospitalityStore )
+    }
   },
   watch: {
     dataHospitality: function () {
@@ -85,9 +89,9 @@ export default {
       var missingValueColor = d3.select("#hospitality_container");
       var myColor = d3
         .scaleLinear()
-        .domain([0, 100])
-        .range(["white", "orange"], 11);
-      var keys = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+        .domain([5, 110])
+        .range(["white", "orange"], 8);
+      var keys = [5, 20, 35, 50, 65, 80, 95, 110];
       var rectSize = 20;
 
       // rects to display color values in legend

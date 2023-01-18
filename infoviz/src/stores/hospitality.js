@@ -89,21 +89,21 @@ export const useHospitalityStore = defineStore("hospitality", {
       };
       for (const sector of sectors) {
         values.real.original[sector.key] =
-          state.revenue[germanyKey][sector.key].real.original.find(
+          [state.revenue[germanyKey][sector.key].real.original.find(
             matchingMonth
-          )?.value;
+          )?.value, sector.abbreviation];
         values.real.adjusted[sector.key] =
-          state.revenue[germanyKey][sector.key].real.adjusted.find(
+          [state.revenue[germanyKey][sector.key].real.adjusted.find(
             matchingMonth
-          )?.value;
+          )?.value, sector.abbreviation];
         values.nominal.original[sector.key] =
-          state.revenue[germanyKey][sector.key].nominal.original.find(
+          [state.revenue[germanyKey][sector.key].nominal.original.find(
             matchingMonth
-          )?.value;
+          )?.value, sector.abbreviation];
         values.nominal.adjusted[sector.key] =
-          state.revenue[germanyKey][sector.key].nominal.adjusted.find(
+          [state.revenue[germanyKey][sector.key].nominal.adjusted.find(
             matchingMonth
-          )?.value;
+          )?.value, sector.abbreviation];
       }
       return values;
     },

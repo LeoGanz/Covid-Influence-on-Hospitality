@@ -62,7 +62,6 @@ export default {
       ).real.original;
     },
     maxValue(){
-      console.log( this.hospitalityStore )
     }
   },
   watch: {

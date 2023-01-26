@@ -198,8 +198,6 @@ export default {
         .domain([0, this.retrieveMaxIncidence])
         .range(["white", "blue"], 250);
 
-      console.log(this.dataIncidence);
-
       d3.select("#incidence_container")
         .append("g")
         .selectAll("path")

@@ -9,7 +9,7 @@
 //import BarChart from "./BarChart.vue";
 import BarChartTest from "./BarChartTest.vue";
 import { useHospitalityStore } from "@/stores/hospitality";
-import { useDateStore } from "@/stores/selectedDate";
+import { useDateStore } from "@/stores/date";
 
 export default {
   name: "App",

@@ -29,7 +29,7 @@ import MapBlock from "@/components/Map/MapBlock.vue";
 import SliderBlock from "@/components/SliderBlock.vue";
 import BarBlock from "@/components/Barchart/BarBlock.vue";
 import BarChart from "@/components/Barchart/BarChart.vue";
-import {useDateStore} from "@/stores/selectedDate";
+import {useDateStore} from "@/stores/date";
 import {useRoute, useRouter} from "vue-router";
 import {useCurrentRegionStore} from "@/stores/currentRegion";
 
@@ -68,7 +68,7 @@ export default {
     const dateStore = useDateStore()
     const regionStore = useCurrentRegionStore()
     if (to.query.date) {
-      dateStore.setNewDateByDateString(to.query.date)
+      dateStore.setCurrentByDateString(to.query.date)
     }
     if (to.query.region) {
       regionStore.currentRegion = to.query.region

@@ -47,9 +47,9 @@
       <line
         id="line"
         display="block"
-        :x1="xScale(dateStore.currentTimestamp)"
+        :x1="xScale(dateStore.current)"
         :y1="chart.marginTop"
-        :x2="xScale(dateStore.currentTimestamp)"
+        :x2="xScale(dateStore.current)"
         :y2="chart.height - chart.marginTop"
       ></line>
     </g>
@@ -64,14 +64,14 @@
 //        y="-8"
 //        :x="xScale(dateStore.currentTimestamp)"
 //      >
-//        {{ dateStore.currentWrittenDate }}
+//        {{ dateStore.currentHumanReadable }}
 //      </text>
 // we took this link: https://observablehq.com/@d3/multi-line-chart and transformed to be usable with Vue
 import * as d3 from "d3";
 import { useCovidCasesStore } from "@/stores/covidCases.js";
 import { useCurrentRegionStore } from "@/stores/currentRegion.js";
 import { useHospitalityStore } from "@/stores/hospitality.js";
-import { useDateStore } from "@/stores/selectedDate";
+import { useDateStore } from "@/stores/date";
 import { germanyKey, regions } from "@/data/dataKeys";
 export default {
   name: "vue-line-chart",

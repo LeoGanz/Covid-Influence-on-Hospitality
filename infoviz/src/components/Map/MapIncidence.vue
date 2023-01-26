@@ -14,7 +14,7 @@ import germany from "./germany.json";
 
 import { useCovidCasesStore } from "@/stores/covidCases";
 import { germanyKey, regions } from "@/data/dataKeys";
-import { useDateStore } from "@/stores/selectedDate";
+import { useDateStore } from "@/stores/date";
 
 // loading map data based on https://observablehq.com/@ch-bu/map-of-germany-unemployment-rate
 const mapDataGermany = topojson.feature(germany, germany.objects.states);

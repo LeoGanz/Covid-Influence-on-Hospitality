@@ -1,59 +1,44 @@
 <template>
   <div class="slider">
     <input
-      ref="slider"
-      type="range"
-      :min="startTimestamp"
-      :max="endTimestamp"
-      step="10000"
-      v-model="currentTimestamp"
-      @input="updateCurrentDate"
+        ref="slider"
+        type="range"
+        :min="dateStore.start"
+        :max="dateStore.end"
+        step="10000"
+        v-model="dateStore.current"
+        @input="calculateThumbLeft"
     />
     <div class="slider-value" :style="{ left: thumbLeft }">
-      {{ currentDate }}
+      {{ dateStore.currentHumanReadable }}
     </div>
     <div class="legend">
-      <p>{{ dateStore.formatSlider(startTimestamp) }}</p>
-      <p>{{ dateStore.formatSlider(endTimestamp) }}</p>
+      <p>{{ dateStore.startHumanReadable }}</p>
+      <p>{{ dateStore.endHumanReadable }}</p>
     </div>
   </div>
 </template>
 
 <script>
-import { useDateStore } from "../stores/selectedDate.js";
+import {useDateStore} from "@/stores/date";
 
 export default {
   data() {
     const dateStore = useDateStore();
     return {
-      startTimestamp: new Date("2020-01-07").getTime(),
-      endTimestamp: new Date("2023-01-14").getTime(),
-      currentTimestamp: new Date("2020-01-07").getTime(),
       thumbLeft: "0%",
       dateStore,
     };
   },
-  computed: {
-    currentDate() {
-      return this.dateStore.formatSlider(this.currentTimestamp);
-    },
-  },
   methods: {
-    updateCurrentDate(event) {
-      this.currentTimestamp = event.target.value;
-      this.thumbLeft = this.calculateThumbLeft();
-      this.dateStore.setNewDate(event.target.value);
-    },
     calculateThumbLeft() {
       let slider = this.$refs.slider;
       let sliderWidth = slider.offsetWidth * 0.9;
-      let thumbWidth =
-        (slider.offsetWidth / (this.endTimestamp - this.startTimestamp)) *
-        sliderWidth;
+      let thumbWidth = (slider.offsetWidth / (this.dateStore.end - this.dateStore.end)) * sliderWidth;
       let position =
-        ((this.currentTimestamp - this.startTimestamp) /
-          (this.endTimestamp - this.startTimestamp)) *
-        (sliderWidth - thumbWidth);
+          ((this.dateStore.current - this.dateStore.start) /
+              (this.dateStore.end - this.dateStore.start)) *
+          (sliderWidth - thumbWidth);
       return `${(position / sliderWidth) * 90}%`;
     },
   },
@@ -77,6 +62,7 @@ input[type="range"] {
   width: 70%;
   margin: 30px 0;
 }
+
 input[type="range"]::-webkit-slider-runnable-track {
   width: 50%;
   height: 6px;
@@ -96,6 +82,7 @@ input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   margin-top: -12px;
 }
+
 .slider-value {
   position: absolute;
   top: 20px;

@@ -2,9 +2,9 @@
   <main>
     <div class="horizontal_flex">
       <div class="left_boxes">
-        <DescriptionBlock class="block description_block" />
-        <LineBlock class="block line_block" />
-        <SliderBlock class="block slider_block" />
+        <DescriptionBlock class="block description_block"/>
+        <LineBlock class="block line_block"/>
+        <SliderBlock class="block slider_block"/>
         <div>
           <router-link to="/about">
             <button @click="navigate" class="aboutbutton">about</button>
@@ -15,8 +15,8 @@
         </div>
       </div>
       <div class="right_boxes">
-        <BarBlock class="block bar_block" />
-        <MapBlock class="block map_block" />
+        <BarBlock class="block bar_block"/>
+        <MapBlock class="block map_block"/>
       </div>
     </div>
   </main>
@@ -29,8 +29,51 @@ import MapBlock from "@/components/Map/MapBlock.vue";
 import SliderBlock from "@/components/SliderBlock.vue";
 import BarBlock from "@/components/Barchart/BarBlock.vue";
 import BarChart from "@/components/Barchart/BarChart.vue";
+import {useDateStore} from "@/stores/selectedDate";
+import {useRoute, useRouter} from "vue-router";
+import {useCurrentRegionStore} from "@/stores/currentRegion";
 
 export default {
+  setup() {
+    const dateStore = useDateStore()
+    const regionStore = useCurrentRegionStore()
+    const router = useRouter()
+    const route = useRoute()
+
+    function updateRouteWithParams() {
+      router.push({
+        name: route.name,
+        query: {
+          date: dateStore.currentDate,
+          region: regionStore.currentRegion
+        }
+      })
+    }
+
+    dateStore.$subscribe(() => {
+      updateRouteWithParams();
+    })
+    regionStore.$subscribe(() => {
+      updateRouteWithParams();
+    })
+
+    return {
+      dateStore,
+      regionStore,
+    }
+  },
+  // apply changes entered in url field to the store
+  beforeRouteEnter(to, from) {
+    console.log("beforeRouteEnter")
+    const dateStore = useDateStore()
+    const regionStore = useCurrentRegionStore()
+    if (to.query.date) {
+      dateStore.setNewDateByDateString(to.query.date)
+    }
+    if (to.query.region) {
+      regionStore.currentRegion = to.query.region
+    }
+  },
   components: {
     SliderBlock,
     LineBlock,
@@ -106,6 +149,7 @@ export default {
   margin: 24px 0px;
   transition-duration: 0.4s;
 }
+
 .aboutbutton:hover {
   background-color: #555555;
   color: white;

@@ -25,6 +25,9 @@ export const useDateStore = defineStore("date", {
     setNewDate(timestamp) {
       this.date = timestamp * 1;
     },
+    setNewDateByDateString(dateString) {
+      this.date = moment(dateString).valueOf();
+    },
     formatDate(date) {
       return moment(date).format("YYYY-MM-DD");
     },

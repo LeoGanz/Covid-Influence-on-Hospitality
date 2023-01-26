@@ -34,7 +34,6 @@ export default {
 
       const dataArray = Object.entries(dataJson);
       dataArray.forEach((entry) => {
-        console.log(entry)
         const region = entry[0];
         const value = entry[1][0];
         const abbreviation = entry[1][1];

@@ -64,14 +64,14 @@ export default {
   },
   // apply changes entered in url field to the store
   beforeRouteEnter(to, from) {
-    console.log("beforeRouteEnter")
+    console.log("Parsing query params from url and updating stores")
     const dateStore = useDateStore()
     const regionStore = useCurrentRegionStore()
     if (to.query.date) {
       dateStore.setCurrentByDateString(to.query.date)
     }
     if (to.query.region) {
-      regionStore.currentRegion = to.query.region
+      regionStore.updateRegion(to.query.region)
     }
   },
   components: {

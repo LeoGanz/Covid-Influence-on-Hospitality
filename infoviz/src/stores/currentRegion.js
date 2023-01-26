@@ -1,10 +1,10 @@
 import { defineStore } from "pinia";
-import { names } from "@/data/dataKeys";
+import {germanyKey, names, regions} from "@/data/dataKeys";
 
 export const useCurrentRegionStore = defineStore({
   id: "currentRegion",
   state: () => ({
-    currentRegion: "germany", //TODO: Set default state
+    currentRegion: germanyKey
   }),
   getters: {
     currentRegionName(state) {
@@ -13,7 +13,13 @@ export const useCurrentRegionStore = defineStore({
   },
   actions: {
     updateRegion(region) {
-      this.currentRegion = region;
+      if (region === germanyKey || regions.find(reg => reg.key === region)) {
+        this.currentRegion = region;
+        console.log("Setting current region to", region);
+      } else {
+        console.warn('Invalid region (', region, '). Using default region instead.');
+        region = germanyKey
+      }
     },
   },
 });

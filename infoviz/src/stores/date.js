@@ -30,7 +30,13 @@ export const useDateStore = defineStore("date", {
   },
   actions: {
     setCurrentByDateString(dateString) {
-      this.current = moment(dateString).valueOf();
+      let newDate = moment(dateString)
+      if (newDate.isValid() && newDate.isBetween(moment(this.start), moment(this.end))) {
+        console.log("Setting date to", newDate.format("YYYY-MM-DD"))
+        this.current = newDate.valueOf()
+      } else {
+        console.warn('Invalid date (', dateString, '). Using default date instead.')
+      }
     },
   },
 });

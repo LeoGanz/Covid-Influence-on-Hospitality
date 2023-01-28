@@ -150,13 +150,7 @@ export default {
         data.push(
           ...relevantCases.map((value) => {
             value.day = new Date(value.day).getTime();
-            if (state == germanyKey) {
-              value.category = "Germany";
-            } else {
-              value.category = this.regions.find(
-                (region) => region.key == state
-              ).covid;
-            }
+            value.category = "Incidence";
             value.type = "covid";
             return value;
           })
@@ -257,13 +251,10 @@ export default {
     //  if (yDomain === undefined)
     //    yDomain = [0, d3.max(Y, (d) => (typeof d === "string" ? +d : d))];
     yDomainCovid() {
-      return [0, d3.max(this.YCovid, (d) => (typeof d === "string" ? +d : d))];
+      return [0, 32000];
     },
     yDomainHospitality() {
-      return [
-        0,
-        d3.max(this.YHospitality, (d) => (typeof d === "string" ? +d : d)),
-      ];
+      return [0, 120];
     },
     //  if (zDomain === undefined) zDomain = Z;
     //  zDomain = new d3.InternSet(zDomain);
@@ -344,10 +335,14 @@ export default {
   methods: {
     generateTicksForYAxis(yScale) {
       var domain = yScale.domain();
+      console.log(domain);
       var min = domain[0];
       var max = domain[1];
-      var step = (max - min) / (this.chart.height / 60);
+      var step = (max - min) / 6;
       var tickArray = d3.range(min, max + step, step);
+      if (tickArray.length > 7) {
+        tickArray.pop();
+      }
       return tickArray;
     },
     renderChart() {
@@ -357,6 +352,8 @@ export default {
       d3.select("#yaxisleft")
         .call(this.yAxisLeft)
         .call((g) => g.select(".domain").remove())
+        .call((g) => g.selectAll(".tick line").attr("id", "tickline"))
+        .call((g) => g.selectAll(".tick text").attr("id", "ticktext"))
         .call((g) =>
           g
             .selectAll(".tick line")
@@ -366,6 +363,7 @@ export default {
               this.chart.width - this.chart.marginLeft - this.chart.marginRight
             )
             .attr("stroke-opacity", 0.1)
+            .attr("id", null)
         )
         .call((g) =>
           g
@@ -374,12 +372,15 @@ export default {
             .attr("y", 10)
             .attr("fill", "currentColor")
             .attr("text-anchor", "start")
+            .attr("id", "label")
             .text(this.chart.yLabel)
         );
       d3.select("#yaxisright").selectAll("*").remove();
       d3.select("#yaxisright")
         .call(this.yAxisRight)
         .call((g) => g.select(".domain").remove())
+        .call((g) => g.selectAll(".tick line").attr("id", "tickline"))
+        .call((g) => g.selectAll(".tick text").attr("id", "ticktext"))
         .call((g) =>
           g
             .append("text")
@@ -387,6 +388,7 @@ export default {
             .attr("y", 10)
             .attr("fill", "currentColor")
             .attr("text-anchor", "end")
+            .attr("id", "label")
             .text("Hospitality")
         );
       d3.select("#paths").selectAll("*").remove();
@@ -400,7 +402,8 @@ export default {
           //typeof this.chart.color === "function"
           //  ? ([z]) => this.chart.color(z)
           //  : ([z]) => d3.interpolateTurbo(this.getColor(this.getColorId(z)))
-          ([z]) => (z == "covid" ? "blue" : z == "hospitality" ? "orange" : "black")
+          ([z]) =>
+            z == "covid" ? "blue" : z == "hospitality" ? "orange" : "black"
         )
         .attr("d", ([, I]) => this.line(I));
     },
@@ -445,6 +448,24 @@ export default {
       //d3.select("#svg")
       //  .property("value", this.O[i])
       //  .dispatch("input", { bubbles: true });
+      d3.select("#yaxisright")
+        .selectAll("#tickline")
+        .attr("opacity", (z) => (this.Z[i] == "covid" ? 0.1 : null));
+      d3.select("#yaxisright")
+        .selectAll("#ticktext")
+        .attr("opacity", (z) => (this.Z[i] == "covid" ? 0.1 : null));
+      d3.select("#yaxisright")
+        .select("#label")
+        .attr("opacity", (z) => (this.Z[i] == "covid" ? 0.1 : null));
+      d3.select("#yaxisleft")
+        .selectAll("#tickline")
+        .attr("opacity", (z) => (this.Z[i] == "covid" ? null : 0.1));
+      d3.select("#yaxisleft")
+        .selectAll("#ticktext")
+        .attr("opacity", (z) => (this.Z[i] == "covid" ? null : 0.1));
+      d3.select("#yaxisleft")
+        .select("#label")
+        .attr("opacity", (z) => (this.Z[i] == "covid" ? null : 0.1));
     },
     pointerentered() {
       d3.select("#paths")
@@ -459,8 +480,14 @@ export default {
         .style("mix-blend-mode", this.chart.mixBlendMode)
         .style("stroke", null);
       d3.select("#dot").attr("display", "none");
-      d3.select("#svg").value = null;
-      d3.select("#svg").dispatch("input", { bubbles: true });
+      d3.select("#yaxisleft").selectAll("#tickline").attr("opacity", null);
+      d3.select("#yaxisleft").selectAll("#ticktext").attr("opacity", null);
+      d3.select("#yaxisleft").select("#label").attr("opacity", null);
+      d3.select("#yaxisright").selectAll("#tickline").attr("opacity", null);
+      d3.select("#yaxisright").selectAll("#ticktext").attr("opacity", null);
+      d3.select("#yaxisright").select("#label").attr("opacity", null);
+      // d3.select("#svg").value = null;
+      // d3.select("#svg").dispatch("input", { bubbles: true });
     },
   },
 };

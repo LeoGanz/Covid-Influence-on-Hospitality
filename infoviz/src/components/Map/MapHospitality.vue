@@ -16,7 +16,7 @@ import germany from "./germany.json";
 import { useHospitalityStore } from "@/stores/hospitality";
 import { useMeasuresStore } from "@/stores/politicalMeasures";
 import { regions } from "@/data/dataKeys";
-import { useDateStore } from "@/stores/selectedDate";
+import { useDateStore } from "@/stores/date";
 
 // loading map data based on https://observablehq.com/@ch-bu/map-of-germany-unemployment-rate
 const mapDataGermany = topojson.feature(germany, germany.objects.states);
@@ -62,7 +62,6 @@ export default {
       ).real.original;
     },
     maxValue(){
-      console.log( this.hospitalityStore )
     }
   },
   watch: {

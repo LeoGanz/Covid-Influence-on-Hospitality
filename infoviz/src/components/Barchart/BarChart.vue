@@ -72,8 +72,6 @@ export default {
         //data.push({region, value});
       });
 
-      console.log("Hospitality data: ");
-      console.log(data);
 
       // for (var dataPair in this.hospitalityStore.getRegionsByMonth('2021-02').real.original) {
       //   console.log(dataPair);

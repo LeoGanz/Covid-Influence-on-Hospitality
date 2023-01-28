@@ -15,6 +15,7 @@ import germany from "./germany.json";
 import { useCovidCasesStore } from "@/stores/covidCases";
 import { germanyKey, regions } from "@/data/dataKeys";
 import { useDateStore } from "@/stores/date";
+import { useCurrentRegionStore } from "@/stores/currentRegion";
 
 // loading map data based on https://observablehq.com/@ch-bu/map-of-germany-unemployment-rate
 const mapDataGermany = topojson.feature(germany, germany.objects.states);
@@ -29,10 +30,12 @@ export default {
   data() {
     const covidCasesStore = useCovidCasesStore(); // TODO: this date should be adjusted according to the current slider position.
     const dateStore = useDateStore();
+    const currentRegion = useCurrentRegionStore();
     return {
       covidCasesStore,
       regions: regions,
       dateStore,
+      currentRegion: currentRegion,
       map: {
         width: 600, // outer width, in pixels
         height: 300, // outer height, in pixels
@@ -43,6 +46,14 @@ export default {
     await this.covidCasesStore.initValues();
     this.renderMap();
     this.plotMapData();
+
+    if (this.currentRegion.currentRegionName != "Germany") {
+      console.log(this.currentRegion.currentRegionName)
+
+                d3.select("#" + this.currentRegion.currentRegionName )
+                  .attr("stroke-width", "3")
+                  .attr("stroke", "black");
+              }
   },
   computed: {
     // function to detect max value of incidence over time, as a reference value
@@ -210,30 +221,34 @@ export default {
         .attr("fill-opacity", 1)
         .attr("d", d3.geoPath().projection(projection1))
         .attr("transform", "translate(-50, 0)")
-        .attr("id", (d) => d.properties.nameEN)
+        .attr("id", (d) => d.properties.name)
         // visually display clicked region
         .on(
           "click",
-          (function (lastClickedRegion) {
+          (function (regionStore) {
             return function () {
+
+              const lastClickedRegion = regionStore.currentRegionName;
+
               // reset
-              if (lastClickedRegion != "" || lastClickedRegion == this.id) {
+              if (lastClickedRegion != "Germany" || lastClickedRegion != this.id) {              
                 d3.select("#" + lastClickedRegion)
                   .attr("stroke", "#101010")
                   .attr("stroke-width", "0.5");
               }
 
               if (lastClickedRegion != this.id) {
-                d3.select(this)
+                d3.select("#" + this.id)
                   .attr("stroke-width", "3")
                   .attr("stroke", "black");
 
-                lastClickedRegion = this.id;
+                const region_after = mapDataGermany.features.filter((feature) => feature.properties.name == this.id)
+                regionStore.updateRegion(region_after[0].properties.nameEN)
               } else {
-                lastClickedRegion = "";
+                regionStore.updateRegion("germany")
               }
             };
-          })(this.lastClickedRegion)
+          })(this.currentRegion)
         );
     },
   },

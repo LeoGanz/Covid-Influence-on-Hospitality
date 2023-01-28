@@ -17,6 +17,7 @@ import { useHospitalityStore } from "@/stores/hospitality";
 import { useMeasuresStore } from "@/stores/politicalMeasures";
 import { regions } from "@/data/dataKeys";
 import { useDateStore } from "@/stores/date";
+import { useCurrentRegionStore } from "@/stores/currentRegion";
 
 // loading map data based on https://observablehq.com/@ch-bu/map-of-germany-unemployment-rate
 const mapDataGermany = topojson.feature(germany, germany.objects.states);
@@ -25,8 +26,6 @@ const mesh = topojson.mesh(germany, germany.objects.states, (a, b) => a !== b);
 // project and scale map
 var projection1 = d3.geoConicConformal().fitSize([650, 325], mesh);
 
-var lastClickedRegion = "";
-
 export default {
   name: "vue-map",
   components: {},
@@ -34,13 +33,14 @@ export default {
     const hospitalityStore = useHospitalityStore();
     const politicalMeasures = useMeasuresStore();
     const dateStore = useDateStore();
+    const currentRegion = useCurrentRegionStore();
 
     return {
       hospitalityStore,
       politicalMeasures,
       dateStore,
       regions: regions,
-      lastClickedRegion: lastClickedRegion,
+      currentRegion: currentRegion,
       map: {
         width: 600, // outer width, in pixels
         height: 300, // outer height, in pixels
@@ -51,8 +51,20 @@ export default {
     await this.hospitalityStore.initValues();
     await this.politicalMeasures.initValues();
 
+    console.log(this.currentRegion.currentRegionName)
+
+
     this.plotMapData();
     this.renderMap();
+
+
+    if (this.currentRegion.currentRegionName != "Germany") {
+
+                d3.select("#" + this.currentRegion.currentRegionName )
+                  .attr("stroke-width", "3")
+                  .attr("stroke", "black");
+              }
+
 
   },
   computed: {
@@ -158,7 +170,7 @@ export default {
         .attr("transform", "translate(400, -130)");
     },
 
-    plotMapData(lastClickedRegion) {
+    plotMapData() {
       // chose filling
       // var myColor = d3.scaleQuantize([0, 100], d3.schemeOranges[6]);
 
@@ -208,32 +220,39 @@ export default {
         .attr("fill-opacity", 1)
         .attr("d", d3.geoPath().projection(projection1))
         .attr("transform", "translate(-50, 0)")
-        .attr("id", (d) => d.properties.nameEN)
+        .attr("id", (d) => d.properties.name)
         //
 
         // visually display clicked region
         .on(
           "click",
-          (function (lastClickedRegion) {
+          (function (regionStore) {
             return function () {
+
+              const lastClickedRegion = regionStore.currentRegionName;
+
+              console.log("LAST: " + lastClickedRegion)
+              console.log("CURRENT: " + this.id)
+
               // reset
-              if (lastClickedRegion != "" || lastClickedRegion == this.id) {
+              if (lastClickedRegion != "Germany" || lastClickedRegion != this.id) {              
                 d3.select("#" + lastClickedRegion)
                   .attr("stroke", "#101010")
                   .attr("stroke-width", "0.5");
               }
 
               if (lastClickedRegion != this.id) {
-                d3.select(this)
+                d3.select("#" + this.id)
                   .attr("stroke-width", "3")
                   .attr("stroke", "black");
 
-                lastClickedRegion = this.id;
+                const region_after = mapDataGermany.features.filter((feature) => feature.properties.name == this.id)
+                regionStore.updateRegion(region_after[0].properties.nameEN)
               } else {
-                lastClickedRegion = "";
+                regionStore.updateRegion("germany")
               }
             };
-          })(this.lastClickedRegion)
+          })(this.currentRegion)
         );
     },
   },

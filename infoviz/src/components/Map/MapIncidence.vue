@@ -46,6 +46,8 @@ export default {
     await this.covidCasesStore.initValues();
     this.renderMap();
     this.plotMapData();
+    
+    console.log(this.currentRegion.currentRegionName);
 
     if (this.currentRegion.currentRegionName != "Germany") {
       console.log(this.currentRegion.currentRegionName)
@@ -98,6 +100,12 @@ export default {
       d3.select("#incidence_container").selectAll("g").remove();
 
       this.plotMapData();
+
+      if (this.currentRegion.currentRegionName != "Germany") {
+        d3.select("#" + this.currentRegion.currentRegionName )
+          .attr("stroke-width", "3")
+          .attr("stroke", "black");
+        }
     },
   },
   methods: {
@@ -119,14 +127,7 @@ export default {
         .domain([0, this.retrieveMaxIncidence])
         .range(["white", "blue"], 2);
       var keys = [
-        "0",
-        Math.round(this.retrieveMaxIncidence * 0.15),
-        Math.round(this.retrieveMaxIncidence * 0.3),
-        Math.round(this.retrieveMaxIncidence * 0.45),
-        Math.round(this.retrieveMaxIncidence * 0.6),
-        Math.round(this.retrieveMaxIncidence * 0.75),
-        Math.round(this.retrieveMaxIncidence * 0.9),
-        Math.round(this.retrieveMaxIncidence),
+        "0", "400", "800", "1200", "1600", "2000", "2400", "2700"
       ];
       var rectSize = 20;
 

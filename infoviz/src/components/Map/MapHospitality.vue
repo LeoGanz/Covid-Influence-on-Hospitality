@@ -25,6 +25,8 @@ const mesh = topojson.mesh(germany, germany.objects.states, (a, b) => a !== b);
 
 // project and scale map
 var projection1 = d3.geoConicConformal().fitSize([650, 325], mesh);
+var trouble = true;
+
 
 export default {
   name: "vue-map",
@@ -34,7 +36,6 @@ export default {
     const politicalMeasures = useMeasuresStore();
     const dateStore = useDateStore();
     const currentRegion = useCurrentRegionStore();
-
     return {
       hospitalityStore,
       politicalMeasures,
@@ -78,9 +79,21 @@ export default {
   },
   watch: {
     dataHospitality: function () {
-      d3.select("#hospitality_container").selectAll("g").remove();
 
-      this.plotMapData();
+      if (trouble) {
+        trouble = false
+      } else {
+        d3.select("#hospitality_container").selectAll("g").remove();
+
+        this.plotMapData();
+
+        if (this.currentRegion.currentRegionName != "Germany") {
+          d3.select("#" + this.currentRegion.currentRegionName )
+            .attr("stroke-width", "3")
+            .attr("stroke", "black");
+          }
+      }
+
     },
   },
   methods: {
@@ -102,7 +115,7 @@ export default {
         .scaleLinear()
         .domain([5, 110])
         .range(["white", "orange"], 8);
-      var keys = [5, 20, 35, 50, 65, 80, 95, 110];
+      var keys = [0, 25, 50, 75, 100, 125, 150, 175];
       var rectSize = 20;
 
       // rects to display color values in legend
@@ -230,9 +243,6 @@ export default {
             return function () {
 
               const lastClickedRegion = regionStore.currentRegionName;
-
-              console.log("LAST: " + lastClickedRegion)
-              console.log("CURRENT: " + this.id)
 
               // reset
               if (lastClickedRegion != "Germany" || lastClickedRegion != this.id) {              

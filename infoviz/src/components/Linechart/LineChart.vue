@@ -374,6 +374,16 @@ export default {
             .attr("text-anchor", "start")
             .attr("id", "label")
             .text(this.chart.yLabel)
+        )
+        .call((g) =>
+          g
+            .append("rect")
+            .attr("x", -this.chart.marginLeft)
+            .attr("y", 20)
+            .attr("fill", "blue")
+            .attr("width", 10)
+            .attr("height", 10)
+            .attr("id", "ticktext")
         );
       d3.select("#yaxisright").selectAll("*").remove();
       d3.select("#yaxisright")
@@ -384,12 +394,22 @@ export default {
         .call((g) =>
           g
             .append("text")
-            .attr("x", this.chart.marginLeft)
+            .attr("x", this.chart.marginLeft - 10)
             .attr("y", 10)
             .attr("fill", "currentColor")
             .attr("text-anchor", "end")
             .attr("id", "label")
             .text("Hospitality")
+        )
+        .call((g) =>
+          g
+            .append("rect")
+            .attr("x", this.chart.marginLeft - 20)
+            .attr("y", 20)
+            .attr("fill", "orange")
+            .attr("width", 10)
+            .attr("height", 10)
+            .attr("id", "ticktext")
         );
       d3.select("#paths").selectAll("*").remove();
       d3.select("#paths")

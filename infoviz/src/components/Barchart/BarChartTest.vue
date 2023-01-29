@@ -24,8 +24,7 @@
 <script>
 import { scaleLinear, scaleBand } from "d3-scale";
 import { max, min } from "d3-array";
-import { select, selectAll } from "d3-selection";
-import { transition } from "d3-transition";
+import { select } from "d3-selection";
 import { axisBottom, axisLeft } from "d3-axis";
 
 export default {
@@ -58,20 +57,19 @@ export default {
     AnimateLoad() {
       select("#barchart")
         .selectAll("rect")
-          .attr("transform", `translate(${80}, 0)`)
+        .attr("transform", `translate(${80}, 0)`)
         .data(this.data)
         .transition()
         .delay((d, i) => {
           return i * 10;
         })
         .duration(500)
-          .attr((d) => {
-            return this.xScale(d[this.yKey]);
-          })
-          .attr("width", (d) => {
-            return this.xScale(d[this.yKey]);
-          });
-
+        .attr((d) => {
+          return this.xScale(d[this.yKey]);
+        })
+        .attr("width", (d) => {
+          return this.xScale(d[this.yKey]);
+        });
     },
     AddResizeListener() {
       // redraw the chart 300ms after the window has been resized
@@ -84,6 +82,11 @@ export default {
           this.AnimateLoad();
         }, 300);
       });
+    },
+    clearXAxis() {
+      select("#barchart")
+        .select(".x-axis")
+        .remove();
     },
     createXAxis() {
       var xAxis = axisBottom(this.xScale)
@@ -99,6 +102,11 @@ export default {
         .attr("transform", function (d) {
           return "rotate(0)";
         });
+    },
+    clearYAxis() {
+      select("#barchart")
+        .select(".y-axis")
+        .remove();
     },
     createYAxis() {
       const yAxis = axisLeft(this.yScale);
@@ -141,7 +149,19 @@ export default {
   },
   watch: {
     data: function () {
-      this.AnimateLoad();
+      //this.d3.select('rect').selectAll('*').remove();
+
+      let myThis = this;
+
+      setTimeout(function(){
+        console.log("data changed");
+        myThis.clearXAxis();
+        myThis.createXAxis();
+        myThis.clearYAxis();
+        myThis.createYAxis();
+        myThis.AddResizeListener();
+        myThis.AnimateLoad();
+      }, 10);
     },
   },
 };

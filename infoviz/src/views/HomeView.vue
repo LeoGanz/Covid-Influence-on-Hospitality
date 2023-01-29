@@ -28,7 +28,6 @@ import LineBlock from "@/components/Linechart/LineBlock.vue";
 import MapBlock from "@/components/Map/MapBlock.vue";
 import SliderBlock from "@/components/SliderBlock.vue";
 import BarBlock from "@/components/Barchart/BarBlock.vue";
-import BarChart from "@/components/Barchart/BarChart.vue";
 
 export default {
   components: {
@@ -37,7 +36,6 @@ export default {
     DescriptionBlock,
     MapBlock,
     BarBlock,
-    BarChart,
   },
 };
 </script>

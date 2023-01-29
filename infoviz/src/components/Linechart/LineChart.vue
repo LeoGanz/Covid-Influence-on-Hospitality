@@ -251,7 +251,7 @@ export default {
     //  if (yDomain === undefined)
     //    yDomain = [0, d3.max(Y, (d) => (typeof d === "string" ? +d : d))];
     yDomainCovid() {
-      return [0, 32000];
+      return [0, 33000];
     },
     yDomainHospitality() {
       return [0, 120];
@@ -275,7 +275,7 @@ export default {
     },
     //  const yScale = yType(yDomain, yRange);
     yScaleCovid() {
-      return this.chart.yType(this.yDomainCovid, this.yRange).nice();
+      return this.chart.yType(this.yDomainCovid, this.yRange);
     },
     yScaleHospitality() {
       return this.chart.yType(this.yDomainHospitality, this.yRange).nice();

@@ -133,7 +133,7 @@ export default {
     xScale() {
       return scaleLinear()
         .rangeRound([0,this.svgWidth-80])
-        .domain([this.dataMin > 0 ? 0 : this.dataMin, this.dataMax]);
+        .domain([this.dataMin > 0 ? 0 : this.dataMin, 240]);
     },
     svgHeight() {
       return 240; // define height here
@@ -159,12 +159,12 @@ export default {
   justify-items: center;
 }
 .bar-positive {
-  fill: #9684d8;
+  fill: #f8b527;
   transition: r 0.2s ease-in-out;
 }
 
 .bar-positive:hover {
-  fill: #332566;
+  fill: #ff9100;
 }
 
 .svg-container {

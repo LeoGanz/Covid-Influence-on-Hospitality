@@ -62,11 +62,12 @@ export default {
         const value = entry[1][0];
         const abbreviation = entry[1][1];
         //if (this.display_upper_category && abbreviation === "Hospitality"||abbreviation === "Lodging"||abbreviation === "Gastronomy") {
-          if (Number.isFinite(value)) {
-            data.push({region, value, abbreviation});
-          } else {
-            data.push({region, value: 0, abbreviation});
-          }
+        if (Number.isFinite(value)) {
+          data.push({region, value, abbreviation});
+        } else {
+          data.push({region, value: 0, abbreviation});
+        }
+        //}
 
       });
  

@@ -24,6 +24,7 @@ const mesh = topojson.mesh(germany, germany.objects.states, (a, b) => a !== b);
 
 // project and scale map
 var projection1 = d3.geoConicConformal().fitSize([650, 325], mesh);
+var firstLoad = true;
 
 export default {
   name: "vue-map",
@@ -49,14 +50,11 @@ export default {
     await this.covidCasesStore.initValues();
     await this.politicalMeasures.initValues();
 
-    this.renderMap();
     this.plotMapData();
-    
-    console.log(this.currentRegion.currentRegionName);
+    this.renderMap();
 
     if (this.currentRegion.currentRegionName != "Germany") {
-      console.log(this.currentRegion.currentRegionName)
-
+     
                 d3.select("#" + this.currentRegion.currentRegionName )
                   .attr("stroke-width", "3")
                   .attr("stroke", "black");
@@ -87,30 +85,41 @@ export default {
     dataIncidence() {
       // load current incidence value per state per day (currentDay)
       var data = {};
+      console.log(this.covidCasesStore.cases)
       for (var state in this.covidCasesStore.cases) {
         if (state != germanyKey) {
+          // console.log(this.dateStore.currentDate)
+
           const v = this.covidCasesStore.cases[state]
-            .filter((element) => element.day == this.dateStore.currentDate)
+            .filter((element) => element.day == this.dateStore.currentDate || element.day == new Date(this.dateStore.currentDate).getTime())
             .map((value) => {
               return value.value;
             });
           data[state] = v;
         }
       }
+      console.log(data)
       return data;
     },
   },
   watch: {
     dataIncidence: function () {
-      d3.select("#incidence_container").selectAll("g").remove();
 
-      this.plotMapData();
+      if (firstLoad) {
+        firstLoad = false
+      } else {
 
-      if (this.currentRegion.currentRegionName != "Germany") {
-        d3.select("#" + this.currentRegion.currentRegionName )
-          .attr("stroke-width", "3")
-          .attr("stroke", "black");
-        }
+        console.log("jetzt")
+        d3.select("#incidence_container").selectAll("g").remove();
+
+        this.plotMapData();
+
+        if (this.currentRegion.currentRegionName != "Germany") {
+          d3.select("#" + this.currentRegion.currentRegionName )
+            .attr("stroke-width", "3")
+            .attr("stroke", "black");
+          }
+      }
     },
   },
   methods: {
@@ -122,7 +131,7 @@ export default {
         .attr("stroke", "#101010")
         .attr("stroke-linejoin", "round")
         .attr("d", d3.geoPath().projection(projection1))
-        .attr("transform", "translate(-50, 0)");
+        .attr("transform", "translate(-80, 0)");
 
       // create legend for map
       var legendColor = d3.select("#incidence_container");
@@ -131,31 +140,31 @@ export default {
         .scaleLinear()
         .domain([0, this.retrieveMaxIncidence])
         .range(["white", "blue"], 1);
-      var colorKeys = ["0", "400", "800", "1200", "1600", "2000", "2400", "2700"];
-      var keys = ["0", "400", "800", "1200", "1600", "2000", "2400", "2700", "Data not available", "Ongoing Lockdown"];
+      var colorKeys = ["Data not available", "(No Data as of Nov 21)", "Ongoing Lockdown", "", "0", "250", "750", "1250", "1750", "2250", "2750"];
+      var keys = ["0", "250", "750", "1250", "1750", "2250", "2750"];
       var rectSize = 20;
 
       // rects to display color values in legend
       legendColor
         .selectAll("legendRect")
-        .data(colorKeys)
+        .data(keys)
         .enter()
         .append("rect")
         .attr("x", 50)
         .attr("y", function (d, i) {
-          return 250 - i * rectSize;
+          return 210 - i * rectSize;
         })
         .attr("width", rectSize)
         .attr("height", rectSize)
         .style("fill", function (d) {
           return myColor(d);
         })
-        .attr("transform", "translate(390, -100)");
+        .attr("transform", "translate(370, -100)");
 
       // text for each color
       legendColor
         .selectAll("legendLabels")
-        .data(keys)
+        .data(colorKeys)
         .enter()
         .append("text")
         .attr("x", 50 + rectSize * 1.2)
@@ -168,7 +177,7 @@ export default {
         })
         .attr("text-anchor", "left")
         .style("alignment-baseline", "middle")
-        .attr("transform", "translate(390, -100)");
+        .attr("transform", "translate(375, -60)");
 
      // customized rect for not available data
      missingValueColor.selectAll("legendValueMissing");
@@ -182,7 +191,7 @@ export default {
         .attr("width", 19)
         .attr("height", 19)
         .style("fill", "#686464")
-        .attr("transform", "translate(391, -132)");
+        .attr("transform", "translate(371, 92)");
 
        // customized rect for not available data
     missingValueColor.selectAll("legendLockdown");
@@ -196,12 +205,8 @@ export default {
         .attr("width", 19)
         .attr("height", 19)
         .style("fill", "url(#diagonalHatch)")
-        .attr("transform", "translate(391, -110)");
-    
-
-     
+        .attr("transform", "translate(371, 60)");
     },
-
 
     isLockdown(state) {
       const lockdownData = this.politicalMeasures.lockdown[state].filter((el) => el.day == this.dateStore.currentDate);
@@ -213,7 +218,6 @@ export default {
         return false
       }
     },
-
 
     plotMapData() {
       // continous filling
@@ -249,7 +253,7 @@ export default {
         .style("fill", (d) => this.isLockdown(d.properties.nameEN) ? "url(#diagonalHatch)" : "transparent")
         .attr("fill-opacity", 1)
         .attr("d", d3.geoPath().projection(projection1))
-        .attr("transform", "translate(-50, 0)");
+        .attr("transform", "translate(-80, 0)");
 
         d3.select("#incidence_container")
         .append("g")
@@ -262,7 +266,7 @@ export default {
         //.attr("fill", d => myColor(Math.log(this.dataIncidence[d.properties.nameEN])))
         .attr("fill-opacity", 1)
         .attr("d", d3.geoPath().projection(projection1))
-        .attr("transform", "translate(-50, 0)")
+        .attr("transform", "translate(-80, 0)")
         .attr("id", (d) => d.properties.name)
         // visually display clicked region
         .on(

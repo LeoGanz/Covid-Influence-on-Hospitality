@@ -25,7 +25,7 @@ const mesh = topojson.mesh(germany, germany.objects.states, (a, b) => a !== b);
 
 // project and scale map
 var projection1 = d3.geoConicConformal().fitSize([650, 325], mesh);
-var trouble = true;
+var firstLoad = true;
 
 export default {
   name: "vue-map",
@@ -76,8 +76,8 @@ export default {
   watch: {
     dataHospitality: function () {
 
-      if (trouble) {
-        trouble = false
+      if (firstLoad) {
+        firstLoad = false
       } else {
         d3.select("#hospitality_container").selectAll("g").remove();
 
@@ -102,7 +102,7 @@ export default {
         .attr("stroke", "#101010")
         .attr("stroke-linejoin", "round")
         .attr("d", d3.geoPath().projection(projection1))
-        .attr("transform", "translate(-50, 0)");
+        .attr("transform", "translate(-80, 0)");
 
       // create legend for map
       var legendColor = d3.select("#hospitality_container");
@@ -111,8 +111,8 @@ export default {
         .scaleLinear()
         .domain([5, 110])
         .range(["white", "orange"], 8);
-      var keys = [0, 25, 50, 75, 100, 125, 150, 175, "Data not available", "Ongoing Lockdown"];
-      var colorKeys = [0, 25, 50, 75, 100, 125, 150, 175];
+      var keys = ["Data not available", "(No Data as of Nov 21)", "Ongoing Lockdown", "", 5, 35, 65, 95, 125, 155, 185];
+      var colorKeys = [5, 35, 65, 95, 125, 155, 185];
       var rectSize = 20;
 
       // rects to display color values in legend
@@ -123,14 +123,14 @@ export default {
         .append("rect")
         .attr("x", 50)
         .attr("y", function (d, i) {
-          return 250 - i * rectSize;
+          return 210 - i * rectSize;
         })
         .attr("width", rectSize)
         .attr("height", rectSize)
         .style("fill", function (d) {
           return myColor(d);
         })
-        .attr("transform", "translate(390, -100)");
+        .attr("transform", "translate(370, -100)");
 
       // text for each color
       legendColor
@@ -148,7 +148,7 @@ export default {
         })
         .attr("text-anchor", "left")
         .style("alignment-baseline", "middle")
-        .attr("transform", "translate(390, -100)");
+        .attr("transform", "translate(375, -60)");
 
       // customized rect for not available data
       missingValueColor.selectAll("legendValueMissing");
@@ -162,7 +162,7 @@ export default {
         .attr("width", 19)
         .attr("height", 19)
         .style("fill", "#686464")
-        .attr("transform", "translate(391, -132)");
+        .attr("transform", "translate(371, 92)");
 
        // customized rect for not available data
     missingValueColor.selectAll("legendLockdown");
@@ -176,7 +176,7 @@ export default {
         .attr("width", 19)
         .attr("height", 19)
         .style("fill", "url(#diagonalHatch)")
-        .attr("transform", "translate(391, -110)");
+        .attr("transform", "translate(371, 60)");
 
     },
 
@@ -234,7 +234,7 @@ export default {
         // .attr("fill", "url(#stripe)")
         .attr("fill-opacity", 1)
         .attr("d", d3.geoPath().projection(projection1))
-        .attr("transform", "translate(-50, 0)");
+        .attr("transform", "translate(-80, 0)");
         
         d3.select("#hospitality_container")
         .append("g")
@@ -265,7 +265,7 @@ export default {
         // .attr("fill", "url(#stripe)")
         .attr("fill-opacity", 1)
         .attr("d", d3.geoPath().projection(projection1))
-        .attr("transform", "translate(-50, 0)")
+        .attr("transform", "translate(-80, 0)")
         .attr("id", (d) => d.properties.name)
         //
 

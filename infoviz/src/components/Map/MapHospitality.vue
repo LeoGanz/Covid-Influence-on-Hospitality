@@ -27,7 +27,6 @@ const mesh = topojson.mesh(germany, germany.objects.states, (a, b) => a !== b);
 var projection1 = d3.geoConicConformal().fitSize([650, 325], mesh);
 var trouble = true;
 
-
 export default {
   name: "vue-map",
   components: {},
@@ -52,9 +51,6 @@ export default {
     await this.hospitalityStore.initValues();
     await this.politicalMeasures.initValues();
 
-    console.log(this.currentRegion.currentRegionName)
-
-
     this.plotMapData();
     this.renderMap();
 
@@ -75,7 +71,7 @@ export default {
       ).real.original;
     },
     maxValue(){
-    }
+    },
   },
   watch: {
     dataHospitality: function () {
@@ -98,6 +94,7 @@ export default {
   },
   methods: {
     renderMap() {
+
       d3.select("#hospitality_container")
         .append("path")
         .datum(mapDataGermany)
@@ -105,8 +102,7 @@ export default {
         .attr("stroke", "#101010")
         .attr("stroke-linejoin", "round")
         .attr("d", d3.geoPath().projection(projection1))
-        .attr("transform", "translate(-50, 0)")
-        .attr("id", "test");
+        .attr("transform", "translate(-50, 0)");
 
       // create legend for map
       var legendColor = d3.select("#hospitality_container");
@@ -115,25 +111,26 @@ export default {
         .scaleLinear()
         .domain([5, 110])
         .range(["white", "orange"], 8);
-      var keys = [0, 25, 50, 75, 100, 125, 150, 175];
+      var keys = [0, 25, 50, 75, 100, 125, 150, 175, "Data not available", "Ongoing Lockdown"];
+      var colorKeys = [0, 25, 50, 75, 100, 125, 150, 175];
       var rectSize = 20;
 
       // rects to display color values in legend
       legendColor
         .selectAll("legendRect")
-        .data(keys)
+        .data(colorKeys)
         .enter()
         .append("rect")
         .attr("x", 50)
         .attr("y", function (d, i) {
-          return 100 + i * rectSize;
+          return 250 - i * rectSize;
         })
         .attr("width", rectSize)
         .attr("height", rectSize)
         .style("fill", function (d) {
           return myColor(d);
         })
-        .attr("transform", "translate(400, -100)");
+        .attr("transform", "translate(390, -100)");
 
       // text for each color
       legendColor
@@ -143,7 +140,7 @@ export default {
         .append("text")
         .attr("x", 50 + rectSize * 1.2)
         .attr("y", function (d, i) {
-          return 100 + i * rectSize + rectSize / 2;
+          return 250 - i * rectSize + rectSize / 2;
         })
         .style("fill", "black")
         .text(function (d) {
@@ -151,7 +148,7 @@ export default {
         })
         .attr("text-anchor", "left")
         .style("alignment-baseline", "middle")
-        .attr("transform", "translate(400, -100)");
+        .attr("transform", "translate(390, -100)");
 
       // customized rect for not available data
       missingValueColor.selectAll("legendValueMissing");
@@ -162,25 +159,36 @@ export default {
         .append("rect")
         .attr("x", 50)
         .attr("y", 100)
-        .attr("width", rectSize)
-        .attr("height", rectSize)
+        .attr("width", 19)
+        .attr("height", 19)
         .style("fill", "#686464")
-        .attr("transform", "translate(400, -130)");
+        .attr("transform", "translate(391, -132)");
 
-      // customized text for not available data
-      missingValueColor.selectAll("legendValueMissing");
+       // customized rect for not available data
+    missingValueColor.selectAll("legendLockdown");
       legendColor
-        .selectAll("legendLabels")
+        .selectAll("legendRect")
         .data(keys)
         .enter()
-        .append("text")
-        .attr("x", 50 + rectSize * 1.2)
-        .attr("y", 110)
-        .style("fill", "black")
-        .text("Data not available")
-        .attr("text-anchor", "left")
-        .style("alignment-baseline", "middle")
-        .attr("transform", "translate(400, -130)");
+        .append("rect")
+        .attr("x", 50)
+        .attr("y", 100)
+        .attr("width", 19)
+        .attr("height", 19)
+        .style("fill", "url(#diagonalHatch)")
+        .attr("transform", "translate(391, -110)");
+
+    },
+
+    isLockdown(state) {
+      const lockdownData = this.politicalMeasures.lockdown[state].filter((el) => el.day == this.dateStore.currentDate);
+      if (lockdownData.length == 0) {
+        return false
+      } else if (lockdownData[0].value > 0) {
+        return true
+      } else {
+        return false
+      }
     },
 
     plotMapData() {
@@ -206,6 +214,29 @@ export default {
       // </defs>
 
       d3.select("#hospitality_container")
+          .append("defs")
+          .append("pattern")
+          .attr("id", "diagonalHatch")
+          .attr("patternUnits", "userSpaceOnUse")
+          .attr("width", 8)
+          .attr("height", 8)
+          .append("path")
+          .attr("d", "M-1,1 l2,-2 M0,4 l4,-4 M3,5 l2,-2")
+          .style("stroke", "black")
+          .style("stroke-width", 1);
+
+        d3.select("#hospitality_container")
+        .append("g")
+        .selectAll("path")
+        .data(mapDataGermany.features)
+        .join("path")
+        .style("fill", (d) => this.isLockdown(d.properties.nameEN) ? "url(#diagonalHatch)" : "transparent")
+        // .attr("fill", "url(#stripe)")
+        .attr("fill-opacity", 1)
+        .attr("d", d3.geoPath().projection(projection1))
+        .attr("transform", "translate(-50, 0)");
+        
+        d3.select("#hospitality_container")
         .append("g")
         // try to add hatch
         // .attr("id", "ha");
@@ -224,11 +255,13 @@ export default {
         .selectAll("path")
         .data(mapDataGermany.features)
         .join("path")
+        // .attr("fill", "blue")
         .attr("fill", (d) =>
           isNaN(this.dataHospitality[d.properties.nameEN])
             ? "#686464"
             : myColor(this.dataHospitality[d.properties.nameEN])
         )
+        // .style("fill", "url(#diagonalHatch)")
         // .attr("fill", "url(#stripe)")
         .attr("fill-opacity", 1)
         .attr("d", d3.geoPath().projection(projection1))
@@ -264,6 +297,7 @@ export default {
             };
           })(this.currentRegion)
         );
+
     },
   },
 };

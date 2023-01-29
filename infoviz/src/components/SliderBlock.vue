@@ -1,5 +1,6 @@
 <template>
   <div class="slider">
+    <button class="autoplay" @click="toggleAutoplayEnabled">Play/Pause</button>
     <input
         ref="slider"
         type="range"
@@ -8,6 +9,8 @@
         step="10000"
         v-model="dateStore.current"
         @input="calculateThumbLeft"
+        @mouseover="toggleAutoplayPaused"
+        @mouseleave="toggleAutoplayPaused"
     />
     <div class="slider-value" :style="{ left: thumbLeft }">
       {{ dateStore.currentHumanReadable }}
@@ -28,10 +31,14 @@ export default {
     return {
       thumbLeft: "0%",
       dateStore,
+      autoplayEnabled: false,
+      autoplayPaused: false,
+      timer: null,
     };
   },
   methods: {
     calculateThumbLeft() {
+
       let slider = this.$refs.slider;
       let sliderWidth = slider.offsetWidth * 0.9;
       let thumbWidth = (slider.offsetWidth / (this.dateStore.end - this.dateStore.end)) * sliderWidth;
@@ -41,9 +48,29 @@ export default {
           (sliderWidth - thumbWidth);
       return `${(position / sliderWidth) * 90}%`;
     },
+    toggleAutoplayEnabled() {
+      this.autoplayEnabled = !this.autoplayEnabled;
+      this.updateTimer();
+    },
+    toggleAutoplayPaused() {
+      this.autoplayPaused = !this.autoplayPaused;
+      this.updateTimer();
+    },
+    updateTimer() {
+      if (this.autoplayEnabled && !this.autoplayPaused) {
+        this.timer = setInterval(() => {
+          this.dateStore.incrementCurrentByOneDay()
+        }, 100);
+      } else {
+        clearInterval(this.timer);
+      }
+    },
   },
   mounted() {
     this.thumbLeft = this.calculateThumbLeft();
+  },
+  beforeUnmount() {
+    clearInterval(this.timer);
   },
 };
 </script>
@@ -91,6 +118,7 @@ input[type="range"]::-webkit-slider-thumb {
   line-height: 23px;
   color: #19191c;
   left: 10%;
+  padding: 0 20px;
 }
 
 .legend {

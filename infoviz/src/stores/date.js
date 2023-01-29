@@ -38,6 +38,11 @@ export const useDateStore = defineStore("date", {
         console.warn('Invalid date (', dateString, '). Using default date instead.')
       }
     },
+    incrementCurrentByOneDay() {
+      if (this.current < this.end) {
+        this.current = this.current * 1 + 24 * 60 * 60 * 1000; // millis of a day
+      }
+    }
   },
 });
 

@@ -1,6 +1,7 @@
 <template>
   <div class="slider">
-    <button class="autoplay" @click="toggleAutoplayEnabled">Play/Pause</button>
+    <i class="material-icons" v-if="!autoplayEnabled" @click="toggleAutoplayEnabled">play_circle</i>
+    <i class="material-icons" v-else @click="toggleAutoplayEnabled">pause_circle</i>
     <input
         ref="slider"
         type="range"
@@ -127,5 +128,14 @@ input[type="range"]::-webkit-slider-thumb {
   justify-content: space-between;
   align-items: center;
   padding: 0px 20px;
+}
+
+.slider i {
+  font-size: 3em;
+  cursor: pointer;
+  color: #656565;
+}
+.slider i:hover {
+  color: #333333;
 }
 </style>

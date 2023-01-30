@@ -251,7 +251,7 @@ export default {
     //  if (yDomain === undefined)
     //    yDomain = [0, d3.max(Y, (d) => (typeof d === "string" ? +d : d))];
     yDomainCovid() {
-      return [0, 33000];
+      return [0, 3000];
     },
     yDomainHospitality() {
       return [0, 120];
@@ -399,7 +399,7 @@ export default {
             .attr("fill", "currentColor")
             .attr("text-anchor", "end")
             .attr("id", "label")
-            .text("Hospitality")
+            .text("Hospitality in %")
         )
         .call((g) =>
           g
@@ -464,7 +464,12 @@ export default {
         .attr("display", "block");
       d3.select("#dot")
         .select("text")
-        .text(this.T[i] + " - " + Math.round(this.Y[i]));
+        .text(
+          this.T[i] +
+            " - " +
+            Math.round(this.Y[i]) +
+            (this.Z[i] == "hospitality" ? "%" : "")
+        );
       //d3.select("#svg")
       //  .property("value", this.O[i])
       //  .dispatch("input", { bubbles: true });

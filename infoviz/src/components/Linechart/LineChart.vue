@@ -16,6 +16,16 @@
     @touchstart="(event) => event.preventDefault()"
     v-else
   >
+    <g v-for="lockdown in lockdowns" :key="lockdown">
+      <rect
+        :x="xScale(lockdown.start)"
+        :y="chart.marginTop"
+        fill="lightgrey"
+        :height="chart.height - chart.marginTop - chart.marginBottom"
+        :width="xScale(lockdown.end) - xScale(lockdown.start)"
+        :opacity="lockdown.value / 2"
+      ></rect>
+    </g>
     <g
       id="xaxis"
       :transform="`translate(0,${chart.height - chart.marginBottom})`"
@@ -117,7 +127,7 @@ export default {
         yFormat: undefined, // a format specifier string for the y-axis
         yLabel: "Incidence", // a label for the y-axis
         zDomain: undefined, // array of z-values
-        color: "currentColor", // stroke color of line, as a constant or a function of *z*
+        color: "black", // stroke color of line, as a constant or a function of *z*
         strokeLinecap: undefined, // stroke line cap of line
         strokeLinejoin: undefined, // stroke line join of line
         strokeWidth: 1.5, // stroke width of line
@@ -141,6 +151,34 @@ export default {
     },
   },
   computed: {
+    lockdowns() {
+      const state = this.currentRegionStore.currentRegion;
+
+      function reduceDates(dates) {
+        let result = [];
+        let currentStart = dates[0].day;
+        let currentValue = dates[0].value;
+        for (let i = 1; i < dates.length; i++) {
+          if (dates[i].value !== currentValue) {
+            result.push({
+              start: new Date(currentStart).getTime(),
+              end: new Date(dates[i - 1].day).getTime(),
+              value: currentValue,
+            });
+            currentStart = dates[i].day;
+            currentValue = dates[i].value;
+          }
+        }
+        result.push({
+          start: new Date(currentStart).getTime(),
+          end: new Date(dates[dates.length - 1].day).getTime(),
+          value: currentValue,
+        });
+        return result;
+      }
+
+      return reduceDates(this.measuresStore.lockdown[state]);
+    },
     loading() {
       return (
         !this.covidCasesStore.initialized || !this.hospitalityStore.initialized
@@ -351,7 +389,9 @@ export default {
     },
     renderChart() {
       d3.select("#xaxis").selectAll("*").remove();
-      d3.select("#xaxis").call(this.xAxis);
+      d3.select("#xaxis")
+        .call(this.xAxis)
+        .call((g) => g.select(".domain").attr("stroke", "black"));
       d3.select("#yaxisleft").selectAll("*").remove();
       d3.select("#yaxisleft")
         .call(this.yAxisLeft)

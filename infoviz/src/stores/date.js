@@ -3,12 +3,14 @@ import moment from "moment";
 
 export const useDateStore = defineStore("date", {
   state: () => {
+    const date = new Date();
+    date.setDate(date.getDate() - 1);
     return {
       // watch out: this timestamp will be saved as a string as it is directly linked to a slider
       // stored as milliseconds
       current: new Date("2020-01-07").getTime(),
       start: new Date("2020-01-07").getTime(),
-      end: new Date().getTime(),
+      end: date.getTime(),
     };
   },
   getters: {

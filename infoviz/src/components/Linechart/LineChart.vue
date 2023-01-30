@@ -71,6 +71,7 @@ import * as d3 from "d3";
 import { useCovidCasesStore } from "@/stores/covidCases.js";
 import { useCurrentRegionStore } from "@/stores/currentRegion.js";
 import { useHospitalityStore } from "@/stores/hospitality.js";
+import { useMeasuresStore } from "@/stores/politicalMeasures.js";
 import { useDateStore } from "@/stores/selectedDate";
 import { germanyKey, regions } from "@/data/dataKeys";
 export default {
@@ -80,12 +81,14 @@ export default {
     const covidCasesStore = useCovidCasesStore();
     const currentRegionStore = useCurrentRegionStore();
     const hospitalityStore = useHospitalityStore();
+    const measuresStore = useMeasuresStore();
     const dateStore = useDateStore();
 
     return {
       covidCasesStore,
       currentRegionStore,
       hospitalityStore,
+      measuresStore,
       dateStore,
       regions: regions,
       d3: d3,
@@ -124,8 +127,9 @@ export default {
     };
   },
   async mounted() {
-    await this.covidCasesStore.initValues();
-    await this.hospitalityStore.initValues();
+    const covid = this.covidCasesStore.initValues();
+    const hospitality = this.hospitalityStore.initValues();
+    await Promise.all([covid, hospitality]);
     this.renderChart();
   },
   watch: {
@@ -380,7 +384,7 @@ export default {
             .append("rect")
             .attr("x", -this.chart.marginLeft)
             .attr("y", 20)
-            .attr("fill", "blue")
+            .attr("fill", "orange")
             .attr("width", 10)
             .attr("height", 10)
             .attr("id", "ticktext")
@@ -406,7 +410,7 @@ export default {
             .append("rect")
             .attr("x", this.chart.marginLeft - 20)
             .attr("y", 20)
-            .attr("fill", "orange")
+            .attr("fill", "#9684d8")
             .attr("width", 10)
             .attr("height", 10)
             .attr("id", "ticktext")
@@ -423,7 +427,7 @@ export default {
           //  ? ([z]) => this.chart.color(z)
           //  : ([z]) => d3.interpolateTurbo(this.getColor(this.getColorId(z)))
           ([z]) =>
-            z == "covid" ? "blue" : z == "hospitality" ? "orange" : "black"
+            z == "covid" ? "orange" : z == "hospitality" ? "#9684d8" : "black"
         )
         .attr("d", ([, I]) => this.line(I));
     },

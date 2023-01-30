@@ -90,7 +90,7 @@ export default {
       var myColor = d3
         .scaleLinear()
         .domain([5, 110])
-        .range(["white", "orange"], 8);
+        .range(["white", "#9684d8"], 8);
       var keys = [5, 20, 35, 50, 65, 80, 95, 110];
       var rectSize = 20;
 
@@ -167,7 +167,7 @@ export default {
       var myColor = d3
         .scaleLinear()
         .domain([0, 100])
-        .range(["white", "orange"], 10);
+        .range(["white", "#9684d8"], 10);
 
       // <!-- hatch for lockdowns based on https://jsfiddle.net/sqrz3/    -->
       // <defs>

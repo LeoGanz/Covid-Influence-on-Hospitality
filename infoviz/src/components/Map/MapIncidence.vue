@@ -106,7 +106,7 @@ export default {
       var myColor = d3
         .scaleLinear()
         .domain([0, this.retrieveMaxIncidence])
-        .range(["white", "blue"], 2);
+        .range(["white", "orange"], 2);
       var keys = [
         "0",
         Math.round(this.retrieveMaxIncidence * 0.15),
@@ -196,7 +196,7 @@ export default {
       var myColor = d3
         .scaleLinear()
         .domain([0, this.retrieveMaxIncidence])
-        .range(["white", "blue"], 250);
+        .range(["white", "orange"], 250);
 
       console.log(this.dataIncidence);
 

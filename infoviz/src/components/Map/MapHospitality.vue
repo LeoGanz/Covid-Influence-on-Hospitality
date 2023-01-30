@@ -16,7 +16,8 @@ import germany from "./germany.json";
 import { useHospitalityStore } from "@/stores/hospitality";
 import { useMeasuresStore } from "@/stores/politicalMeasures";
 import { regions } from "@/data/dataKeys";
-import { useDateStore } from "@/stores/selectedDate";
+import { useDateStore } from "@/stores/date";
+import { useCurrentRegionStore } from "@/stores/currentRegion";
 
 // loading map data based on https://observablehq.com/@ch-bu/map-of-germany-unemployment-rate
 const mapDataGermany = topojson.feature(germany, germany.objects.states);
@@ -24,8 +25,7 @@ const mesh = topojson.mesh(germany, germany.objects.states, (a, b) => a !== b);
 
 // project and scale map
 var projection1 = d3.geoConicConformal().fitSize([650, 325], mesh);
-
-var lastClickedRegion = "";
+var firstLoad = true;
 
 export default {
   name: "vue-map",
@@ -34,13 +34,13 @@ export default {
     const hospitalityStore = useHospitalityStore();
     const politicalMeasures = useMeasuresStore();
     const dateStore = useDateStore();
-
+    const currentRegion = useCurrentRegionStore();
     return {
       hospitalityStore,
       politicalMeasures,
       dateStore,
       regions: regions,
-      lastClickedRegion: lastClickedRegion,
+      currentRegion: currentRegion,
       map: {
         width: 600, // outer width, in pixels
         height: 300, // outer height, in pixels
@@ -54,6 +54,15 @@ export default {
     this.plotMapData();
     this.renderMap();
 
+
+    if (this.currentRegion.currentRegionName != "Germany") {
+
+                d3.select("#" + this.currentRegion.currentRegionName )
+                  .attr("stroke-width", "3")
+                  .attr("stroke", "black");
+              }
+
+
   },
   computed: {
     dataHospitality() {
@@ -62,18 +71,30 @@ export default {
       ).real.original;
     },
     maxValue(){
-      console.log( this.hospitalityStore )
-    }
+    },
   },
   watch: {
     dataHospitality: function () {
-      d3.select("#hospitality_container").selectAll("g").remove();
 
-      this.plotMapData();
+      if (firstLoad) {
+        firstLoad = false
+      } else {
+        d3.select("#hospitality_container").selectAll("g").remove();
+
+        this.plotMapData();
+
+        if (this.currentRegion.currentRegionName != "Germany") {
+          d3.select("#" + this.currentRegion.currentRegionName )
+            .attr("stroke-width", "3")
+            .attr("stroke", "black");
+          }
+      }
+
     },
   },
   methods: {
     renderMap() {
+
       d3.select("#hospitality_container")
         .append("path")
         .datum(mapDataGermany)
@@ -81,8 +102,7 @@ export default {
         .attr("stroke", "#101010")
         .attr("stroke-linejoin", "round")
         .attr("d", d3.geoPath().projection(projection1))
-        .attr("transform", "translate(-50, 0)")
-        .attr("id", "test");
+        .attr("transform", "translate(-80, 0)");
 
       // create legend for map
       var legendColor = d3.select("#hospitality_container");
@@ -90,26 +110,27 @@ export default {
       var myColor = d3
         .scaleLinear()
         .domain([5, 110])
-        .range(["white", "#9684d8"], 8);
-      var keys = [5, 20, 35, 50, 65, 80, 95, 110];
+        .range(["white", "orange"], 8);
+      var keys = ["Data not available", "(No Data as of Nov 21)", "Ongoing Lockdown", "", 5, 35, 65, 95, 125, 155, 185];
+      var colorKeys = [5, 35, 65, 95, 125, 155, 185];
       var rectSize = 20;
 
       // rects to display color values in legend
       legendColor
         .selectAll("legendRect")
-        .data(keys)
+        .data(colorKeys)
         .enter()
         .append("rect")
         .attr("x", 50)
         .attr("y", function (d, i) {
-          return 100 + i * rectSize;
+          return 210 - i * rectSize;
         })
         .attr("width", rectSize)
         .attr("height", rectSize)
         .style("fill", function (d) {
           return myColor(d);
         })
-        .attr("transform", "translate(400, -100)");
+        .attr("transform", "translate(370, -100)");
 
       // text for each color
       legendColor
@@ -119,7 +140,7 @@ export default {
         .append("text")
         .attr("x", 50 + rectSize * 1.2)
         .attr("y", function (d, i) {
-          return 100 + i * rectSize + rectSize / 2;
+          return 250 - i * rectSize + rectSize / 2;
         })
         .style("fill", "black")
         .text(function (d) {
@@ -127,7 +148,7 @@ export default {
         })
         .attr("text-anchor", "left")
         .style("alignment-baseline", "middle")
-        .attr("transform", "translate(400, -100)");
+        .attr("transform", "translate(375, -60)");
 
       // customized rect for not available data
       missingValueColor.selectAll("legendValueMissing");
@@ -138,28 +159,39 @@ export default {
         .append("rect")
         .attr("x", 50)
         .attr("y", 100)
-        .attr("width", rectSize)
-        .attr("height", rectSize)
+        .attr("width", 19)
+        .attr("height", 19)
         .style("fill", "#686464")
-        .attr("transform", "translate(400, -130)");
+        .attr("transform", "translate(371, 92)");
 
-      // customized text for not available data
-      missingValueColor.selectAll("legendValueMissing");
+       // customized rect for not available data
+    missingValueColor.selectAll("legendLockdown");
       legendColor
-        .selectAll("legendLabels")
+        .selectAll("legendRect")
         .data(keys)
         .enter()
-        .append("text")
-        .attr("x", 50 + rectSize * 1.2)
-        .attr("y", 110)
-        .style("fill", "black")
-        .text("Data not available")
-        .attr("text-anchor", "left")
-        .style("alignment-baseline", "middle")
-        .attr("transform", "translate(400, -130)");
+        .append("rect")
+        .attr("x", 50)
+        .attr("y", 100)
+        .attr("width", 19)
+        .attr("height", 19)
+        .style("fill", "url(#diagonalHatch)")
+        .attr("transform", "translate(371, 60)");
+
     },
 
-    plotMapData(lastClickedRegion) {
+    isLockdown(state) {
+      const lockdownData = this.politicalMeasures.lockdown[state].filter((el) => el.day == this.dateStore.currentDate);
+      if (lockdownData.length == 0) {
+        return false
+      } else if (lockdownData[0].value > 0) {
+        return true
+      } else {
+        return false
+      }
+    },
+
+    plotMapData() {
       // chose filling
       // var myColor = d3.scaleQuantize([0, 100], d3.schemeOranges[6]);
 
@@ -182,6 +214,29 @@ export default {
       // </defs>
 
       d3.select("#hospitality_container")
+          .append("defs")
+          .append("pattern")
+          .attr("id", "diagonalHatch")
+          .attr("patternUnits", "userSpaceOnUse")
+          .attr("width", 8)
+          .attr("height", 8)
+          .append("path")
+          .attr("d", "M-1,1 l2,-2 M0,4 l4,-4 M3,5 l2,-2")
+          .style("stroke", "black")
+          .style("stroke-width", 1);
+
+        d3.select("#hospitality_container")
+        .append("g")
+        .selectAll("path")
+        .data(mapDataGermany.features)
+        .join("path")
+        .style("fill", (d) => this.isLockdown(d.properties.nameEN) ? "url(#diagonalHatch)" : "transparent")
+        // .attr("fill", "url(#stripe)")
+        .attr("fill-opacity", 1)
+        .attr("d", d3.geoPath().projection(projection1))
+        .attr("transform", "translate(-80, 0)");
+        
+        d3.select("#hospitality_container")
         .append("g")
         // try to add hatch
         // .attr("id", "ha");
@@ -200,42 +255,49 @@ export default {
         .selectAll("path")
         .data(mapDataGermany.features)
         .join("path")
+        // .attr("fill", "blue")
         .attr("fill", (d) =>
           isNaN(this.dataHospitality[d.properties.nameEN])
             ? "#686464"
             : myColor(this.dataHospitality[d.properties.nameEN])
         )
+        // .style("fill", "url(#diagonalHatch)")
         // .attr("fill", "url(#stripe)")
         .attr("fill-opacity", 1)
         .attr("d", d3.geoPath().projection(projection1))
-        .attr("transform", "translate(-50, 0)")
-        .attr("id", (d) => d.properties.nameEN)
+        .attr("transform", "translate(-80, 0)")
+        .attr("id", (d) => d.properties.name)
         //
 
         // visually display clicked region
         .on(
           "click",
-          (function (lastClickedRegion) {
+          (function (regionStore) {
             return function () {
+
+              const lastClickedRegion = regionStore.currentRegionName;
+
               // reset
-              if (lastClickedRegion != "" || lastClickedRegion == this.id) {
+              if (lastClickedRegion != "Germany" || lastClickedRegion != this.id) {              
                 d3.select("#" + lastClickedRegion)
                   .attr("stroke", "#101010")
                   .attr("stroke-width", "0.5");
               }
 
               if (lastClickedRegion != this.id) {
-                d3.select(this)
+                d3.select("#" + this.id)
                   .attr("stroke-width", "3")
                   .attr("stroke", "black");
 
-                lastClickedRegion = this.id;
+                const region_after = mapDataGermany.features.filter((feature) => feature.properties.name == this.id)
+                regionStore.updateRegion(region_after[0].properties.nameEN)
               } else {
-                lastClickedRegion = "";
+                regionStore.updateRegion("germany")
               }
             };
-          })(this.lastClickedRegion)
+          })(this.currentRegion)
         );
+
     },
   },
 };

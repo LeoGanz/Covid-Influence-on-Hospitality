@@ -9,7 +9,7 @@
 //import BarChart from "./BarChart.vue";
 import BarChartTest from "./BarChartTest.vue";
 import { useHospitalityStore } from "@/stores/hospitality";
-import { useDateStore } from "@/stores/selectedDate";
+import { useDateStore } from "@/stores/date";
 
 export default {
   name: "App",
@@ -34,7 +34,6 @@ export default {
 
       const dataArray = Object.entries(dataJson);
       dataArray.forEach((entry) => {
-        console.log(entry)
         const region = entry[0];
         const value = entry[1][0];
         const abbreviation = entry[1][1];

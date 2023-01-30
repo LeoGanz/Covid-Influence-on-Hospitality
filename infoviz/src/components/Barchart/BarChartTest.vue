@@ -37,7 +37,6 @@ export default {
     data: Array,
   },
   mounted() {
-    console.log(this.data);
     this.svgWidth = document.getElementById("container").offsetWidth * 0.75;
     this.AddResizeListener();
     this.AnimateLoad();

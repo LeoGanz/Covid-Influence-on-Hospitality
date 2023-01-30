@@ -296,7 +296,7 @@ export default {
       return [0, 3000];
     },
     yDomainHospitality() {
-      return [0, 120];
+      return [0, 200];
     },
     //  if (zDomain === undefined) zDomain = Z;
     //  zDomain = new d3.InternSet(zDomain);
@@ -320,7 +320,7 @@ export default {
       return this.chart.yType(this.yDomainCovid, this.yRange);
     },
     yScaleHospitality() {
-      return this.chart.yType(this.yDomainHospitality, this.yRange).nice();
+      return this.chart.yType(this.yDomainHospitality, this.yRange);
     },
     //  const xAxis = d3
     //    .axisBottom(xScale)

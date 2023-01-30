@@ -109,8 +109,8 @@ export default {
       var missingValueColor = d3.select("#hospitality_container");
       var myColor = d3
         .scaleLinear()
-        .domain([5, 110])
-        .range(["white", "orange"], 8);
+        .domain([0, 100])
+        .range(["white", "#9684d8"], 8);
       var keys = ["Data not available", "(No Data as of Nov 21)", "Ongoing Lockdown", "", 5, 35, 65, 95, 125, 155, 185];
       var colorKeys = [5, 35, 65, 95, 125, 155, 185];
       var rectSize = 20;

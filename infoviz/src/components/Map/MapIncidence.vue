@@ -139,7 +139,7 @@ export default {
       var myColor = d3
         .scaleLinear()
         .domain([0, this.retrieveMaxIncidence])
-        .range(["white", "blue"], 1);
+        .range(["white", "orange"], 1);
       var colorKeys = ["Data not available", "(No Data as of Nov 21)", "Ongoing Lockdown", "", "0", "250", "750", "1250", "1750", "2250", "2750"];
       var keys = ["0", "250", "750", "1250", "1750", "2250", "2750"];
       var rectSize = 20;

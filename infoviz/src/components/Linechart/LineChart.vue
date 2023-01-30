@@ -82,7 +82,7 @@ import { useCovidCasesStore } from "@/stores/covidCases.js";
 import { useCurrentRegionStore } from "@/stores/currentRegion.js";
 import { useHospitalityStore } from "@/stores/hospitality.js";
 import { useMeasuresStore } from "@/stores/politicalMeasures.js";
-import { useDateStore } from "@/stores/selectedDate";
+import { useDateStore } from "@/stores/date";
 import { germanyKey, regions } from "@/data/dataKeys";
 export default {
   name: "vue-line-chart",

@@ -1,4 +1,4 @@
-import {defineStore} from "pinia";
+import { defineStore } from "pinia";
 import moment from "moment";
 
 export const useDateStore = defineStore("date", {
@@ -8,7 +8,7 @@ export const useDateStore = defineStore("date", {
       // stored as milliseconds
       current: new Date("2020-01-07").getTime(),
       start: new Date("2020-01-07").getTime(),
-      end: new Date("2023-01-14").getTime(),
+      end: new Date().getTime(),
     };
   },
   getters: {
@@ -30,12 +30,19 @@ export const useDateStore = defineStore("date", {
   },
   actions: {
     setCurrentByDateString(dateString) {
-      let newDate = moment(dateString)
-      if (newDate.isValid() && newDate.isBetween(moment(this.start), moment(this.end))) {
-        console.log("Setting date to", newDate.format("YYYY-MM-DD"))
-        this.current = newDate.valueOf()
+      let newDate = moment(dateString);
+      if (
+        newDate.isValid() &&
+        newDate.isBetween(moment(this.start), moment(this.end))
+      ) {
+        console.log("Setting date to", newDate.format("YYYY-MM-DD"));
+        this.current = newDate.valueOf();
       } else {
-        console.warn('Invalid date (', dateString, '). Using default date instead.')
+        console.warn(
+          "Invalid date (",
+          dateString,
+          "). Using default date instead."
+        );
       }
     },
   },

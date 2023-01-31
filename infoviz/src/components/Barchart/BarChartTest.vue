@@ -1,20 +1,20 @@
 <template>
   <div id="container" class="svg-container">
     <svg
-      id="barchart"
-      v-if="redrawToggle === true"
-      :width="svgWidth"
-      :height="svgHeight"
+        id="barchart"
+        v-if="redrawToggle === true"
+        :width="svgWidth"
+        :height="svgHeight"
     >
       <g>
         <rect
-          v-for="item in data"
-          class="bar-positive"
-          :key="item[xKey]"
-          :x="xScale(item[xKey])"
-          :y="yScale(0)"
-          :width="xScale.bandwidth()"
-          :height="0"
+            v-for="item in data"
+            class="bar-positive"
+            :key="item[xKey]"
+            :x="xScale(0)"
+            :y="yScale(item[xKey])"
+            :width="0"
+            :height="yScale.bandwidth()"
         ></rect>
       </g>
     </svg>
@@ -24,8 +24,7 @@
 <script>
 import { scaleLinear, scaleBand } from "d3-scale";
 import { max, min } from "d3-array";
-import { select, selectAll } from "d3-selection";
-import { transition } from "d3-transition";
+import { select } from "d3-selection";
 import { axisBottom, axisLeft } from "d3-axis";
 
 export default {
@@ -37,6 +36,7 @@ export default {
     data: Array,
   },
   mounted() {
+    console.log(this.data);
     this.svgWidth = document.getElementById("container").offsetWidth * 0.75;
     this.AddResizeListener();
     this.AnimateLoad();
@@ -56,19 +56,20 @@ export default {
   methods: {
     AnimateLoad() {
       select("#barchart")
-        .selectAll("rect")
-        .data(this.data)
-        .transition()
-        .delay((d, i) => {
-          return i * 15;
-        })
-        .duration(500)
-        .attr("y", (d) => {
-          return this.yScale(d[this.yKey]);
-        })
-        .attr("height", (d) => {
-          return this.svgHeight - this.yScale(d[this.yKey]);
-        });
+          .selectAll("rect")
+          .attr("transform", `translate(${80}, 0)`)
+          .data(this.data)
+          .transition()
+          .delay((d, i) => {
+            return i * 10;
+          })
+          .duration(500)
+          .attr((d) => {
+            return this.xScale(d[this.yKey]);
+          })
+          .attr("width", (d) => {
+            return this.xScale(d[this.yKey]);
+          });
     },
     AddResizeListener() {
       // redraw the chart 300ms after the window has been resized
@@ -77,33 +78,43 @@ export default {
         setTimeout(() => {
           this.$data.redrawToggle = true;
           this.$data.svgWidth =
-            document.getElementById("container").offsetWidth * 0.75;
+              document.getElementById("container").offsetWidth * 0.75;
           this.AnimateLoad();
         }, 300);
       });
     },
+    clearXAxis() {
+      select("#barchart")
+          .select(".x-axis")
+          .remove();
+    },
     createXAxis() {
       var xAxis = axisBottom(this.xScale)
       select("#barchart")
-        .append("g")
-        .attr("class", "x-axis")
-        .attr("transform", `translate(0, ${this.svgHeight})`)
-        .call(xAxis)
-        .selectAll("text")
-        .style("text-anchor", "end")
-        .attr("dx", "-.8em")
-        .attr("dy", ".15em")
-        .attr("transform", function (d) {
-          return "rotate(-65)";
-        });
+          .append("g")
+          .attr("class", "x-axis")
+          .attr("transform", `translate(80, ${this.svgHeight})`)
+          .call(xAxis)
+          .selectAll("text")
+          .style("text-anchor", "end")
+          .attr("dx", ".6em")
+          .attr("dy", ".5em")
+          .attr("transform", function (d) {
+            return "rotate(0)";
+          });
+    },
+    clearYAxis() {
+      select("#barchart")
+          .select(".y-axis")
+          .remove();
     },
     createYAxis() {
       const yAxis = axisLeft(this.yScale);
       select("#barchart")
-        .append("g")
-        .attr("class", "y-axis")
-        .attr("transform", `translate(${this.svgWidth + 20}, 0)`)
-        .call(yAxis);
+          .append("g")
+          .attr("class", "y-axis")
+          .attr("transform", `translate(${80}, 0)`)
+          .call(yAxis);
     },
   },
   computed: {
@@ -117,28 +128,40 @@ export default {
         return d[this.yKey];
       });
     },
-    xScale() {
-      return scaleBand()
-        .rangeRound([0, this.svgWidth])
-        .padding(0.1)
-        .domain(
-          this.data.map((d) => {
-            return d[this.xKey];
-          })
-        );
-    },
     yScale() {
+      return scaleBand()
+          .rangeRound([0, this.svgHeight])
+          .padding(0.1)
+          .domain(
+              this.data.map((d) => {
+                return d[this.xKey];
+              })
+          );
+    },
+    xScale() {
       return scaleLinear()
-        .rangeRound([this.svgHeight, 0])
-        .domain([this.dataMin > 0 ? 0 : this.dataMin, this.dataMax]);
+          .rangeRound([0,this.svgWidth-80])
+          .domain([this.dataMin > 0 ? 0 : this.dataMin, 240]);
     },
     svgHeight() {
-      return 170; // define height here
+      return 240; // define height here
     },
   },
   watch: {
     data: function () {
-      this.AnimateLoad();
+      //this.d3.select('rect').selectAll('*').remove();
+
+      let myThis = this;
+
+      setTimeout(function(){
+        console.log("data changed");
+        myThis.clearXAxis();
+        myThis.createXAxis();
+        myThis.clearYAxis();
+        myThis.createYAxis();
+        myThis.AddResizeListener();
+        myThis.AnimateLoad();
+      }, 10);
     },
   },
 };
@@ -156,12 +179,12 @@ export default {
   justify-items: center;
 }
 .bar-positive {
-  fill: #9684d8;
+  fill: #f8b527;
   transition: r 0.2s ease-in-out;
 }
 
 .bar-positive:hover {
-  fill: #332566;
+  fill: #ff9100;
 }
 
 .svg-container {

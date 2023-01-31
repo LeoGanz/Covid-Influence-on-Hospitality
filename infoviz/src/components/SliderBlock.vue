@@ -90,7 +90,7 @@ input[type="range"]::-webkit-slider-thumb {
   font-size: 20px;
   line-height: 23px;
   color: #19191c;
-  left: 10%;
+  margin-left: 16px;
 }
 
 .legend {

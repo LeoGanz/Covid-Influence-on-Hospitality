@@ -56,7 +56,7 @@ export default {
     if (this.currentRegion.currentRegionName != "Germany") {
      
                 d3.select("#" + this.currentRegion.currentRegionName )
-                  .attr("stroke-width", "3")
+                  .attr("stroke-width", "2")
                   .attr("stroke", "black");
               }
   },
@@ -116,7 +116,7 @@ export default {
 
         if (this.currentRegion.currentRegionName != "Germany") {
           d3.select("#" + this.currentRegion.currentRegionName )
-            .attr("stroke-width", "3")
+            .attr("stroke-width", "2")
             .attr("stroke", "black");
           }
       }
@@ -128,7 +128,7 @@ export default {
         .append("path")
         .datum(mapDataGermany)
         .attr("fill", "none")
-        .attr("stroke", "#101010")
+        .attr("stroke", "#999999")
         .attr("stroke-linejoin", "round")
         .attr("d", d3.geoPath().projection(projection1))
         .attr("transform", "translate(-80, 0)");
@@ -190,7 +190,8 @@ export default {
         .attr("y", 100)
         .attr("width", 19)
         .attr("height", 19)
-        .style("fill", "#686464")
+        .style("fill", "#DADADA")
+        .style("stroke", "#999999")
         .attr("transform", "translate(371, 92)");
 
        // customized rect for not available data
@@ -279,14 +280,14 @@ export default {
               // reset
               if (lastClickedRegion != "Germany" || lastClickedRegion != this.id) {              
                 d3.select("#" + lastClickedRegion)
-                  .attr("stroke", "#101010")
+                  .attr("stroke", "#999999")
                   .attr("stroke-width", "0.5");
               }
 
               if (lastClickedRegion != this.id) {
                 d3.select("#" + this.id)
-                  .attr("stroke-width", "3")
-                  .attr("stroke", "black");
+                  .attr("stroke-width", "2")
+                  .attr("stroke", "#222222");
 
                 const region_after = mapDataGermany.features.filter((feature) => feature.properties.name == this.id)
                 regionStore.updateRegion(region_after[0].properties.nameEN)

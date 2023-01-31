@@ -64,7 +64,7 @@ export default {
           .delay((d, i) => {
             return i * 10;
           })
-          .duration(500)
+          .duration(200)
           .attr((d) => {
             return this.xScale(d[this.yKey]);
           })

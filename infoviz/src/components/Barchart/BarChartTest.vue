@@ -1,20 +1,20 @@
 <template>
   <div id="container" class="svg-container">
     <svg
-      id="barchart"
-      v-if="redrawToggle === true"
-      :width="svgWidth"
-      :height="svgHeight"
+        id="barchart"
+        v-if="redrawToggle === true"
+        :width="svgWidth"
+        :height="svgHeight"
     >
       <g>
         <rect
-          v-for="item in data"
-          class="bar-positive"
-          :key="item[xKey]"
-          :x="xScale(0)"
-          :y="yScale(item[xKey])"
-          :width="0"
-          :height="yScale.bandwidth()"
+            v-for="item in data"
+            class="bar-positive"
+            :key="item[xKey]"
+            :x="xScale(0)"
+            :y="yScale(item[xKey])"
+            :width="0"
+            :height="yScale.bandwidth()"
         ></rect>
       </g>
     </svg>
@@ -36,6 +36,7 @@ export default {
     data: Array,
   },
   mounted() {
+    console.log(this.data);
     this.svgWidth = document.getElementById("container").offsetWidth * 0.75;
     this.AddResizeListener();
     this.AnimateLoad();
@@ -55,20 +56,20 @@ export default {
   methods: {
     AnimateLoad() {
       select("#barchart")
-        .selectAll("rect")
-        .attr("transform", `translate(${80}, 0)`)
-        .data(this.data)
-        .transition()
-        .delay((d, i) => {
-          return i * 10;
-        })
-        .duration(500)
-        .attr((d) => {
-          return this.xScale(d[this.yKey]);
-        })
-        .attr("width", (d) => {
-          return this.xScale(d[this.yKey]);
-        });
+          .selectAll("rect")
+          .attr("transform", `translate(${80}, 0)`)
+          .data(this.data)
+          .transition()
+          .delay((d, i) => {
+            return i * 10;
+          })
+          .duration(500)
+          .attr((d) => {
+            return this.xScale(d[this.yKey]);
+          })
+          .attr("width", (d) => {
+            return this.xScale(d[this.yKey]);
+          });
     },
     AddResizeListener() {
       // redraw the chart 300ms after the window has been resized
@@ -77,43 +78,43 @@ export default {
         setTimeout(() => {
           this.$data.redrawToggle = true;
           this.$data.svgWidth =
-            document.getElementById("container").offsetWidth * 0.75;
+              document.getElementById("container").offsetWidth * 0.75;
           this.AnimateLoad();
         }, 300);
       });
     },
     clearXAxis() {
       select("#barchart")
-        .select(".x-axis")
-        .remove();
+          .select(".x-axis")
+          .remove();
     },
     createXAxis() {
       var xAxis = axisBottom(this.xScale)
       select("#barchart")
-        .append("g")
-        .attr("class", "x-axis")
-        .attr("transform", `translate(80, ${this.svgHeight})`)
-        .call(xAxis)
-        .selectAll("text")
-        .style("text-anchor", "end")
-        .attr("dx", ".6em")
-        .attr("dy", ".5em")
-        .attr("transform", function (d) {
-          return "rotate(0)";
-        });
+          .append("g")
+          .attr("class", "x-axis")
+          .attr("transform", `translate(80, ${this.svgHeight})`)
+          .call(xAxis)
+          .selectAll("text")
+          .style("text-anchor", "end")
+          .attr("dx", ".6em")
+          .attr("dy", ".5em")
+          .attr("transform", function (d) {
+            return "rotate(0)";
+          });
     },
     clearYAxis() {
       select("#barchart")
-        .select(".y-axis")
-        .remove();
+          .select(".y-axis")
+          .remove();
     },
     createYAxis() {
       const yAxis = axisLeft(this.yScale);
       select("#barchart")
-        .append("g")
-        .attr("class", "y-axis")
-        .attr("transform", `translate(${80}, 0)`)
-        .call(yAxis);
+          .append("g")
+          .attr("class", "y-axis")
+          .attr("transform", `translate(${80}, 0)`)
+          .call(yAxis);
     },
   },
   computed: {
@@ -129,18 +130,18 @@ export default {
     },
     yScale() {
       return scaleBand()
-        .rangeRound([0, this.svgHeight])
-        .padding(0.1)
-        .domain(
-          this.data.map((d) => {
-            return d[this.xKey];
-          })
-        );
+          .rangeRound([0, this.svgHeight])
+          .padding(0.1)
+          .domain(
+              this.data.map((d) => {
+                return d[this.xKey];
+              })
+          );
     },
     xScale() {
       return scaleLinear()
-        .rangeRound([0,this.svgWidth-80])
-        .domain([this.dataMin > 0 ? 0 : this.dataMin, 240]);
+          .rangeRound([0,this.svgWidth-80])
+          .domain([this.dataMin > 0 ? 0 : this.dataMin, 240]);
     },
     svgHeight() {
       return 240; // define height here

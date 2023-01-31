@@ -1,20 +1,20 @@
 <template>
   <div id="container" class="svg-container">
     <svg
-        id="barchart"
-        v-if="redrawToggle === true"
-        :width="svgWidth"
-        :height="svgHeight"
+      id="barchart"
+      v-if="redrawToggle === true"
+      :width="svgWidth"
+      :height="svgHeight"
     >
       <g>
         <rect
-            v-for="item in data"
-            class="bar-positive"
-            :key="item[xKey]"
-            :x="xScale(0)"
-            :y="yScale(item[xKey])"
-            :width="0"
-            :height="yScale.bandwidth()"
+          v-for="item in data"
+          class="bar-positive"
+          :key="item[xKey]"
+          :x="xScale(0)"
+          :y="yScale(item[xKey])"
+          :width="0"
+          :height="yScale.bandwidth()"
         ></rect>
       </g>
     </svg>
@@ -148,7 +148,7 @@ export default {
           .domain([this.dataMin > 0 ? 0 : this.dataMin, 240]);
     },
     svgHeight() {
-      return 210; // define height here
+      return 205; // define height here
     },
   },
   watch: {
@@ -226,4 +226,5 @@ export default {
   stroke: black;
   shape-rendering: crispEdges;
 }
+
 </style>

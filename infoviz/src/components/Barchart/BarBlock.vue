@@ -33,7 +33,7 @@
       </div>
     </div>
     <div v-if="!hospitalityStore.initialized">Loading...</div>
-    <BarChartTest v-else xKey="abbreviation" yKey="value" v-bind:data="data" />
+    <BarChartTest class="leftMargin" v-else xKey="abbreviation" yKey="value" v-bind:data="data" />
   </div>
 </template>
 
@@ -187,6 +187,10 @@ input[type="radio"] {
 
 #headerBarChart {
   margin-bottom: 16px;
+  margin-left: 16px;
+}
+
+.leftMargin {
   margin-left: 16px;
 }
 

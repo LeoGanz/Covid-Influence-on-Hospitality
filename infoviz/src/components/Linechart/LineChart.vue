@@ -400,7 +400,7 @@ export default {
           //typeof this.chart.color === "function"
           //  ? ([z]) => this.chart.color(z)
           //  : ([z]) => d3.interpolateTurbo(this.getColor(this.getColorId(z)))
-          ([z]) => (z == "covid" ? "blue" : z == "hospitality" ? "orange" : "black")
+          ([z]) => (z == "covid" ? "#FFB865" : z == "hospitality" ? "#8E7FF5" : "black")
         )
         .attr("d", ([, I]) => this.line(I));
     },

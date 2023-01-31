@@ -183,12 +183,12 @@ export default {
   justify-items: center;
 }
 .bar-positive {
-  fill: #f8b527;
+  fill: #C2BAF5;
   transition: r 0.2s ease-in-out;
 }
 
 .bar-highlight {
-  fill: #dc8c13;
+  fill: #8E7FF5;
 }
 
 .svg-container {

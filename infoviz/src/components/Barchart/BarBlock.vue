@@ -1,15 +1,16 @@
 <template>
   <div>
-
-    <div id="radio_buttons">
-      <input type="radio" @change="changeChart"
-       value="upper category" name="displayUpperCategory" checked> upper category
-      <input type="radio" @change="changeChart"
-       value="under category" name="displayUpperCategory"> all
+    <div class="bottomSpacing"  id="radio_buttons">
+      <input class="leftSpacing" type="radio" @change="changeToUpper"
+             value="upper category" name="displayUpperCategory" checked> Hospitality
+      <input class="leftSpacing" type="radio" @change="changeToLodging"
+             value="lodging" name="displayUpperCategory"> Accommodation
+      <input class="leftSpacing" type="radio" @change="changeToGastronomy"
+             value="gastronomy" name="displayUpperCategory"> Gastronomy
     </div>
 
     <div v-if="!hospitalityStore.initialized">Loading...</div>
-    <BarChartTest v-else xKey="region" yKey="value" v-bind:data="data" />
+    <BarChartTest v-else xKey="abbreviation" yKey="value" v-bind:data="data" />
   </div>
 </template>
 
@@ -28,6 +29,8 @@ export default {
   data() {
     return {
       displayUpperCategory: true,
+      displayLodging: false,
+      displayGastronomy: false,
       toggleClass: "ani1",
     };
   },
@@ -37,8 +40,20 @@ export default {
           ? (this.toggleClass = "ani2")
           : (this.toggleClass = "ani1");
     },
-    changeChart(event) {
-      this.displayUpperCategory = !this.displayUpperCategory;
+    changeToUpper(event) {
+      this.displayUpperCategory = true;
+      this.displayGastronomy = false;
+      this.displayLodging = false;
+    },
+    changeToLodging(event) {
+      this.displayLodging = true;
+      this.displayUpperCategory = false;
+      this.displayGastronomy = false;
+    },
+    changeToGastronomy(event) {
+      this.displayGastronomy = true;
+      this.displayUpperCategory = false;
+      this.displayLodging = false;
     },
   },
   setup() {
@@ -65,7 +80,7 @@ export default {
           const region = entry[0];
           const value = entry[1][0];
           const abbreviation = entry[1][1];
-          if (abbreviation === "Hospitality" || abbreviation === "Lodging" || abbreviation === "Gastronomy") {
+          if (region === "hospitality" || region === "accommodation" || region === "gastronomy") {
             if (Number.isFinite(value)) {
               data.push({region, value, abbreviation});
             } else {
@@ -73,17 +88,38 @@ export default {
             }
           }
         });
-      } else {
+      } else if (this.displayLodging) {
+        console.log("lodging display")
         dataArray.forEach((entry) => {
           console.log(entry)
           const region = entry[0];
           const value = entry[1][0];
           const abbreviation = entry[1][1];
-          if (Number.isFinite(value)) {
-            data.push({region, value, abbreviation});
-          } else {
-            data.push({region, value: 0, abbreviation});
+          if (region === "accommodation" || region === "hotelsInnsGuesthouses" || region === "holidayAccommodation" ||
+              region === "campingSites" || region === "otherAccommodation") {
+            if (Number.isFinite(value)) {
+              data.push({region, value, abbreviation});
+            } else {
+              data.push({region, value: 0, abbreviation});
+            }
           }
+
+        });
+      } else if (this.displayGastronomy) {
+        dataArray.forEach((entry) => {
+          console.log(entry)
+          const region = entry[0];
+          const value = entry[1][0];
+          const abbreviation = entry[1][1];
+          if (region === "gastronomy" || region === "restaurantsTavernsSnackbarsCafes"
+              || region === "catereing"|| region === "beverages"|| region === "restaurantBusiness") {
+            if (Number.isFinite(value)) {
+              data.push({region, value, abbreviation});
+            } else {
+              data.push({region, value: 0, abbreviation});
+            }
+          }
+
         });
       }
 
@@ -93,4 +129,16 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+
+
+.leftSpacing {
+  margin-left: 16px;
+}
+
+.bottomSpacing {
+  margin-bottom: 8px;
+}
+
+
+</style>

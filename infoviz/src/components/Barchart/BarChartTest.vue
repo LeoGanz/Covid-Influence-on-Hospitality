@@ -1,20 +1,20 @@
 <template>
   <div id="container" class="svg-container">
     <svg
-        id="barchart"
-        v-if="redrawToggle === true"
-        :width="svgWidth"
-        :height="svgHeight"
+      id="barchart"
+      v-if="redrawToggle === true"
+      :width="svgWidth"
+      :height="svgHeight"
     >
       <g>
         <rect
-            v-for="item in data"
-            class="bar-positive"
-            :key="item[xKey]"
-            :x="xScale(0)"
-            :y="yScale(item[xKey])"
-            :width="0"
-            :height="yScale.bandwidth()"
+          v-for="item in data"
+          class="bar-positive"
+          :key="item[xKey]"
+          :x="xScale(0)"
+          :y="yScale(item[xKey])"
+          :width="0"
+          :height="yScale.bandwidth()"
         ></rect>
       </g>
     </svg>
@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import * as d3 from "d3";
 import { scaleLinear, scaleBand } from "d3-scale";
 import { max, min } from "d3-array";
 import { select } from "d3-selection";
@@ -39,7 +40,7 @@ export default {
     console.log(this.data);
     this.svgWidth = document.getElementById("container").offsetWidth * 0.75;
     this.AddResizeListener();
-    this.AnimateLoad();
+    this.renderBars();
     this.createXAxis();
     this.createYAxis();
   },
@@ -54,7 +55,7 @@ export default {
     },
   }),
   methods: {
-    AnimateLoad() {
+    renderBars() {
       select("#barchart")
           .selectAll("rect")
           .attr("transform", `translate(${80}, 0)`)
@@ -69,6 +70,9 @@ export default {
           })
           .attr("width", (d) => {
             return this.xScale(d[this.yKey]);
+          })
+          .attr("class", (d, i) => {
+            return i === 0 ? "bar-highlight" : "bar-positive";
           });
     },
     AddResizeListener() {
@@ -79,7 +83,7 @@ export default {
           this.$data.redrawToggle = true;
           this.$data.svgWidth =
               document.getElementById("container").offsetWidth * 0.75;
-          this.AnimateLoad();
+          this.renderBars();
         }, 300);
       });
     },
@@ -109,7 +113,7 @@ export default {
           .remove();
     },
     createYAxis() {
-      const yAxis = axisLeft(this.yScale);
+      const yAxis = axisLeft(this.yScale)
       select("#barchart")
           .append("g")
           .attr("class", "y-axis")
@@ -144,7 +148,7 @@ export default {
           .domain([this.dataMin > 0 ? 0 : this.dataMin, 240]);
     },
     svgHeight() {
-      return 240; // define height here
+      return 205; // define height here
     },
   },
   watch: {
@@ -160,7 +164,7 @@ export default {
         myThis.clearYAxis();
         myThis.createYAxis();
         myThis.AddResizeListener();
-        myThis.AnimateLoad();
+        myThis.renderBars();
       }, 10);
     },
   },
@@ -183,8 +187,8 @@ export default {
   transition: r 0.2s ease-in-out;
 }
 
-.bar-positive:hover {
-  fill: #ff9100;
+.bar-highlight {
+  fill: #dc8c13;
 }
 
 .svg-container {
@@ -204,10 +208,23 @@ export default {
   shape-rendering: crispEdges;
 }
 
+.axis-highlight {
+  fill: none;
+  stroke: #dc8c13;
+  shape-rendering: crispEdges;
+}
+
+.axis-standard{
+  fill: none;
+  stroke: #686464;
+  shape-rendering: crispEdges;
+}
+
 .y-axis path,
 .y-axis line {
   fill: none;
   stroke: black;
   shape-rendering: crispEdges;
 }
+
 </style>

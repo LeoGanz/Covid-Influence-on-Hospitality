@@ -109,9 +109,9 @@ export default {
       var missingValueColor = d3.select("#hospitality_container");
       var myColor = d3
         .scaleLinear()
-        .domain([5, 110])
-        .range(["white", "orange"], 8);
-      var keys = ["Data not available", "(No Data as of Nov 21)", "Ongoing Lockdown", "", 5, 35, 65, 95, 125, 155, 185];
+        .domain([0, 100])
+        .range(["white", "#9684d8"], 8);
+      var keys = ["Data not available", "Ongoing Lockdown*", "", 5, 35, 65, 95, 125, 155, 185];
       var colorKeys = [5, 35, 65, 95, 125, 155, 185];
       var rectSize = 20;
 
@@ -123,7 +123,7 @@ export default {
         .append("rect")
         .attr("x", 50)
         .attr("y", function (d, i) {
-          return 210 - i * rectSize;
+          return 230 - i * rectSize;
         })
         .attr("width", rectSize)
         .attr("height", rectSize)
@@ -176,7 +176,7 @@ export default {
         .attr("width", 19)
         .attr("height", 19)
         .style("fill", "url(#diagonalHatch)")
-        .attr("transform", "translate(371, 60)");
+        .attr("transform", "translate(371, 68)");
 
     },
 
@@ -199,7 +199,7 @@ export default {
       var myColor = d3
         .scaleLinear()
         .domain([0, 100])
-        .range(["white", "orange"], 10);
+        .range(["white", "#9684d8"], 10);
 
       // <!-- hatch for lockdowns based on https://jsfiddle.net/sqrz3/    -->
       // <defs>

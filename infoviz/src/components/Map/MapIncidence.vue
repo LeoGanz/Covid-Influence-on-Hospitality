@@ -139,8 +139,8 @@ export default {
       var myColor = d3
         .scaleLinear()
         .domain([0, this.retrieveMaxIncidence])
-        .range(["white", "blue"], 1);
-      var colorKeys = ["Data not available", "(No Data as of Nov 21)", "Ongoing Lockdown", "", "0", "250", "750", "1250", "1750", "2250", "2750"];
+        .range(["white", "orange"], 1);
+      var colorKeys = ["Data not available", "Ongoing Lockdown*", "", "0", "250", "750", "1250", "1750", "2250", "2750"];
       var keys = ["0", "250", "750", "1250", "1750", "2250", "2750"];
       var rectSize = 20;
 
@@ -152,7 +152,7 @@ export default {
         .append("rect")
         .attr("x", 50)
         .attr("y", function (d, i) {
-          return 210 - i * rectSize;
+          return 230 - i * rectSize;
         })
         .attr("width", rectSize)
         .attr("height", rectSize)
@@ -205,7 +205,7 @@ export default {
         .attr("width", 19)
         .attr("height", 19)
         .style("fill", "url(#diagonalHatch)")
-        .attr("transform", "translate(371, 60)");
+        .attr("transform", "translate(371, 68)");
     },
 
     isLockdown(state) {
@@ -231,7 +231,7 @@ export default {
       var myColor = d3
         .scaleLinear()
         .domain([0, this.retrieveMaxIncidence])
-        .range(["white", "blue"], 250);
+        .range(["white", "orange"], 250);
 
         d3.select("#incidence_container")
           .append("defs")

@@ -148,7 +148,7 @@ export default {
           .domain([this.dataMin > 0 ? 0 : this.dataMin, 240]);
     },
     svgHeight() {
-      return 205; // define height here
+      return 189; // define height here
     },
   },
   watch: {

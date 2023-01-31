@@ -1,14 +1,37 @@
 <template>
   <div>
-    <div class="bottomSpacing"  id="radio_buttons">
-      <input class="leftSpacing" type="radio" @change="changeToUpper"
-             value="upper category" name="displayUpperCategory" checked> Hospitality
-      <input class="leftSpacing" type="radio" @change="changeToLodging"
-             value="lodging" name="displayUpperCategory"> Accommodation
-      <input class="leftSpacing" type="radio" @change="changeToGastronomy"
-             value="gastronomy" name="displayUpperCategory"> Gastronomy
+    <div id="headerBarChart">
+      <div class="bottomSpacing"  id="radio_buttons">
+        <label class="radiolabels">
+          <input
+            type="radio"
+            @change="changeToUpper"
+            value="upper category"
+            name="displayUpperCategory"
+            checked
+          >
+          <span>Hospitality</span>
+        </label>
+        <label class="radiolabels">
+          <input
+            type="radio"
+            @change="changeToLodging"
+            value="lodging"
+            name="displayUpperCategory"
+          >
+          <span>Accommodation</span>
+        </label>
+        <label class="radiolabels">
+          <input
+            type="radio"
+            @change="changeToGastronomy"
+            value="gastronomy"
+            name="displayUpperCategory"
+          >
+          <span>Gastronomy</span>
+        </label>
+      </div>
     </div>
-
     <div v-if="!hospitalityStore.initialized">Loading...</div>
     <BarChartTest v-else xKey="abbreviation" yKey="value" v-bind:data="data" />
   </div>
@@ -131,13 +154,40 @@ export default {
 
 <style>
 
-
-.leftSpacing {
-  margin-left: 16px;
+.radioList {
+  width: 80%;
+  list-style: none;
 }
 
-.bottomSpacing {
-  margin-bottom: 8px;
+input[type="radio"] {
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
+.radiolabels {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+  cursor: pointer;
+  color: #575656;
+  padding: 5px 12px;
+  background: rgb(228, 228, 228);
+  /* border-radius: 30px; */
+  /* border-color: #010101; */
+  /* border-width: 1px; */
+
+  /* border-style: solid; */
+}
+
+#radio_buttons input[type="radio"]:checked ~ * {
+  color: #000000 !important;
+  font-weight: bold;
+
+}
+
+#headerBarChart {
+  margin-bottom: 16px;
+  margin-left: 16px;
 }
 
 

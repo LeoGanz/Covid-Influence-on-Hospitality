@@ -122,9 +122,14 @@ const zpidKeys = {
 
 const sectors = [
   {
+    key: "hospitality",
+    genesis: "Gastgewerbe",
+    abbreviation: "Hospitality",
+  },
+  {
     key: "accommodation",
     genesis: "Beherbergung",
-    abbreviation: "Lodging",
+    abbreviation: "Accommodation",
   },
   {
     key: "hotelsInnsGuesthouses",
@@ -170,12 +175,7 @@ const sectors = [
     key: "restaurantBusiness",
     genesis: "Gaststättengewerbe",
     abbreviation: "Restaurants",
-  },
-  {
-    key: "hospitality",
-    genesis: "Gastgewerbe",
-    abbreviation: "Hospitality",
-  },
+  }
 ];
 
 const names = {

@@ -110,5 +110,9 @@ export default {
     
   }
 
+  #header {
+    margin-left: 16px;
+  }
+
 
 </style>

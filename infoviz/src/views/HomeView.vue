@@ -2,9 +2,9 @@
   <main>
     <div class="horizontal_flex">
       <div class="left_boxes">
-        <DescriptionBlock class="block description_block"/>
-        <LineBlock class="block line_block"/>
-        <SliderBlock class="block slider_block"/>
+        <DescriptionBlock class="block description_block" />
+        <LineBlock class="block line_block" />
+        <SliderBlock class="block slider_block" />
         <div>
           <router-link to="/about">
             <button @click="navigate" class="aboutbutton">about</button>
@@ -15,8 +15,8 @@
         </div>
       </div>
       <div class="right_boxes">
-        <BarBlock class="block bar_block"/>
-        <MapBlock class="block map_block"/>
+        <BarBlock class="block bar_block" />
+        <MapBlock class="block map_block" />
       </div>
     </div>
   </main>
@@ -29,49 +29,55 @@ import MapBlock from "@/components/Map/MapBlock.vue";
 import SliderBlock from "@/components/SliderBlock.vue";
 import BarBlock from "@/components/Barchart/BarBlock.vue";
 import BarChart from "@/components/Barchart/BarChart.vue";
-import {useDateStore} from "@/stores/date";
-import {useRoute, useRouter} from "vue-router";
-import {useCurrentRegionStore} from "@/stores/currentRegion";
+import { useDateStore } from "@/stores/date";
+import { useRoute, useRouter } from "vue-router";
+import { useCurrentRegionStore } from "@/stores/currentRegion";
+import { useSliderStore } from "../stores/slider";
 
 export default {
   setup() {
-    const dateStore = useDateStore()
-    const regionStore = useCurrentRegionStore()
-    const router = useRouter()
-    const route = useRoute()
+    const dateStore = useDateStore();
+    const regionStore = useCurrentRegionStore();
+    const sliderStore = useSliderStore();
+    const router = useRouter();
+    const route = useRoute();
 
     function updateRouteWithParams() {
-      router.push({
-        name: route.name,
-        query: {
-          date: dateStore.currentDate,
-          region: regionStore.currentRegion
-        }
-      })
+      if (!sliderStore.moving) {
+        router.push({
+          name: route.name,
+          query: {
+            date: dateStore.currentDate,
+            region: regionStore.currentRegion,
+          },
+        });
+      }
     }
 
-    dateStore.$subscribe(() => {
+    sliderStore.$subscribe(() => {
       updateRouteWithParams();
-    })
+    });
+
     regionStore.$subscribe(() => {
       updateRouteWithParams();
-    })
+    });
 
     return {
       dateStore,
       regionStore,
-    }
+      sliderStore,
+    };
   },
   // apply changes entered in url field to the store
   beforeRouteEnter(to, from) {
-    console.log("Parsing query params from url and updating stores")
-    const dateStore = useDateStore()
-    const regionStore = useCurrentRegionStore()
+    console.log("Parsing query params from url and updating stores");
+    const dateStore = useDateStore();
+    const regionStore = useCurrentRegionStore();
     if (to.query.date) {
-      dateStore.setCurrentByDateString(to.query.date)
+      dateStore.setCurrentByDateString(to.query.date);
     }
     if (to.query.region) {
-      regionStore.updateRegion(to.query.region)
+      regionStore.updateRegion(to.query.region);
     }
   },
   components: {

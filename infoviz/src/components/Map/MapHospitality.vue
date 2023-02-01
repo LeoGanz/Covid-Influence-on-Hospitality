@@ -58,7 +58,7 @@ export default {
     if (this.currentRegion.currentRegionName != "Germany") {
 
                 d3.select("#" + this.currentRegion.currentRegionName )
-                  .attr("stroke-width", "3")
+                  .attr("stroke-width", "2")
                   .attr("stroke", "black");
               }
 
@@ -85,8 +85,8 @@ export default {
 
         if (this.currentRegion.currentRegionName != "Germany") {
           d3.select("#" + this.currentRegion.currentRegionName )
-            .attr("stroke-width", "3")
-            .attr("stroke", "black");
+            .attr("stroke-width", "2")
+            .attr("stroke", "999999");
           }
       }
 
@@ -99,7 +99,7 @@ export default {
         .append("path")
         .datum(mapDataGermany)
         .attr("fill", "none")
-        .attr("stroke", "#101010")
+        .attr("stroke", "#999999")
         .attr("stroke-linejoin", "round")
         .attr("d", d3.geoPath().projection(projection1))
         .attr("transform", "translate(-80, 0)");
@@ -109,9 +109,9 @@ export default {
       var missingValueColor = d3.select("#hospitality_container");
       var myColor = d3
         .scaleLinear()
-        .domain([5, 110])
-        .range(["white", "orange"], 8);
-      var keys = ["Data not available", "(No Data as of Nov 21)", "Ongoing Lockdown", "", 5, 35, 65, 95, 125, 155, 185];
+        .domain([0, 100])
+        .range(["white", "#9684d8"], 8);
+      var keys = ["Data not available", "Ongoing Lockdown*", "", 5, 35, 65, 95, 125, 155, 185];
       var colorKeys = [5, 35, 65, 95, 125, 155, 185];
       var rectSize = 20;
 
@@ -123,7 +123,7 @@ export default {
         .append("rect")
         .attr("x", 50)
         .attr("y", function (d, i) {
-          return 210 - i * rectSize;
+          return 230 - i * rectSize;
         })
         .attr("width", rectSize)
         .attr("height", rectSize)
@@ -161,7 +161,8 @@ export default {
         .attr("y", 100)
         .attr("width", 19)
         .attr("height", 19)
-        .style("fill", "#686464")
+        .style("fill", "#DADADA")
+        .style("stroke", "#999999")
         .attr("transform", "translate(371, 92)");
 
        // customized rect for not available data
@@ -176,7 +177,7 @@ export default {
         .attr("width", 19)
         .attr("height", 19)
         .style("fill", "url(#diagonalHatch)")
-        .attr("transform", "translate(371, 60)");
+        .attr("transform", "translate(371, 68)");
 
     },
 
@@ -199,7 +200,7 @@ export default {
       var myColor = d3
         .scaleLinear()
         .domain([0, 100])
-        .range(["white", "orange"], 10);
+        .range(["white", "#9684d8"], 10);
 
       // <!-- hatch for lockdowns based on https://jsfiddle.net/sqrz3/    -->
       // <defs>
@@ -222,7 +223,7 @@ export default {
           .attr("height", 8)
           .append("path")
           .attr("d", "M-1,1 l2,-2 M0,4 l4,-4 M3,5 l2,-2")
-          .style("stroke", "black")
+          .style("stroke", "#999999")
           .style("stroke-width", 1);
 
         d3.select("#hospitality_container")
@@ -258,7 +259,7 @@ export default {
         // .attr("fill", "blue")
         .attr("fill", (d) =>
           isNaN(this.dataHospitality[d.properties.nameEN])
-            ? "#686464"
+            ? "#DADADA"
             : myColor(this.dataHospitality[d.properties.nameEN])
         )
         // .style("fill", "url(#diagonalHatch)")
@@ -280,14 +281,14 @@ export default {
               // reset
               if (lastClickedRegion != "Germany" || lastClickedRegion != this.id) {              
                 d3.select("#" + lastClickedRegion)
-                  .attr("stroke", "#101010")
+                  .attr("stroke", "#999999")
                   .attr("stroke-width", "0.5");
               }
 
               if (lastClickedRegion != this.id) {
                 d3.select("#" + this.id)
-                  .attr("stroke-width", "3")
-                  .attr("stroke", "black");
+                  .attr("stroke-width", "2")
+                  .attr("stroke", "#222222");
 
                 const region_after = mapDataGermany.features.filter((feature) => feature.properties.name == this.id)
                 regionStore.updateRegion(region_after[0].properties.nameEN)

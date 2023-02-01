@@ -18,41 +18,52 @@ export const useCovidCasesStore = defineStore("cases", {
         this.loading = true;
         console.log("processing covid cases from website...");
 
-        await fetch("https://api.corona-zahlen.org/states/history/incidence")
+        const states = fetch(
+          "https://api.corona-zahlen.org/states/history/incidence"
+        )
           .then(
             (body) => body.json(),
             (reason) => console.log("Cases could not be processed: ", reason)
           )
           .then(
             (data) => {
-              const cases = {};
-              const totalCases = {};
               Object.values(data.data).forEach((element) => {
                 var key = regions.find(
                   (region) => region.covid == element.name
                 ).key;
-                cases[key] = element.history.map((datapoint) => {
+                this.cases[key] = element.history.map((datapoint) => {
                   return {
                     day: datapoint.date.split("T")[0],
                     value: datapoint.weekIncidence,
                   };
                 });
-                cases[key].forEach((datapoint) => {
-                  if (totalCases[datapoint.day] === undefined) {
-                    totalCases[datapoint.day] = datapoint.value;
-                  } else {
-                    totalCases[datapoint.day] += datapoint.value;
-                  }
-                });
               });
-              cases[germanyKey] = [];
-              for (var day in totalCases) {
-                cases[germanyKey].push({ day: day, value: totalCases[day] });
-              }
-              this.cases = cases;
             },
             (reason) => console.log("Cases could not be processed: ", reason)
           );
+
+        const germany = fetch(
+          "https://api.corona-zahlen.org/germany/history/incidence"
+        )
+          .then(
+            (body) => body.json(),
+            (reason) => console.log("Cases could not be processed: ", reason)
+          )
+          .then(
+            (data) => {
+              this.cases[germanyKey] = Object.values(data.data).map(
+                (element) => {
+                  return {
+                    day: element.date.split("T")[0],
+                    value: element.weekIncidence,
+                  };
+                }
+              );
+            },
+            (reason) => console.log("Cases could not be processed: ", reason)
+          );
+
+        await Promise.all([states, germany]);
 
         this.loading = false;
         this.initialized = true;

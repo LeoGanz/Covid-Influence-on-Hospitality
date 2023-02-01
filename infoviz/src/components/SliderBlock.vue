@@ -20,6 +20,8 @@
           @input="calculateThumbLeft"
           @mouseover="toggleAutoplayPaused"
           @mouseleave="toggleAutoplayPaused"
+          @pointerdown="sliderStore.moving = true"
+          @pointerup="sliderStore.moving = false"
       />
       <div class="legend">
         <p>{{ dateStore.startHumanReadable }}</p>
@@ -30,14 +32,17 @@
 </template>
 
 <script>
-import {useDateStore} from "@/stores/date";
+import { useDateStore } from "@/stores/date";
+import { useSliderStore } from "@/stores/slider";
 
 export default {
   data() {
     const dateStore = useDateStore();
+    const sliderStore = useSliderStore();
     return {
       thumbLeft: "0%",
       dateStore,
+      sliderStore,
       autoplayEnabled: false,
       autoplayPaused: false,
       timer: null,
@@ -45,14 +50,15 @@ export default {
   },
   methods: {
     calculateThumbLeft() {
-
       let slider = this.$refs.slider;
       let sliderWidth = slider.offsetWidth * 0.9;
-      let thumbWidth = (slider.offsetWidth / (this.dateStore.end - this.dateStore.end)) * sliderWidth;
+      let thumbWidth =
+        (slider.offsetWidth / (this.dateStore.end - this.dateStore.end)) *
+        sliderWidth;
       let position =
-          ((this.dateStore.current - this.dateStore.start) /
-              (this.dateStore.end - this.dateStore.start)) *
-          (sliderWidth - thumbWidth);
+        ((this.dateStore.current - this.dateStore.start) /
+          (this.dateStore.end - this.dateStore.start)) *
+        (sliderWidth - thumbWidth);
       return `${(position / sliderWidth) * 90}%`;
     },
     toggleAutoplayEnabled() {
@@ -83,7 +89,6 @@ export default {
 </script>
 
 <style>
-
 .slider {
   width: 100%;
   display: flex;
@@ -152,6 +157,4 @@ input[type="range"]::-webkit-slider-thumb {
   align-items: center;
   padding: 0px 20px;
 }
-
-
 </style>

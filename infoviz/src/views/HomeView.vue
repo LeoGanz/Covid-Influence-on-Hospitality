@@ -114,8 +114,8 @@ export default {
 
 .slider_block {
   padding: 32px 16px;
-  display: flex;
-  flex-flow: column;
+/*  display: flex;
+  flex-flow: column;*/
   background-color: #f5f5f5;
   height: 150px;
 }

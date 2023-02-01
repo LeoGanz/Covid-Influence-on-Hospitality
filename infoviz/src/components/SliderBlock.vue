@@ -1,24 +1,30 @@
 <template>
   <div class="slider">
-    <i class="material-icons" v-if="!autoplayEnabled" @click="toggleAutoplayEnabled">play_circle</i>
-    <i class="material-icons" v-else @click="toggleAutoplayEnabled">pause_circle</i>
-    <input
-        ref="slider"
-        type="range"
-        :min="dateStore.start"
-        :max="dateStore.end"
-        step="10000"
-        v-model="dateStore.current"
-        @input="calculateThumbLeft"
-        @mouseover="toggleAutoplayPaused"
-        @mouseleave="toggleAutoplayPaused"
-    />
-    <div class="slider-value" :style="{ left: thumbLeft }">
-      {{ dateStore.currentHumanReadable }}
+    <div class="left">
+      <div class="button">
+        <i class="material-icons" v-if="!autoplayEnabled" @click="toggleAutoplayEnabled">play_circle</i>
+        <i class="material-icons" v-else @click="toggleAutoplayEnabled">pause_circle</i>
+      </div>
     </div>
-    <div class="legend">
-      <p>{{ dateStore.startHumanReadable }}</p>
-      <p>{{ dateStore.endHumanReadable }}</p>
+    <div class="right">
+      <div class="slider-value" :style="{ left: thumbLeft }">
+        {{ dateStore.currentHumanReadable }}
+      </div>
+      <input
+          ref="slider"
+          type="range"
+          :min="dateStore.start"
+          :max="dateStore.end"
+          step="10000"
+          v-model="dateStore.current"
+          @input="calculateThumbLeft"
+          @mouseover="toggleAutoplayPaused"
+          @mouseleave="toggleAutoplayPaused"
+      />
+      <div class="legend">
+        <p>{{ dateStore.startHumanReadable }}</p>
+        <p>{{ dateStore.endHumanReadable }}</p>
+      </div>
     </div>
   </div>
 </template>
@@ -77,17 +83,30 @@ export default {
 </script>
 
 <style>
+
 .slider {
   width: 100%;
   display: flex;
-  flex-flow: column nowrap;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: row;
 }
+
+.left {
+  width: 10%;
+  display: flex;
+  flex-direction: column;
+}
+
+.right {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+}
+
+
 
 input[type="range"] {
   -webkit-appearance: none;
-  width: 70%;
+  width: 93%;
   margin: 30px 0;
 }
 
@@ -112,22 +131,9 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .slider-value {
-  position: absolute;
-  top: 20px;
-  font-weight: 530;
-  font-size: 20px;
-  line-height: 23px;
   color: #19191c;
-  left: 10%;
-  padding: 0 20px;
-}
-
-.legend {
-  display: flex;
-  width: 90%;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0px 20px;
+  margin-top: -20px;
+  margin-bottom: -10px;
 }
 
 .slider i {
@@ -138,4 +144,14 @@ input[type="range"]::-webkit-slider-thumb {
 .slider i:hover {
   color: #333333;
 }
+
+.legend {
+  display: flex;
+  width: 90%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 20px;
+}
+
+
 </style>

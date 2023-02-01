@@ -71,10 +71,12 @@ export default {
     },
     updateTimer() {
       if (this.autoplayEnabled && !this.autoplayPaused) {
+        this.sliderStore.moving = true;
         this.timer = setInterval(() => {
           this.dateStore.incrementCurrentByOneDay()
         }, 100);
       } else {
+        this.sliderStore.moving = false;
         clearInterval(this.timer);
       }
     },

@@ -1,13 +1,14 @@
 <template>
   <div class="slider">
     <input
-        ref="slider"
-        type="range"
-        :min="dateStore.start"
-        :max="dateStore.end"
-        step="10000"
-        v-model="dateStore.current"
-        @input="calculateThumbLeft"
+      ref="slider"
+      type="range"
+      :min="dateStore.start"
+      :max="dateStore.end"
+      step="10000"
+      v-model="dateStore.current"
+      @input="calculateThumbLeft"
+      @mouseleave="sliderStore.moving = false"
     />
     <div class="slider-value" :style="{ left: thumbLeft }">
       {{ dateStore.currentHumanReadable }}
@@ -20,25 +21,31 @@
 </template>
 
 <script>
-import {useDateStore} from "@/stores/date";
+import { useDateStore } from "@/stores/date";
+import { useSliderStore } from "@/stores/slider";
 
 export default {
   data() {
     const dateStore = useDateStore();
+    const sliderStore = useSliderStore();
     return {
       thumbLeft: "0%",
       dateStore,
+      sliderStore,
     };
   },
   methods: {
     calculateThumbLeft() {
+      this.sliderStore.moving = true;
       let slider = this.$refs.slider;
       let sliderWidth = slider.offsetWidth * 0.9;
-      let thumbWidth = (slider.offsetWidth / (this.dateStore.end - this.dateStore.end)) * sliderWidth;
+      let thumbWidth =
+        (slider.offsetWidth / (this.dateStore.end - this.dateStore.end)) *
+        sliderWidth;
       let position =
-          ((this.dateStore.current - this.dateStore.start) /
-              (this.dateStore.end - this.dateStore.start)) *
-          (sliderWidth - thumbWidth);
+        ((this.dateStore.current - this.dateStore.start) /
+          (this.dateStore.end - this.dateStore.start)) *
+        (sliderWidth - thumbWidth);
       return `${(position / sliderWidth) * 90}%`;
     },
   },

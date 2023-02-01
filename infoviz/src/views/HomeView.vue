@@ -58,6 +58,10 @@ export default {
       updateRouteWithParams();
     });
 
+    regionStore.$subscribe(() => {
+      updateRouteWithParams();
+    });
+
     return {
       dateStore,
       regionStore,

@@ -8,7 +8,8 @@
       step="10000"
       v-model="dateStore.current"
       @input="calculateThumbLeft"
-      @mouseleave="sliderStore.moving = false"
+      @pointerdown="sliderStore.moving = true"
+      @pointerup="sliderStore.moving = false"
     />
     <div class="slider-value" :style="{ left: thumbLeft }">
       {{ dateStore.currentHumanReadable }}
@@ -36,7 +37,6 @@ export default {
   },
   methods: {
     calculateThumbLeft() {
-      this.sliderStore.moving = true;
       let slider = this.$refs.slider;
       let sliderWidth = slider.offsetWidth * 0.9;
       let thumbWidth =

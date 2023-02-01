@@ -54,10 +54,7 @@ export default {
       }
     }
 
-    dateStore.$subscribe(() => {
-      updateRouteWithParams();
-    });
-    regionStore.$subscribe(() => {
+    sliderStore.$subscribe(() => {
       updateRouteWithParams();
     });
 

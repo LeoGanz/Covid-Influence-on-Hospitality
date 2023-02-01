@@ -20,10 +20,10 @@
       <rect
         :x="xScale(lockdown.start)"
         :y="chart.marginTop"
-        fill="lightgrey"
+        fill="url(#diagonalHatch)"
         :height="chart.height - chart.marginTop - chart.marginBottom"
         :width="xScale(lockdown.end) - xScale(lockdown.start)"
-        :opacity="lockdown.value / 2"
+        :opacity="lockdown.value > 0 ? 0.4 : 0"
       ></rect>
     </g>
     <g

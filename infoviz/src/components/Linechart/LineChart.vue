@@ -20,10 +20,9 @@
       <rect
         :x="xScale(lockdown.start)"
         :y="chart.marginTop"
-        fill="url(#diagonalHatch)"
+        :fill="lockdown.value > 0 ? 'url(#diagonalHatch)' : 'transparent'"
         :height="chart.height - chart.marginTop - chart.marginBottom"
         :width="xScale(lockdown.end) - xScale(lockdown.start)"
-        :opacity="lockdown.value > 0 ? 0.4 : 0"
       ></rect>
     </g>
     <g

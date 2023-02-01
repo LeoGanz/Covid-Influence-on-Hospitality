@@ -60,7 +60,7 @@ export const useMeasuresStore = defineStore("measures", {
             if (acc[i].day !== timeline[i].day) {
               throw new Error("Timeline days do not match");
             }
-            newAcc[i].value = Math.min(acc[i].value, timeline[i].value);
+            newAcc[i].value = Math.max(acc[i].value, timeline[i].value);
           }
           return newAcc;
         }

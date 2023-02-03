@@ -42,6 +42,7 @@
 import BarChartTest from "./BarChartTest.vue";
 import { useHospitalityStore } from "@/stores/hospitality";
 import { useDateStore } from "@/stores/date";
+import { useCurrentRegionStore } from "@/stores/currentRegion.js";
 
 export default {
   name: "App",
@@ -50,7 +51,9 @@ export default {
     //BarChart,
   },
   data() {
+    const currentRegionStore = useCurrentRegionStore();
     return {
+      currentRegionStore,
       displayUpperCategory: true,
       displayLodging: false,
       displayGastronomy: false,
@@ -89,6 +92,7 @@ export default {
   },
   computed: {
     data() {
+      const state = this.currentRegionStore.currentRegion;
       const data = [];
       const dataJson = this.hospitalityStore.getSectorsByMonth(
         this.dateStore.currentMonth

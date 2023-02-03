@@ -107,7 +107,7 @@ export default {
 }
 
 .description_block {
-  height: 225px;
+  height: 250px;
 }
 
 .line_block {
@@ -123,7 +123,7 @@ export default {
 /*  display: flex;
   flex-flow: column;*/
   background-color: #f5f5f5;
-  height: 150px;
+  height: 120px;
 }
 
 .bar_block {

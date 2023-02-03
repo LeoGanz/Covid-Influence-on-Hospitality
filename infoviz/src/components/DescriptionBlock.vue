@@ -8,7 +8,7 @@
     </div>
     <div class="description_subsection">
       <h2>Data</h2>
-      <div>
+      <div >
         Hospitality data is provided in percent of the revenue of the same month in 2015.
         <Popper placement="right" hover="true" arrow="true">
           <i class="material-icons">info</i>
@@ -17,12 +17,10 @@
               <h2>Hospitality Data</h2>
               Hospitality data is provided by the Federal Statistical Office of Germany.
               <p>
-                Data by <i>sectors</i> can be found in data set 45213-0005: <a
-                  href="https://www-genesis.destatis.de/genesis//online?operation=table&code=45213-0005" target="_blank" rel="noopener noreferrer">link
-                icon</a><br>
-                Data by <i>regions</i> can be found in data set 45213-0014: <a
-                  href="https://www-genesis.destatis.de/genesis//online?operation=table&code=45213-0014" target="_blank" rel="noopener noreferrer">link
-                icon</a><br>
+                Data by <i>sectors</i> can be found in data set 45213-0005:
+                <a href="https://www-genesis.destatis.de/genesis//online?operation=table&code=45213-0005" target="_blank" rel="noopener noreferrer">link icon</a><br>
+                Data by <i>regions</i> can be found in data set 45213-0014:
+                  <a href="https://www-genesis.destatis.de/genesis//online?operation=table&code=45213-0014" target="_blank" rel="noopener noreferrer">link icon</a><br>
               </p>
             </div>
           </template>
@@ -100,5 +98,7 @@ h1 {
 .material-icons {
   font-size: 1.25em;
   color: #656565;
+  vertical-align: -2px;
 }
+
 </style>

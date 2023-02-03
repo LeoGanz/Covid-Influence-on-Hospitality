@@ -27,6 +27,7 @@ import { scaleLinear, scaleBand } from "d3-scale";
 import { max, min } from "d3-array";
 import { select } from "d3-selection";
 import { axisBottom, axisLeft } from "d3-axis";
+import { useCurrentRegionStore } from "@/stores/currentRegion.js";
 
 export default {
   name: "BarChart",
@@ -44,18 +45,23 @@ export default {
     this.createXAxis();
     this.createYAxis();
   },
-  data: () => ({
-    svgWidth: 0,
-    redrawToggle: true,
-    margin: {
-      top: 20,
-      right: 20,
-      bottom: 30,
-      left: 40,
-    },
-  }),
+  data() {
+    const currentRegionStore = useCurrentRegionStore();
+    return {
+      currentRegionStore,
+      svgWidth: 0,
+      redrawToggle: true,
+      margin: {
+        top: 20,
+        right: 20,
+        bottom: 30,
+        left: 40,
+      }
+    };
+  },
   methods: {
     renderBars() {
+      const state = this.currentRegionStore.currentRegion;
       select("#barchart")
           .selectAll("rect")
           .attr("transform", `translate(${80}, 0)`)
@@ -71,9 +77,25 @@ export default {
           .attr("width", (d) => {
             return this.xScale(d[this.yKey]);
           })
-          .attr("class", (d, i) => {
-            return i === 0 ? "bar-highlight" : "bar-positive";
-          });
+          if (state === "germany") {
+            select("#barchart")
+                .selectAll("rect")
+                .attr("transform", `translate(${80}, 0)`)
+                .data(this.data)
+                .attr("class", (d, i) => {
+                return i === 0 ? "bar-highlight" : "bar-positive";
+            })
+          }
+          else if(state !== "germany"){
+            select("#barchart")
+                .selectAll("rect")
+                .attr("transform", `translate(${80}, 0)`)
+                .data(this.data)
+                .attr("class", (d, i) => {
+                  return i === 0 ? "bar-grey-highlight" : "bar-grey";
+                })
+            }
+
     },
     AddResizeListener() {
       // redraw the chart 300ms after the window has been resized
@@ -118,7 +140,9 @@ export default {
           .append("g")
           .attr("class", "y-axis")
           .attr("transform", `translate(${80}, 0)`)
+
           .call(yAxis);
+
     },
   },
   computed: {
@@ -135,7 +159,7 @@ export default {
     yScale() {
       return scaleBand()
           .rangeRound([0, this.svgHeight])
-          .padding(0.1)
+          .padding([this.xKey === "lol" ? 0.5 : 0.1])
           .domain(
               this.data.map((d) => {
                 return d[this.xKey];
@@ -218,6 +242,19 @@ export default {
   fill: none;
   stroke: #686464;
   shape-rendering: crispEdges;
+
+}
+.bar-grey-highlight{
+  fill: #a6a6a6;
+}
+.bar-grey{
+  fill: #d0cece;
+}
+.overcat{
+  transform: translateY(-20px);
+}
+.undercat{
+  transform: translateY(20px);
 }
 
 .y-axis path,

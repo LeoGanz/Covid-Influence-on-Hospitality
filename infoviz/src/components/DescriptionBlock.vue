@@ -18,9 +18,13 @@
               Hospitality data is provided by the Federal Statistical Office of Germany.
               <p>
                 Data by <i>sectors</i> can be found in data set 45213-0005:
-                <a href="https://www-genesis.destatis.de/genesis//online?operation=table&code=45213-0005" target="_blank" rel="noopener noreferrer">link icon</a><br>
+                <a href="https://www-genesis.destatis.de/genesis//online?operation=table&code=45213-0005" target="_blank" rel="noopener noreferrer">
+                  <font-awesome-icon icon="fa-solid fa-arrow-up-right-from-square" />
+                </a><br>
                 Data by <i>regions</i> can be found in data set 45213-0014:
-                  <a href="https://www-genesis.destatis.de/genesis//online?operation=table&code=45213-0014" target="_blank" rel="noopener noreferrer">link icon</a><br>
+                  <a href="https://www-genesis.destatis.de/genesis//online?operation=table&code=45213-0014" target="_blank" rel="noopener noreferrer">
+                    <font-awesome-icon icon="fa-solid fa-arrow-up-right-from-square" />
+                  </a><br>
               </p>
             </div>
           </template>
@@ -35,7 +39,9 @@
               <h2>Covid Data</h2>
               Covid data is provided by "Robert Koch-Institut API - by Marlon Lückert" which sources its data directly
               from the Robert Koch Institute.
-              <a href="https://api.corona-zahlen.org" target="_blank" rel="noopener noreferrer">link icon</a><br>
+              <a href="https://api.corona-zahlen.org" target="_blank" rel="noopener noreferrer">
+                <font-awesome-icon icon="fa-solid fa-arrow-up-right-from-square" />
+              </a><br>
             </div>
           </template>
         </Popper>

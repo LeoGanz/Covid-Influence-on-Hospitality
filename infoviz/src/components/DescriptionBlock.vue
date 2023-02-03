@@ -9,7 +9,7 @@
     <div class="description_subsection">
       <h2>Data</h2>
       <div >
-        Hospitality data is provided in percent of the revenue of the same month in 2015.
+        Hospitality revenue data is provided in percent of the revenue of the same month in 2015.
         <Popper placement="right" hover="true" arrow="true">
           <i class="material-icons">info</i>
           <template #content>

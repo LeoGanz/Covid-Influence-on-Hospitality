@@ -161,4 +161,27 @@ export default {
   color: white;
   transition-duration: 0.4s;
 }
+
+.material-icons {
+  font-size: 1.25em;
+  color: #a4a1a1;
+}
+
+:root {
+  --popper-theme-background-color: #ffffff;
+  --popper-theme-background-color-hover: #ffffff;
+  --popper-theme-text-color: #333333;
+  --popper-theme-border-radius: 16px;
+  --popper-theme-padding: 25px;
+  --popper-theme-box-shadow: 0 0px 200px -6px rgba(0, 0, 0, 0.8);
+}
+.popper {
+  width: 600px;
+}
+
+.popper p {
+  hyphens: auto;
+  text-align: justify
+}
+
 </style>

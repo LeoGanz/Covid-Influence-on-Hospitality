@@ -85,25 +85,11 @@ h1 {
   font-size: 32px;
 }
 
-:deep(.popper) {
-  width: 600px;
-}
-
-.description {
-  --popper-theme-background-color: #ffffff;
-  --popper-theme-background-color-hover: #ffffff;
-  --popper-theme-text-color: #333333;
-  --popper-theme-border-radius: 16px;
-  --popper-theme-padding: 20px;
-  --popper-theme-box-shadow: 0 0px 200px -6px rgba(0, 0, 0, 0.8);
-}
 .description_subsection {
   padding: 10px 0px;
 }
 
 .material-icons {
-  font-size: 1.25em;
-  color: #656565;
   vertical-align: -2px;
 }
 

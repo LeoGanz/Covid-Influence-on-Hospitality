@@ -3,16 +3,14 @@
     <div class="horizontal_flex">
       <div class="left_boxes">
         <DescriptionBlock class="block description_block" />
-        <LineBlock class="block line_block" />
-        <SliderBlock class="block slider_block" />
         <div>
           <router-link to="/about">
             <button @click="navigate" class="aboutbutton">about</button>
           </router-link>
-          <router-link to="/test">
-            <button @click="navigate" class="aboutbutton">test</button>
-          </router-link>
         </div>
+        <LineBlock class="block line_block" />
+        <SliderBlock class="block slider_block" />
+
       </div>
       <div class="right_boxes">
         <BarBlock class="block bar_block" />
@@ -107,7 +105,7 @@ export default {
 }
 
 .description_block {
-  height: 225px;
+  height: 128px;
 }
 
 .line_block {

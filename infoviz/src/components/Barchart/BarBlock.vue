@@ -30,7 +30,7 @@
           >
           <span>Gastronomy</span>
         </label>
-        <p class="note">Note: Data only available for Germany, not for individual states </p>
+        <p class="note">Data only available for Germany, not for individual states </p>
       </div>
     </div>
     <div v-if="!hospitalityStore.initialized">Loading...</div>

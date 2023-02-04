@@ -1,53 +1,70 @@
 <template>
   <div>
     <div id="headerBarChart">
-      <div class="bottomSpacing"  id="radio_buttons">
+      <div class="bottomSpacing" id="radio_buttons">
         <label class="radiolabels">
           <input
-            type="radio"
-            @change="changeToUpper"
-            value="upper category"
-            name="displayUpperCategory"
-            checked
+              type="radio"
+              @change="changeToUpper"
+              value="upper category"
+              name="displayUpperCategory"
+              checked
           >
           <span>Hospitality</span>
         </label>
         <label class="radiolabels">
           <input
-            type="radio"
-            @change="changeToLodging"
-            value="lodging"
-            name="displayUpperCategory"
+              type="radio"
+              @change="changeToLodging"
+              value="lodging"
+              name="displayUpperCategory"
           >
           <span>Accommodation</span>
         </label>
         <label class="radiolabels">
           <input
-            type="radio"
-            @change="changeToGastronomy"
-            value="gastronomy"
-            name="displayUpperCategory"
+              type="radio"
+              @change="changeToGastronomy"
+              value="gastronomy"
+              name="displayUpperCategory"
           >
           <span>Gastronomy</span>
         </label>
       </div>
+      <Popper placement="left" hover="true" arrow="true">
+        <i class="material-icons">info</i>
+        <template #content>
+          <div>
+            <h2>Hospitality Revenue by Sectors</h2>
+            <p>This barchart displays the revenue of the hospitality sector and its sub-sectors in Germany at the date
+              selected through the slider. This allows a comparison of how hard the different sectors have been hit
+              by the pandemic.</p>
+            <p>
+              The super-category "Hospitality" is the weighted average of the sub-categories "Accommodation" and "Gastronomy".
+              Super-categories are always highlighted in a darker color.
+            </p>
+          </div>
+        </template>
+      </Popper>
     </div>
     <div v-if="!hospitalityStore.initialized">Loading...</div>
-    <BarChartTest class="leftMargin" v-else xKey="abbreviation" yKey="value" v-bind:data="data" />
+    <BarChartTest class="leftMargin" v-else xKey="abbreviation" yKey="value" v-bind:data="data"/>
   </div>
 </template>
 
 <script>
 //import BarChart from "./BarChart.vue";
 import BarChartTest from "./BarChartTest.vue";
-import { useHospitalityStore } from "@/stores/hospitality";
-import { useDateStore } from "@/stores/date";
+import {useHospitalityStore} from "@/stores/hospitality";
+import {useDateStore} from "@/stores/date";
+import Popper from "vue3-popper";
 
 export default {
   name: "App",
   components: {
     BarChartTest,
     //BarChart,
+    Popper,
   },
   data() {
     return {
@@ -82,7 +99,7 @@ export default {
   setup() {
     const hospitalityStore = useHospitalityStore();
     const dateStore = useDateStore();
-    return { hospitalityStore, dateStore };
+    return {hospitalityStore, dateStore};
   },
   async mounted() {
     await this.hospitalityStore.initValues();
@@ -91,7 +108,7 @@ export default {
     data() {
       const data = [];
       const dataJson = this.hospitalityStore.getSectorsByMonth(
-        this.dateStore.currentMonth
+          this.dateStore.currentMonth
       ).real.original;
 
       const dataArray = Object.entries(dataJson);
@@ -135,7 +152,7 @@ export default {
           const value = entry[1][0];
           const abbreviation = entry[1][1];
           if (region === "gastronomy" || region === "restaurantsTavernsSnackbarsCafes"
-              || region === "catereing"|| region === "beverages"|| region === "restaurantBusiness") {
+              || region === "catereing" || region === "beverages" || region === "restaurantBusiness") {
             if (Number.isFinite(value)) {
               data.push({region, value, abbreviation});
             } else {
@@ -164,6 +181,7 @@ input[type="radio"] {
   width: 0;
   height: 0;
 }
+
 .radiolabels {
   display: table-cell;
   vertical-align: middle;
@@ -188,11 +206,14 @@ input[type="radio"] {
 #headerBarChart {
   margin-bottom: 16px;
   margin-left: 16px;
+  margin-right: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .leftMargin {
   margin-left: 16px;
 }
-
 
 </style>

@@ -28,7 +28,7 @@ import LineBlock from "@/components/Linechart/LineBlock.vue";
 import MapBlock from "@/components/Map/MapBlock.vue";
 import SliderBlock from "@/components/SliderBlock.vue";
 import BarBlock from "@/components/Barchart/BarBlock.vue";
-import BarChart from "@/components/Barchart/BarChart.vue";
+//import BarChart from "@/components/Barchart/BarChart.vue";
 import { useDateStore } from "@/stores/date";
 import { useRoute, useRouter } from "vue-router";
 import { useCurrentRegionStore } from "@/stores/currentRegion";
@@ -86,7 +86,7 @@ export default {
     DescriptionBlock,
     MapBlock,
     BarBlock,
-    BarChart,
+    //BarChart,
   },
 };
 </script>
@@ -120,7 +120,7 @@ export default {
 
 .slider_block {
   padding: 32px 16px;
-/*  display: flex;
+  /*  display: flex;
   flex-flow: column;*/
   background-color: #f5f5f5;
   height: 150px;

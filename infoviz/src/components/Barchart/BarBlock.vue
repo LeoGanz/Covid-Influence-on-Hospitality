@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="headerBarChart">
-      <div class="bottomSpacing"  id="radio_buttons">
+      <div id="radio_buttons">
         <label class="radiolabels">
           <input
             type="radio"
@@ -30,6 +30,7 @@
           >
           <span>Gastronomy</span>
         </label>
+        <p class="note">Note: Data only available for Germany, not for individual states </p>
       </div>
     </div>
     <div v-if="!hospitalityStore.initialized">Loading...</div>
@@ -157,6 +158,16 @@ export default {
 </script>
 
 <style>
+
+.barHeaderBar {
+  display: flex;
+  flex-direction: row;
+}
+
+.note {
+  font-size: 12px;
+  color: #9f9f9f;
+}
 
 .radioList {
   width: 80%;

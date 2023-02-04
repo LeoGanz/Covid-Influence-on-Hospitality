@@ -174,7 +174,7 @@ export default {
   --popper-theme-text-color: #333333;
   --popper-theme-border-radius: 16px;
   --popper-theme-padding: 25px;
-  --popper-theme-box-shadow: 0 0px 200px -6px rgba(0, 0, 0, 0.8);
+  --popper-theme-box-shadow: 0 0px 1000px 50px rgba(0, 0, 0, 0.6);
 }
 .popper {
   width: 600px;

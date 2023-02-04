@@ -165,6 +165,7 @@ export default {
 .material-icons {
   font-size: 1.25em;
   color: #a4a1a1;
+  cursor: default;
 }
 
 :root {

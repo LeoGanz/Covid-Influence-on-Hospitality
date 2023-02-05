@@ -3,8 +3,8 @@
     <div class="horizontal_flex">
       <div class="left_boxes">
         <DescriptionBlock class="block description_block" />
-        <LineBlock class="block line_block" />
-        <SliderBlock class="block slider_block" />
+        <LineBlock class="block graph_block line_block" />
+        <SliderBlock class="block graph_block slider_block" />
         <div>
           <router-link to="/about">
             <button @click="navigate" class="aboutbutton">about</button>
@@ -15,8 +15,8 @@
         </div>
       </div>
       <div class="right_boxes">
-        <BarBlock class="block bar_block" />
-        <MapBlock class="block map_block" />
+        <BarBlock class="block graph_block bar_block" />
+        <MapBlock class="block graph_block map_block" />
       </div>
     </div>
   </main>
@@ -110,33 +110,31 @@ export default {
   height: 250px;
 }
 
-.line_block {
+.graph_block {
   padding: 32px 16px;
+  background-color: #f5f5f5;
+}
+.graph_block h1, .graph_block h2, .graph_block h3, .graph_block h4, .graph_block h5, .graph_block h6 {
+  color: #2C3E50;
+}
+
+.line_block {
   display: flex;
   flex-flow: column;
-  background-color: #f5f5f5;
   height: 437px;
 }
 
 .slider_block {
-  padding: 32px 16px;
-/*  display: flex;
-  flex-flow: column;*/
-  background-color: #f5f5f5;
   height: 120px;
 }
 
 .bar_block {
-  padding: 32px 16px;
   display: flex;
   flex-flow: column;
-  background-color: #f5f5f5;
   height: 325px;
 }
 
 .map_block {
-  padding: 32px 16px;
-  background-color: #f5f5f5;
   height: 516px;
 }
 

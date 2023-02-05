@@ -22,7 +22,6 @@
 </template>
 
 <script>
-import * as d3 from "d3";
 import { scaleLinear, scaleBand } from "d3-scale";
 import { max, min } from "d3-array";
 import { select } from "d3-selection";
@@ -173,6 +172,10 @@ export default {
           this.$data.svgWidth =
               document.getElementById("container").offsetWidth * 0.75;
           this.renderBars();
+          this.clearXAxis();
+          this.clearYAxis();
+          this.createXAxis();
+          this.createYAxis();
         }, 300);
       });
     },
@@ -248,7 +251,7 @@ export default {
           .domain([this.dataMin > 0 ? 0 : this.dataMin, 240]);
     },
     svgHeight() {
-      return 189; // define height here
+      return 170; // define height here
     },
   },
   watch: {

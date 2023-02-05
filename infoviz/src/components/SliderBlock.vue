@@ -2,26 +2,33 @@
   <div class="slider">
     <div class="left">
       <div class="button">
-        <i class="material-icons" v-if="!autoplayEnabled" @click="toggleAutoplayEnabled">play_circle</i>
-        <i class="material-icons" v-else @click="toggleAutoplayEnabled">pause_circle</i>
+        <i
+          class="material-icons"
+          v-if="!autoplayEnabled"
+          @click="toggleAutoplayEnabled"
+          >play_circle</i
+        >
+        <i class="material-icons" v-else @click="toggleAutoplayEnabled"
+          >pause_circle</i
+        >
       </div>
     </div>
     <div class="right">
       <div class="slider-value" :style="{ left: thumbLeft }">
-        {{ dateStore.currentHumanReadable }}
+        <p class="greyLabel">Current Date:&nbsp; </p> {{ dateStore.currentHumanReadable }}
       </div>
       <input
-          ref="slider"
-          type="range"
-          :min="dateStore.start"
-          :max="dateStore.end"
-          step="10000"
-          v-model="dateStore.current"
-          @input="calculateThumbLeft"
-          @mouseover="toggleAutoplayPaused"
-          @mouseleave="toggleAutoplayPaused"
-          @pointerdown="sliderStore.moving = true"
-          @pointerup="sliderStore.moving = false"
+        ref="slider"
+        type="range"
+        :min="dateStore.start"
+        :max="dateStore.end"
+        step="10000"
+        v-model="dateStore.current"
+        @input="calculateThumbLeft"
+        @mouseover="toggleAutoplayPaused"
+        @mouseleave="toggleAutoplayPaused"
+        @pointerdown="sliderStore.moving = true"
+        @pointerup="sliderStore.moving = false"
       />
       <div class="legend">
         <p>{{ dateStore.startHumanReadable }}</p>
@@ -73,7 +80,7 @@ export default {
       if (this.autoplayEnabled && !this.autoplayPaused) {
         this.sliderStore.moving = true;
         this.timer = setInterval(() => {
-          this.dateStore.incrementCurrentByOneDay()
+          this.dateStore.incrementCurrentByOneDay();
         }, 100);
       } else {
         this.sliderStore.moving = false;
@@ -109,8 +116,6 @@ export default {
   flex-direction: column;
 }
 
-
-
 input[type="range"] {
   -webkit-appearance: none;
   width: 93%;
@@ -126,7 +131,7 @@ input[type="range"]::-webkit-slider-runnable-track {
 }
 
 input[type="range"]::-webkit-slider-thumb {
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
   width: 28px;
   height: 28px;
   border-radius: 50%;
@@ -138,10 +143,17 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .slider-value {
+  display: flex;
+  flex-direction: row;
   color: #19191c;
   margin-top: -20px;
   margin-bottom: -10px;
 }
+
+.greyLabel {
+  color: #949494;
+}
+
 
 .slider i {
   font-size: 3em;
@@ -154,9 +166,14 @@ input[type="range"]::-webkit-slider-thumb {
 
 .legend {
   display: flex;
-  width: 90%;
+  width: 100%;
   justify-content: space-between;
   align-items: center;
-  padding: 0px 20px;
+  padding-right: 32px;
+  color: #949494;
+}
+
+.button {
+  margin-top: 4px;
 }
 </style>

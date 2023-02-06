@@ -106,7 +106,7 @@ export default {
             .data(keys)
             .enter()
             .append("rect")
-            .attr("x", this.xScale(192))
+            .attr("x", this.xScale(172))
             .attr("y", 10)
             //.attr("right", 32)
             .attr("width", 19)
@@ -118,7 +118,7 @@ export default {
             .data(keys)
             .enter()
             .append("rect")
-            .attr("x", this.xScale(192))
+            .attr("x", this.xScale(172))
             .attr("y", 32)
             .attr("width", 19)
             .attr("height", 19)
@@ -130,7 +130,7 @@ export default {
             .data(keys)
             .enter()
             .append("rect")
-            .attr("x", this.xScale(192))
+            .attr("x", this.xScale(172))
             .attr("y", 10)
             //.attr("right", 32)
             .attr("width", 19)
@@ -142,7 +142,7 @@ export default {
             .data(keys)
             .enter()
             .append("rect")
-            .attr("x", this.xScale(192))
+            .attr("x", this.xScale(172))
             .attr("y", 32)
             .attr("width", 19)
             .attr("height", 19)
@@ -231,6 +231,7 @@ export default {
           .call(xAxis)
           .selectAll("text")
           .style("text-anchor", "end")
+          .style("font-size", "125%")
           .attr("dx", ".6em")
           .attr("dy", ".5em")
           .attr("transform", function (d) {
@@ -248,7 +249,8 @@ export default {
       select("#barchart")
           .append("g")
           .attr("class", "y-axis")
-          .attr("transform", `translate(${80}, 0)`)
+          .style("font-size", "90%")
+          .attr("transform", `translate(${110}, 0)`)
 
           .call(yAxis);
 
@@ -367,8 +369,9 @@ export default {
 }
 
 
-.legend{
-  fill: black;
+.legendbar{
+  fill: #ff0000 !important;
+  font-size: 100%;
 }
 
 .y-axis path,

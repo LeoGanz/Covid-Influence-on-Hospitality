@@ -82,7 +82,6 @@ export default {
       } else {
         d3.select("#hospitality_container").selectAll("g").remove();
 
-        this.renderMap();
         this.plotMapData();
 
         if (this.currentRegion.currentRegionName != "Germany") {
@@ -101,7 +100,7 @@ d3.select("#" + this.currentRegion.currentRegionName )
         .append("path")
         .datum(mapDataGermany)
         .attr("fill", "none")
-        .attr("stroke", "#121212")
+        .attr("stroke", "#999999")
         .attr("stroke-linejoin", "round")
         .attr("d", d3.geoPath().projection(projection1))
         .attr("transform", "translate(-80, 0)");
@@ -195,26 +194,12 @@ d3.select("#" + this.currentRegion.currentRegionName )
     },
 
     plotMapData() {
-      // chose filling
-      // var myColor = d3.scaleQuantize([0, 100], d3.schemeOranges[6]);
 
       // linear filling incremented in steps of 10
       var myColor = d3
         .scaleLinear()
         .domain([0, 100])
         .range(["white", "#9684d8"], 10);
-
-      // <!-- hatch for lockdowns based on https://jsfiddle.net/sqrz3/    -->
-      // <defs>
-      //   <pattern id="stripe" patternUnits="userSpaceOnUse" width="40" height="20">
-      //     <line x1="10" y1="0" x2="30" y2="20" />
-      //     <line x1="-10" y1="0" x2="10" y2="20" />
-      //     <line x1="30" y1="0" x2="50" y2="20" />
-      //   </pattern>
-      //   <mask id="mask">
-      //     <rect height="500" width="500" style="fill: url(#stripe)" />
-      //   </mask>
-      // </defs>
 
       d3.select("#hospitality_container")
           .append("defs")
@@ -234,38 +219,20 @@ d3.select("#" + this.currentRegion.currentRegionName )
         .data(mapDataGermany.features)
         .join("path")
         .style("fill", (d) => this.isLockdown(d.properties.nameEN) ? "url(#diagonalHatch)" : "transparent")
-        // .attr("fill", "url(#stripe)")
         .attr("fill-opacity", 1)
         .attr("d", d3.geoPath().projection(projection1))
         .attr("transform", "translate(-80, 0)");
         
         d3.select("#hospitality_container")
         .append("g")
-        // try to add hatch
-        // .attr("id", "ha");
-        // d3.select("#ha")
-        // .append("defs");
-        // d3.select("#ha")
-        // .selectAll("defs")
-        // .append("pattern")
-        // .attr({"id": "stripe", patternUnits: "userSpaceOnUse", width:"40", height:"20"})
-        // .append("rect")
-        // .attr({x1:"10", y1:"0", x2:"30", y2:"20"})
-        // .append("rect")
-        // .attr({x1:"-10", y1:"0", x2:"10", y2:"20"})
-        // .append("rect")
-        // .attr({x1:"30", y1:"0", x2:"50", y2:"20"})
         .selectAll("path")
         .data(mapDataGermany.features)
         .join("path")
-        // .attr("fill", "blue")
         .attr("fill", (d) =>
           isNaN(this.dataHospitality[d.properties.nameEN])
             ? "#DADADA"
             : myColor(this.dataHospitality[d.properties.nameEN])
         )
-        // .style("fill", "url(#diagonalHatch)")
-        // .attr("fill", "url(#stripe)")
         .attr("fill-opacity", 1)
         .attr("d", d3.geoPath().projection(projection1))
         .attr("transform", "translate(-80, 0)")
@@ -283,7 +250,7 @@ d3.select("#" + this.currentRegion.currentRegionName )
               // reset
               if (lastClickedRegion != "Germany" || lastClickedRegion != this.id) {              
                 d3.select("#" + lastClickedRegion)
-                  .attr("stroke", "#121212")
+                  .attr("stroke", "#999999")
                   .attr("stroke-width", "0.5");
               }
 

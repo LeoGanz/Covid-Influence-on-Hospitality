@@ -50,6 +50,13 @@
     </div>
     <div v-if="!hospitalityStore.initialized">Loading...</div>
     <BarChartTest class="leftMargin" v-else xKey="abbreviation" yKey="value" v-bind:data="data" />
+    <!--div class="category-label-group">
+      <div class="category-label">
+        Main Category
+      </div>
+      <div class="category-label">Sub Category</div>
+    </div-->
+    <div class="percentage-label">%</div>
   </div>
 </template>
 
@@ -221,6 +228,8 @@ input[type="radio"] {
 
 }
 
+
+
 #headerBarChart {
   display: flex;
   flex-direction: row;
@@ -232,6 +241,26 @@ input[type="radio"] {
 
 .leftMargin {
   margin-left: 16px;
+}
+
+.percentage-label {
+  position: absolute;
+  bottom: 33px;
+  right: 0;
+  font-size: 15px;
+  color: #000000;
+  margin-right: 32px;
+}
+
+.category-label-group {
+  position: absolute;
+  top: 109px;
+  right: 32px;
+  margin-right: 35px;
+}
+
+.category-label {
+  margin-bottom: -4px;
 }
 
 

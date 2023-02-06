@@ -63,71 +63,101 @@ export default {
       select("#barchart")
           .append("line")
           .attr("class", "hundredline")
-          .attr("x1", this.xScale(139.5))
+          .attr("x1", this.xScale(100)+80)
           .attr("y1", 0)
-          .attr("x2", this.xScale(139.5))
+          .attr("x2", this.xScale(100)+80)
           .attr("y2", this.svgHeight)
-          .style("stroke", "black");
+          .style("stroke", "grey");
+
 
 
       var colorKeys = [
-        "undercategories",
-        "overcategories",
+        "Sub Category",
+        "Main Category",
       ];
       var keys = ["overcategories", "undercategories"];
       var rectSize = 20;
-
+      const state = this.currentRegionStore.currentRegion;
       // text for each color
       select("#barchart")
-          .selectAll("#legend")
+          .selectAll("legend")
           .data(colorKeys)
           .enter()
           .append("text")
           .attr("class", "legend")
-          .attr("x", 53 + rectSize * 1.2)
+          .attr("x", this.xScale(192)+ 80 + rectSize * 1.2)
           .attr("y", function (d, i) {
-            return 95 - i * rectSize + rectSize / 2;
+            return 35 - i * rectSize + rectSize / 2;
           })
-          .style("fill", "black")
           .text(function (d) {
             return d;
           })
-          .attr("text-anchor", "left")
-          .style("alignment-baseline", "middle")
-          .attr("transform", "translate(375, -60)");
+          //.attr("text-anchor", "left")
+          //.style("alignment-baseline", "middle")
+          //.attr("transform", "translate(0, -60)");
 
       //legendColor.selectAll("legend");
-      select("#barchart")
-          .selectAll("legend")
-          .data(keys)
-          .enter()
-          .append("rect")
-          .attr("x", 350)
-          .attr("y", 10)
-          .attr("width", 19)
-          .attr("height", 19)
-          .style("fill", "#8E7FF5")
-          .attr("transform", "translate(371, 92)");
+
+          //.attr("transform", "translate(0, 92)");
 
       //legendColor.selectAll("legend");
-      select("#barchart")
-          .selectAll("legend")
-          .data(keys)
-          .enter()
-          .append("rect")
-          .attr("x", 350)
-          .attr("y", 32)
-          .attr("width", 19)
-          .attr("height", 19)
-          .style("fill", "#C2BAF5")
-          .attr("transform", "translate(371, 92)");
+      if (state === "germany") {
+        select("#barchart")
+            .selectAll("legend")
+            .data(keys)
+            .enter()
+            .append("rect")
+            .attr("x", this.xScale(192))
+            .attr("y", 10)
+            //.attr("right", 32)
+            .attr("width", 19)
+            .attr("height", 19)
+            .style("fill", "#8E7FF5")
+
+        select("#barchart")
+            .selectAll("legend")
+            .data(keys)
+            .enter()
+            .append("rect")
+            .attr("x", this.xScale(192))
+            .attr("y", 32)
+            .attr("width", 19)
+            .attr("height", 19)
+            .style("fill", "#C2BAF5")
+        //.attr("transform", "translate(371, 92)");
+      } else if (state !== "germany"){
+        select("#barchart")
+            .selectAll("legend")
+            .data(keys)
+            .enter()
+            .append("rect")
+            .attr("x", this.xScale(192))
+            .attr("y", 10)
+            //.attr("right", 32)
+            .attr("width", 19)
+            .attr("height", 19)
+            .style("fill", "#a6a6a6")
+
+        select("#barchart")
+            .selectAll("legend")
+            .data(keys)
+            .enter()
+            .append("rect")
+            .attr("x", this.xScale(192))
+            .attr("y", 32)
+            .attr("width", 19)
+            .attr("height", 19)
+            .style("fill", "#d0cece")
+
+
+
+
+      }
 
 
 
 
 
-
-      const state = this.currentRegionStore.currentRegion;
       select("#barchart")
           .selectAll("rect")
           .attr("transform", `translate(${80}, 0)`)
@@ -185,7 +215,6 @@ export default {
           .remove();
     },
     clearLegend() {
-
       select("#barchart")
           .select(".legend")
           .remove();
@@ -207,6 +236,7 @@ export default {
           .attr("transform", function (d) {
             return "rotate(0)";
           });
+
     },
     clearYAxis() {
       select("#barchart")
@@ -238,7 +268,7 @@ export default {
     yScale() {
       return scaleBand()
           .rangeRound([0, this.svgHeight])
-          .padding([this.xKey === "lol" ? 0.5 : 0.22])
+          .padding(0.22)
           .domain(
               this.data.map((d) => {
                 return d[this.xKey];
@@ -330,15 +360,10 @@ export default {
 .bar-grey{
   fill: #d0cece;
 }
-.overcat{
-  transform: translateY(-20px);
-}
-.undercat{
-  transform: translateY(20px);
-}
+
 
 .legend{
-
+  fill: black;
 }
 
 .y-axis path,
@@ -347,5 +372,9 @@ export default {
   stroke: black;
   shape-rendering: crispEdges;
 }
+.legendrect{
 
+  fill: #8E7FF5;
+
+}
 </style>

@@ -28,6 +28,19 @@
           <!-- </li>
         </ul> -->
       </div>
+      <Popper placement="left" hover="true" arrow="true">
+        <i class="material-icons">info</i>
+        <template #content>
+          <div>
+            <h2>Map of Germany</h2>
+            <p>
+              This map displays the selected information (hospitality revenue or incidence) of the different regions in Germany at the date selected through
+              the slider. This allows a comparison between the regions.
+            </p>
+            <p>The map also serves as a control panel for selecting regions.</p>
+          </div>
+        </template>
+      </Popper>
     </div> 
     <div v-if="display_hospitality" style="width: 100%; height: 100%">
       <MapHospitality />
@@ -49,12 +62,14 @@
 <script>
 import MapIncidence from "./MapIncidence.vue";
 import MapHospitality from "./MapHospitality.vue";
+import Popper from "vue3-popper";
 
 export default {
   name: "Map_block",
   components: {
     MapIncidence,
     MapHospitality,
+    Popper
   },
   data() {
     return {
@@ -112,6 +127,10 @@ export default {
 
   #header {
     margin-left: 16px;
+    margin-right: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .legendInfo {

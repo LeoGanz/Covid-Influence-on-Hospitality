@@ -62,6 +62,55 @@
         :y2="chart.height - chart.marginTop"
       ></line>
     </g>
+    <g id="yaxisleft">
+      <rect
+        id="ticktext"
+        x="0"
+        y="2"
+        width="10"
+        height="10"
+        fill="orange"
+      ></rect>
+      <text id="label" x="15" y="10" text-anchor="start" fill="currentColor">
+        Incidence
+      </text>
+    </g>
+    <g>
+      <rect
+        :x="(chart.width - chart.marginRight - chart.marginLeft - 30) / 2 - 15"
+        y="2"
+        width="10"
+        height="10"
+        fill="url(#diagonalHatch)"
+      ></rect>
+      <text
+        :x="(chart.width - chart.marginRight - chart.marginLeft - 30) / 2"
+        y="10"
+        text-anchor="start"
+        fill="currentColor"
+      >
+        Ongoing Lockdown*
+      </text>
+    </g>
+    <g id="yaxisright">
+      <rect
+        id="ticktext"
+        :x="chart.width - chart.marginRight - chart.marginLeft - 30"
+        y="2"
+        width="10"
+        height="10"
+        fill="#9684d8"
+      ></rect>
+      <text
+        id="label"
+        :x="chart.width - chart.marginRight - chart.marginLeft - 15"
+        y="10"
+        text-anchor="start"
+        fill="currentColor"
+      >
+        Hospitality in %
+      </text>
+    </g>
   </svg>
 </template>
 
@@ -114,7 +163,7 @@ export default {
         marginTop: 20, // top margin, in pixels
         marginRight: 30, // right margin, in pixels
         marginBottom: 30, // bottom margin, in pixels
-        marginLeft: 60, // left margin, in pixels
+        marginLeft: 35, // left margin, in pixels
         width: 600, // outer width, in pixels
         height: 300, // outer height, in pixels
         xType: d3.scaleUtc, // type of x-scale
@@ -407,53 +456,14 @@ export default {
             )
             .attr("stroke-opacity", 0.1)
             .attr("id", null)
-        )
-        .call((g) =>
-          g
-            .append("text")
-            .attr("x", -this.chart.marginLeft)
-            .attr("y", 10)
-            .attr("fill", "currentColor")
-            .attr("text-anchor", "start")
-            .attr("id", "label")
-            .text(this.chart.yLabel)
-        )
-        .call((g) =>
-          g
-            .append("rect")
-            .attr("x", -this.chart.marginLeft)
-            .attr("y", 20)
-            .attr("fill", "orange")
-            .attr("width", 10)
-            .attr("height", 10)
-            .attr("id", "ticktext")
         );
       d3.select("#yaxisright").selectAll("*").remove();
       d3.select("#yaxisright")
         .call(this.yAxisRight)
         .call((g) => g.select(".domain").remove())
         .call((g) => g.selectAll(".tick line").attr("id", "tickline"))
-        .call((g) => g.selectAll(".tick text").attr("id", "ticktext"))
-        .call((g) =>
-          g
-            .append("text")
-            .attr("x", this.chart.marginLeft - 10)
-            .attr("y", 10)
-            .attr("fill", "currentColor")
-            .attr("text-anchor", "end")
-            .attr("id", "label")
-            .text("Hospitality in %")
-        )
-        .call((g) =>
-          g
-            .append("rect")
-            .attr("x", this.chart.marginLeft - 20)
-            .attr("y", 20)
-            .attr("fill", "#9684d8")
-            .attr("width", 10)
-            .attr("height", 10)
-            .attr("id", "ticktext")
-        );
+        .call((g) => g.selectAll(".tick text").attr("id", "ticktext"));
+
       d3.select("#paths").selectAll("*").remove();
       d3.select("#paths")
         .selectAll("path")
@@ -465,7 +475,8 @@ export default {
           //typeof this.chart.color === "function"
           //  ? ([z]) => this.chart.color(z)
           //  : ([z]) => d3.interpolateTurbo(this.getColor(this.getColorId(z)))
-          ([z]) => (z == "covid" ? "#FFB865" : z == "hospitality" ? "#8E7FF5" : "black")
+          ([z]) =>
+            z == "covid" ? "#FFB865" : z == "hospitality" ? "#8E7FF5" : "black"
         )
         .attr("d", ([, I]) => this.line(I));
     },
@@ -515,22 +526,22 @@ export default {
       //d3.select("#svg")
       //  .property("value", this.O[i])
       //  .dispatch("input", { bubbles: true });
-      d3.select("#yaxisright")
+      d3.selectAll("#yaxisright")
         .selectAll("#tickline")
         .attr("opacity", (z) => (this.Z[i] == "covid" ? 0.1 : null));
-      d3.select("#yaxisright")
+      d3.selectAll("#yaxisright")
         .selectAll("#ticktext")
         .attr("opacity", (z) => (this.Z[i] == "covid" ? 0.1 : null));
-      d3.select("#yaxisright")
+      d3.selectAll("#yaxisright")
         .select("#label")
         .attr("opacity", (z) => (this.Z[i] == "covid" ? 0.1 : null));
-      d3.select("#yaxisleft")
+      d3.selectAll("#yaxisleft")
         .selectAll("#tickline")
         .attr("opacity", (z) => (this.Z[i] == "covid" ? null : 0.1));
-      d3.select("#yaxisleft")
+      d3.selectAll("#yaxisleft")
         .selectAll("#ticktext")
         .attr("opacity", (z) => (this.Z[i] == "covid" ? null : 0.1));
-      d3.select("#yaxisleft")
+      d3.selectAll("#yaxisleft")
         .select("#label")
         .attr("opacity", (z) => (this.Z[i] == "covid" ? null : 0.1));
     },
@@ -547,12 +558,12 @@ export default {
         .style("mix-blend-mode", this.chart.mixBlendMode)
         .style("stroke", null);
       d3.select("#dot").attr("display", "none");
-      d3.select("#yaxisleft").selectAll("#tickline").attr("opacity", null);
-      d3.select("#yaxisleft").selectAll("#ticktext").attr("opacity", null);
-      d3.select("#yaxisleft").select("#label").attr("opacity", null);
-      d3.select("#yaxisright").selectAll("#tickline").attr("opacity", null);
-      d3.select("#yaxisright").selectAll("#ticktext").attr("opacity", null);
-      d3.select("#yaxisright").select("#label").attr("opacity", null);
+      d3.selectAll("#yaxisleft").selectAll("#tickline").attr("opacity", null);
+      d3.selectAll("#yaxisleft").selectAll("#ticktext").attr("opacity", null);
+      d3.selectAll("#yaxisleft").select("#label").attr("opacity", null);
+      d3.selectAll("#yaxisright").selectAll("#tickline").attr("opacity", null);
+      d3.selectAll("#yaxisright").selectAll("#ticktext").attr("opacity", null);
+      d3.selectAll("#yaxisright").select("#label").attr("opacity", null);
       // d3.select("#svg").value = null;
       // d3.select("#svg").dispatch("input", { bubbles: true });
     },

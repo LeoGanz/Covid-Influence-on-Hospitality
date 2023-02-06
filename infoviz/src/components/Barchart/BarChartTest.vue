@@ -63,9 +63,9 @@ export default {
       select("#barchart")
           .append("line")
           .attr("class", "hundredline")
-          .attr("x1", this.xScale(100)+80)
+          .attr("x1", this.xScale(100)+110)
           .attr("y1", 0)
-          .attr("x2", this.xScale(100)+80)
+          .attr("x2", this.xScale(100)+110)
           .attr("y2", this.svgHeight)
           .style("stroke", "grey");
 
@@ -84,8 +84,7 @@ export default {
           .data(colorKeys)
           .enter()
           .append("text")
-          .attr("class", "legend")
-          .attr("x", this.xScale(192)+ 80 + rectSize * 1.2)
+          .attr("x", this.xScale(172)+ 110 + rectSize * 1.2)
           .attr("y", function (d, i) {
             return 35 - i * rectSize + rectSize / 2;
           })
@@ -160,7 +159,7 @@ export default {
 
       select("#barchart")
           .selectAll("rect")
-          .attr("transform", `translate(${80}, 0)`)
+          .attr("transform", `translate(${110}, 0)`)
           .data(this.data)
           .transition()
           .delay((d, i) => {
@@ -176,7 +175,7 @@ export default {
           if (state === "germany") {
             select("#barchart")
                 .selectAll("rect")
-                .attr("transform", `translate(${80}, 0)`)
+                .attr("transform", `translate(${110}, 0)`)
                 .data(this.data)
                 .attr("class", (d, i) => {
                 return i === 0 ? "bar-highlight" : "bar-positive";
@@ -185,7 +184,7 @@ export default {
           else if(state !== "germany"){
             select("#barchart")
                 .selectAll("rect")
-                .attr("transform", `translate(${80}, 0)`)
+                .attr("transform", `translate(${110}, 0)`)
                 .data(this.data)
                 .attr("class", (d, i) => {
                   return i === 0 ? "bar-grey-highlight" : "bar-grey";
@@ -204,6 +203,7 @@ export default {
           this.renderBars();
           this.clearXAxis();
           this.clearYAxis();
+          this.clearLegend();
           this.createXAxis();
           this.createYAxis();
         }, 300);
@@ -216,7 +216,7 @@ export default {
     },
     clearLegend() {
       select("#barchart")
-          .select(".legend")
+          .select(".legendbar")
           .remove();
       select("#barchart")
           .select(".hundredline")
@@ -227,7 +227,7 @@ export default {
       select("#barchart")
           .append("g")
           .attr("class", "x-axis")
-          .attr("transform", `translate(80, ${this.svgHeight})`)
+          .attr("transform", `translate(110, ${this.svgHeight})`)
           .call(xAxis)
           .selectAll("text")
           .style("text-anchor", "end")
@@ -277,7 +277,7 @@ export default {
     },
     xScale() {
       return scaleLinear()
-          .rangeRound([0,this.svgWidth-80])
+          .rangeRound([0,this.svgWidth-110])
           .domain([this.dataMin > 0 ? 0 : this.dataMin, 240]);
     },
     svgHeight() {
@@ -306,6 +306,11 @@ export default {
 </script>
 
 <style scoped>
+
+.my-legend {
+  margin: 32px;
+}
+
 .svg-container {
   width: 100%;
   height: 100%;

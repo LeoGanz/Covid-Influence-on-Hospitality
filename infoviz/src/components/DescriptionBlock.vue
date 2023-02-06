@@ -2,7 +2,6 @@
   <div class="description">
     <h1>Influence Of Corona On Hospitality In Germany</h1>
     <div class="description_subsection">
-      <h2>Controls</h2>
       Click on any state on the map or on a category tab to select the data you want to see.<br>
       Use the slider at the bottom of the screen to change the current point in time.
     </div>
@@ -46,8 +45,10 @@
           </template>
         </Popper>
       </div>
+      <router-link to="/about">
+        <button @click="navigate" class="aboutbutton">Learn more about the authors</button>
+      </router-link>
     </div>
-
 
   </div>
 </template>
@@ -83,6 +84,12 @@ export default {
 <style scoped>
 h1 {
   font-size: 32px;
+  font-weight: 600;
+}
+
+h2 {
+  font-size: 15px;
+  font-weight: 700;
 }
 
 .description_subsection {

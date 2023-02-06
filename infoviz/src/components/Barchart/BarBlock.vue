@@ -159,6 +159,10 @@ export default {
 
 <style>
 
+.popper-style {
+  transition-delay:1s;
+}
+
 .barHeaderBar {
   display: flex;
   flex-direction: row;
@@ -201,8 +205,12 @@ input[type="radio"] {
 }
 
 #headerBarChart {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   margin-bottom: 16px;
   margin-left: 16px;
+  margin-right: 16px;
 }
 
 .leftMargin {

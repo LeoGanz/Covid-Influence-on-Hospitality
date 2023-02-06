@@ -3,15 +3,9 @@
     <div class="horizontal_flex">
       <div class="left_boxes">
         <DescriptionBlock class="block description_block" />
+        <div>
         <LineBlock class="block line_block" />
         <SliderBlock class="block slider_block" />
-        <div>
-          <router-link to="/about">
-            <button @click="navigate" class="aboutbutton">about</button>
-          </router-link>
-          <router-link to="/test">
-            <button @click="navigate" class="aboutbutton">test</button>
-          </router-link>
         </div>
       </div>
       <div class="right_boxes">
@@ -86,12 +80,16 @@ export default {
     DescriptionBlock,
     MapBlock,
     BarBlock,
-    BarChart,
   },
 };
 </script>
 
 <style>
+
+.popper-style {
+  transition-delay:1s;
+}
+
 .block {
   border-radius: 16px;
   margin-top: 32px;
@@ -145,26 +143,25 @@ export default {
 }
 
 .aboutbutton {
-  background-color: #f5f5f5;
-  color: black;
-  border-radius: 16px;
   border: none;
-  padding: 16px 32px;
-  text-align: center;
-  font-size: 14px;
-  margin: 24px 0px;
-  transition-duration: 0.4s;
+  background-color: inherit;
+  font-size: 15px;
+  cursor: pointer;
+  display: inline-block;
+  color: #2c3e50;
+  margin-left: -5px;
+  margin-top: 20px;
+  margin-bottom: 12px;
+  text-decoration: underline;
 }
 
 .aboutbutton:hover {
-  background-color: #555555;
-  color: white;
-  transition-duration: 0.4s;
+  color: #6246c9;
 }
 
 .material-icons {
   font-size: 1.25em;
-  color: #a4a1a1;
+  color: #cbcbce;
   cursor: default;
 }
 

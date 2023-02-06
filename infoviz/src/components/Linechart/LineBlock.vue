@@ -12,7 +12,7 @@
         </template>
       </Popper>
     </div>
-    <LineChart v-bind:class="[toggleClass]" />
+    <LineChart class="lineChart" v-bind:class="[toggleClass]" />
   </div>
 </template>
 
@@ -64,4 +64,5 @@ export default {
 h3 b {
   font-weight: 600;
 }
+
 </style>

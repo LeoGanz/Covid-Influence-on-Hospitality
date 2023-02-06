@@ -114,6 +114,7 @@ export default {
   width: 90%;
   display: flex;
   flex-direction: column;
+  margin-right: 64px;
 }
 
 input[type="range"] {
@@ -171,6 +172,7 @@ input[type="range"]::-webkit-slider-thumb {
   align-items: center;
   padding-right: 32px;
   color: #949494;
+  margin-top: -16px;
 }
 
 .button {

@@ -1,35 +1,36 @@
 <template>
   <div>
     <div id="headerBarChart">
-      <div class="bottomSpacing" id="radio_buttons">
+      <div id="radio_buttons">
         <label class="radiolabels">
           <input
-              type="radio"
-              @change="changeToUpper"
-              value="upper category"
-              name="displayUpperCategory"
-              checked
+            type="radio"
+            @change="changeToUpper"
+            value="upper category"
+            name="displayUpperCategory"
+            checked
           >
           <span>Hospitality</span>
         </label>
         <label class="radiolabels">
           <input
-              type="radio"
-              @change="changeToLodging"
-              value="lodging"
-              name="displayUpperCategory"
+            type="radio"
+            @change="changeToLodging"
+            value="lodging"
+            name="displayUpperCategory"
           >
           <span>Accommodation</span>
         </label>
         <label class="radiolabels">
           <input
-              type="radio"
-              @change="changeToGastronomy"
-              value="gastronomy"
-              name="displayUpperCategory"
+            type="radio"
+            @change="changeToGastronomy"
+            value="gastronomy"
+            name="displayUpperCategory"
           >
           <span>Gastronomy</span>
         </label>
+        <p class="note">Data only available for Germany, not for individual states </p>
       </div>
       <Popper placement="left" hover="true" arrow="true">
         <i class="material-icons">info</i>
@@ -48,26 +49,36 @@
       </Popper>
     </div>
     <div v-if="!hospitalityStore.initialized">Loading...</div>
-    <BarChartTest class="leftMargin" v-else xKey="abbreviation" yKey="value" v-bind:data="data"/>
+    <BarChartTest class="leftMargin" v-else xKey="abbreviation" yKey="value" v-bind:data="data" />
+    <!--div class="category-label-group">
+      <div class="category-label">
+        Main Category
+      </div>
+      <div class="category-label">Sub Category</div>
+    </div-->
+    <div class="percentage-label">%</div>
   </div>
 </template>
 
 <script>
 //import BarChart from "./BarChart.vue";
 import BarChartTest from "./BarChartTest.vue";
-import {useHospitalityStore} from "@/stores/hospitality";
-import {useDateStore} from "@/stores/date";
+import { useHospitalityStore } from "@/stores/hospitality";
+import { useDateStore } from "@/stores/date";
+import { useCurrentRegionStore } from "@/stores/currentRegion.js";
 import Popper from "vue3-popper";
 
 export default {
   name: "App",
   components: {
     BarChartTest,
-    //BarChart,
     Popper,
+    //BarChart,
   },
   data() {
+    const currentRegionStore = useCurrentRegionStore();
     return {
+      currentRegionStore,
       displayUpperCategory: true,
       displayLodging: false,
       displayGastronomy: false,
@@ -99,16 +110,17 @@ export default {
   setup() {
     const hospitalityStore = useHospitalityStore();
     const dateStore = useDateStore();
-    return {hospitalityStore, dateStore};
+    return { hospitalityStore, dateStore };
   },
   async mounted() {
     await this.hospitalityStore.initValues();
   },
   computed: {
     data() {
+      const state = this.currentRegionStore.currentRegion;
       const data = [];
       const dataJson = this.hospitalityStore.getSectorsByMonth(
-          this.dateStore.currentMonth
+        this.dateStore.currentMonth
       ).real.original;
 
       const dataArray = Object.entries(dataJson);
@@ -152,7 +164,7 @@ export default {
           const value = entry[1][0];
           const abbreviation = entry[1][1];
           if (region === "gastronomy" || region === "restaurantsTavernsSnackbarsCafes"
-              || region === "catereing" || region === "beverages" || region === "restaurantBusiness") {
+              || region === "catereing"|| region === "beverages"|| region === "restaurantBusiness") {
             if (Number.isFinite(value)) {
               data.push({region, value, abbreviation});
             } else {
@@ -171,6 +183,20 @@ export default {
 
 <style>
 
+.popper-style {
+  transition-delay:1s;
+}
+
+.barHeaderBar {
+  display: flex;
+  flex-direction: row;
+}
+
+.note {
+  font-size: 12px;
+  color: #9f9f9f;
+}
+
 .radioList {
   width: 80%;
   list-style: none;
@@ -181,7 +207,6 @@ input[type="radio"] {
   width: 0;
   height: 0;
 }
-
 .radiolabels {
   display: table-cell;
   vertical-align: middle;
@@ -203,17 +228,40 @@ input[type="radio"] {
 
 }
 
+
+
 #headerBarChart {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   margin-bottom: 16px;
   margin-left: 16px;
   margin-right: 16px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
 .leftMargin {
   margin-left: 16px;
 }
+
+.percentage-label {
+  position: absolute;
+  bottom: 33px;
+  right: 0;
+  font-size: 15px;
+  color: #000000;
+  margin-right: 32px;
+}
+
+.category-label-group {
+  position: absolute;
+  top: 109px;
+  right: 32px;
+  margin-right: 35px;
+}
+
+.category-label {
+  margin-bottom: -4px;
+}
+
 
 </style>

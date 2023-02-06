@@ -53,7 +53,7 @@
     <BarChart v-else v-bind:class="[toggleClass]" /> -->
     <div>
       <label class="legendInfo">
-      *Lockdown data only available until November 2021
+      * Lockdown data only available until November 2021
       </label>
     </div>
   </div>
@@ -131,6 +131,10 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+
+  .legendInfo {
+    color: #949494;
   }
 
 

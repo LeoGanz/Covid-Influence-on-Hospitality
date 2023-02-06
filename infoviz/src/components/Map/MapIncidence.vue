@@ -60,8 +60,6 @@ export default {
     }
   },
   computed: {
-    // function to detect max value of incidence over time, as a reference value
-    // TODO: determine reference values
     retrieveMaxIncidence() {
       var maxIncidences = [];
 
@@ -87,7 +85,6 @@ export default {
       console.log(this.covidCasesStore.cases);
       for (var state in this.covidCasesStore.cases) {
         if (state != germanyKey) {
-          // console.log(this.dateStore.currentDate)
 
           const v = this.covidCasesStore.cases[state]
             .filter(
@@ -235,14 +232,6 @@ export default {
     },
 
     plotMapData() {
-      // continous filling
-      //var myColor = d3.scaleQuantize([0, this.retrieveMaxIncidence], d3.schemePurples[6]);
-
-      // log scale filling
-      // var myColor = d3.scaleLinear().domain([1,Math.log(this.retrieveMaxIncidence)])
-      //   .range(["white", "blue"]);
-
-      // linear filling incremented in steps of 250
       var myColor = d3
         .scaleLinear()
         .domain([0, this.retrieveMaxIncidence])
@@ -282,7 +271,6 @@ export default {
         .attr("fill", (d) => myColor(this.dataIncidence[d.properties.nameEN]))
 
         // filling for logarithmic scale
-        //.attr("fill", d => myColor(Math.log(this.dataIncidence[d.properties.nameEN])))
         .attr("fill-opacity", 1)
         .attr("d", d3.geoPath().projection(projection1))
         .attr("transform", "translate(-80, 0)")

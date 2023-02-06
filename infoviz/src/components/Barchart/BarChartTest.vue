@@ -22,11 +22,11 @@
 </template>
 
 <script>
-import * as d3 from "d3";
 import { scaleLinear, scaleBand } from "d3-scale";
 import { max, min } from "d3-array";
 import { select } from "d3-selection";
 import { axisBottom, axisLeft } from "d3-axis";
+import { useCurrentRegionStore } from "@/stores/currentRegion.js";
 
 export default {
   name: "BarChart",
@@ -44,21 +44,122 @@ export default {
     this.createXAxis();
     this.createYAxis();
   },
-  data: () => ({
-    svgWidth: 0,
-    redrawToggle: true,
-    margin: {
-      top: 20,
-      right: 20,
-      bottom: 30,
-      left: 40,
-    },
-  }),
+  data() {
+    const currentRegionStore = useCurrentRegionStore();
+    return {
+      currentRegionStore,
+      svgWidth: 0,
+      redrawToggle: true,
+      margin: {
+        top: 20,
+        right: 20,
+        bottom: 30,
+        left: 40,
+      }
+    };
+  },
   methods: {
     renderBars() {
       select("#barchart")
+          .append("line")
+          .attr("class", "hundredline")
+          .attr("x1", this.xScale(100)+110)
+          .attr("y1", 0)
+          .attr("x2", this.xScale(100)+110)
+          .attr("y2", this.svgHeight)
+          .style("stroke", "grey");
+
+
+
+      var colorKeys = [
+        "Sub Category",
+        "Main Category",
+      ];
+      var keys = ["overcategories", "undercategories"];
+      var rectSize = 20;
+      const state = this.currentRegionStore.currentRegion;
+      // text for each color
+      select("#barchart")
+          .selectAll("legend")
+          .data(colorKeys)
+          .enter()
+          .append("text")
+          .attr("x", this.xScale(172)+ 110 + rectSize * 1.2)
+          .attr("y", function (d, i) {
+            return 35 - i * rectSize + rectSize / 2;
+          })
+          .text(function (d) {
+            return d;
+          })
+          //.attr("text-anchor", "left")
+          //.style("alignment-baseline", "middle")
+          //.attr("transform", "translate(0, -60)");
+
+      //legendColor.selectAll("legend");
+
+          //.attr("transform", "translate(0, 92)");
+
+      //legendColor.selectAll("legend");
+      if (state === "germany") {
+        select("#barchart")
+            .selectAll("legend")
+            .data(keys)
+            .enter()
+            .append("rect")
+            .attr("x", this.xScale(172))
+            .attr("y", 10)
+            //.attr("right", 32)
+            .attr("width", 19)
+            .attr("height", 19)
+            .style("fill", "#8E7FF5")
+
+        select("#barchart")
+            .selectAll("legend")
+            .data(keys)
+            .enter()
+            .append("rect")
+            .attr("x", this.xScale(172))
+            .attr("y", 32)
+            .attr("width", 19)
+            .attr("height", 19)
+            .style("fill", "#C2BAF5")
+        //.attr("transform", "translate(371, 92)");
+      } else if (state !== "germany"){
+        select("#barchart")
+            .selectAll("legend")
+            .data(keys)
+            .enter()
+            .append("rect")
+            .attr("x", this.xScale(172))
+            .attr("y", 10)
+            //.attr("right", 32)
+            .attr("width", 19)
+            .attr("height", 19)
+            .style("fill", "#a6a6a6")
+
+        select("#barchart")
+            .selectAll("legend")
+            .data(keys)
+            .enter()
+            .append("rect")
+            .attr("x", this.xScale(172))
+            .attr("y", 32)
+            .attr("width", 19)
+            .attr("height", 19)
+            .style("fill", "#d0cece")
+
+
+
+
+      }
+
+
+
+
+
+      select("#barchart")
           .selectAll("rect")
-          .attr("transform", `translate(${80}, 0)`)
+          .attr("transform", `translate(${110}, 0)`)
           .data(this.data)
           .transition()
           .delay((d, i) => {
@@ -71,9 +172,25 @@ export default {
           .attr("width", (d) => {
             return this.xScale(d[this.yKey]);
           })
-          .attr("class", (d, i) => {
-            return i === 0 ? "bar-highlight" : "bar-positive";
-          });
+          if (state === "germany") {
+            select("#barchart")
+                .selectAll("rect")
+                .attr("transform", `translate(${110}, 0)`)
+                .data(this.data)
+                .attr("class", (d, i) => {
+                return i === 0 ? "bar-highlight" : "bar-positive";
+            })
+          }
+          else if(state !== "germany"){
+            select("#barchart")
+                .selectAll("rect")
+                .attr("transform", `translate(${110}, 0)`)
+                .data(this.data)
+                .attr("class", (d, i) => {
+                  return i === 0 ? "bar-grey-highlight" : "bar-grey";
+                })
+            }
+
     },
     AddResizeListener() {
       // redraw the chart 300ms after the window has been resized
@@ -84,6 +201,11 @@ export default {
           this.$data.svgWidth =
               document.getElementById("container").offsetWidth * 0.75;
           this.renderBars();
+          this.clearXAxis();
+          this.clearYAxis();
+          this.clearLegend();
+          this.createXAxis();
+          this.createYAxis();
         }, 300);
       });
     },
@@ -92,20 +214,30 @@ export default {
           .select(".x-axis")
           .remove();
     },
+    clearLegend() {
+      select("#barchart")
+          .select(".legendbar")
+          .remove();
+      select("#barchart")
+          .select(".hundredline")
+          .remove();
+    },
     createXAxis() {
       var xAxis = axisBottom(this.xScale)
       select("#barchart")
           .append("g")
           .attr("class", "x-axis")
-          .attr("transform", `translate(80, ${this.svgHeight})`)
+          .attr("transform", `translate(110, ${this.svgHeight})`)
           .call(xAxis)
           .selectAll("text")
           .style("text-anchor", "end")
+          .style("font-size", "125%")
           .attr("dx", ".6em")
           .attr("dy", ".5em")
           .attr("transform", function (d) {
             return "rotate(0)";
           });
+
     },
     clearYAxis() {
       select("#barchart")
@@ -117,8 +249,11 @@ export default {
       select("#barchart")
           .append("g")
           .attr("class", "y-axis")
-          .attr("transform", `translate(${80}, 0)`)
+          .style("font-size", "90%")
+          .attr("transform", `translate(${110}, 0)`)
+
           .call(yAxis);
+
     },
   },
   computed: {
@@ -135,7 +270,7 @@ export default {
     yScale() {
       return scaleBand()
           .rangeRound([0, this.svgHeight])
-          .padding(0.1)
+          .padding(0.22)
           .domain(
               this.data.map((d) => {
                 return d[this.xKey];
@@ -144,11 +279,11 @@ export default {
     },
     xScale() {
       return scaleLinear()
-          .rangeRound([0,this.svgWidth-80])
+          .rangeRound([0,this.svgWidth-110])
           .domain([this.dataMin > 0 ? 0 : this.dataMin, 240]);
     },
     svgHeight() {
-      return 189; // define height here
+      return 170; // define height here
     },
   },
   watch: {
@@ -159,6 +294,7 @@ export default {
 
       setTimeout(function(){
         console.log("data changed");
+        myThis.clearLegend();
         myThis.clearXAxis();
         myThis.createXAxis();
         myThis.clearYAxis();
@@ -172,6 +308,11 @@ export default {
 </script>
 
 <style scoped>
+
+.my-legend {
+  margin: 32px;
+}
+
 .svg-container {
   width: 100%;
   height: 100%;
@@ -218,6 +359,19 @@ export default {
   fill: none;
   stroke: #686464;
   shape-rendering: crispEdges;
+
+}
+.bar-grey-highlight{
+  fill: #a6a6a6;
+}
+.bar-grey{
+  fill: #d0cece;
+}
+
+
+.legendbar{
+  fill: #ff0000 !important;
+  font-size: 100%;
 }
 
 .y-axis path,
@@ -226,5 +380,9 @@ export default {
   stroke: black;
   shape-rendering: crispEdges;
 }
+.legendrect{
 
+  fill: #8E7FF5;
+
+}
 </style>

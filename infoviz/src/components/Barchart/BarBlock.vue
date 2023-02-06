@@ -59,11 +59,13 @@ import BarChartTest from "./BarChartTest.vue";
 import { useHospitalityStore } from "@/stores/hospitality";
 import { useDateStore } from "@/stores/date";
 import { useCurrentRegionStore } from "@/stores/currentRegion.js";
+import Popper from "vue3-popper";
 
 export default {
   name: "App",
   components: {
     BarChartTest,
+    Popper,
     //BarChart,
   },
   data() {

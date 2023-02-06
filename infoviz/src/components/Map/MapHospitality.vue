@@ -82,6 +82,7 @@ export default {
       } else {
         d3.select("#hospitality_container").selectAll("g").remove();
 
+        this.renderMap();
         this.plotMapData();
 
         if (this.currentRegion.currentRegionName != "Germany") {

@@ -129,7 +129,7 @@ export default {
         .append("path")
         .datum(mapDataGermany)
         .attr("fill", "none")
-        .attr("stroke", "#999999")
+        .attr("stroke", "#121212")
         .attr("stroke-linejoin", "round")
         .attr("d", d3.geoPath().projection(projection1))
         .attr("transform", "translate(-80, 0)");
@@ -300,7 +300,7 @@ export default {
                 lastClickedRegion != this.id
               ) {
                 d3.select("#" + lastClickedRegion)
-                  .attr("stroke", "#999999")
+                  .attr("stroke", "#121212")
                   .attr("stroke-width", "0.5");
               }
 

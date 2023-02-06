@@ -32,6 +32,21 @@
         </label>
         <p class="note">Data only available for Germany, not for individual states </p>
       </div>
+      <Popper placement="left" hover="true" arrow="true">
+        <i class="material-icons">info</i>
+        <template #content>
+          <div>
+            <h2>Hospitality Revenue by Sectors</h2>
+            <p>This barchart displays the revenue of the hospitality sector and its sub-sectors in Germany at the date
+              selected through the slider. This allows a comparison of how hard the different sectors have been hit
+              by the pandemic.</p>
+            <p>
+              The super-category "Hospitality" is the weighted average of the sub-categories "Accommodation" and "Gastronomy".
+              Super-categories are always highlighted in a darker color.
+            </p>
+          </div>
+        </template>
+      </Popper>
     </div>
     <div v-if="!hospitalityStore.initialized">Loading...</div>
     <BarChartTest class="leftMargin" v-else xKey="abbreviation" yKey="value" v-bind:data="data" />

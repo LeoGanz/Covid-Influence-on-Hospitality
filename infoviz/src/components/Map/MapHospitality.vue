@@ -76,6 +76,7 @@ export default {
   watch: {
     dataHospitality: function () {
 
+
       if (firstLoad) {
         firstLoad = false
       } else {
@@ -84,9 +85,9 @@ export default {
         this.plotMapData();
 
         if (this.currentRegion.currentRegionName != "Germany") {
-          d3.select("#" + this.currentRegion.currentRegionName )
+d3.select("#" + this.currentRegion.currentRegionName )
             .attr("stroke-width", "2")
-            .attr("stroke", "999999");
+            .attr("stroke", "black");
           }
       }
 
@@ -286,6 +287,7 @@ export default {
               }
 
               if (lastClickedRegion != this.id) {
+                console.log("291")
                 d3.select("#" + this.id)
                   .attr("stroke-width", "2")
                   .attr("stroke", "#222222");

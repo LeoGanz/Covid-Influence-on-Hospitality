@@ -5,8 +5,7 @@
     :height="map.height"
     :viewBox="[0, 0, map.width, map.height]"
   ></svg>
-  <svg id="legend_hospitality" height="300" width="450" color="green"></svg>
-</template>
+  </template>
 
 <script>
 import * as d3 from "d3";

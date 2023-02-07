@@ -79,6 +79,7 @@ export default {
         .data(colorKeys)
         .enter()
         .append("text")
+        .attr("text-rendering", "optimizeLegibility")
         .attr("x", this.xScale(172) + 110 + rectSize * 1.2)
         .attr("y", function (d, i) {
           return 35 - i * rectSize + rectSize / 2;

@@ -49,7 +49,7 @@
       </Popper>
     </div>
     <div v-if="!hospitalityStore.initialized">Loading...</div>
-    <BarChartTest class="leftMargin" v-else xKey="abbreviation" yKey="value" v-bind:data="data" />
+    <BarChart class="leftMargin" v-else xKey="abbreviation" yKey="value" v-bind:data="data" />
     <!--div class="category-label-group">
       <div class="category-label">
         Main Category
@@ -70,7 +70,7 @@ import Popper from "vue3-popper";
 export default {
   name: "App",
   components: {
-    BarChartTest: BarChart,
+    BarChart,
     Popper,
   },
   data() {

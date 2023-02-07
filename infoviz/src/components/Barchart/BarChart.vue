@@ -1,219 +1,358 @@
 <template>
-  <div v-if="!hospitalityStore.initialized">Loading...</div>
-  <svg
-      id="svg"
-      :width="chart.width"
-      :height="chart.height"
-      :viewBox="[0, 0, chart.width, chart.height]"
-      v-else>
-  </svg>
+  <div id="container" class="svg-container">
+    <svg
+      id="barchart"
+      v-if="redrawToggle === true"
+      :width="svgWidth"
+      :height="svgHeight"
+    >
+      <g>
+        <rect
+          v-for="item in data"
+          class="bar-positive"
+          :key="item[xKey]"
+          :x="xScale(0)"
+          :y="yScale(item[xKey])"
+          :width="0"
+          :height="yScale.bandwidth()"
+        ></rect>
+      </g>
+    </svg>
+  </div>
 </template>
 
 <script>
-// source: https://observablehq.com/@d3/bar-chart
-import * as d3 from "d3";
-//import { useCovidCasesStore } from "@/stores/covidCases.js";
-import {useHospitalityStore} from "@/stores/hospitality";
+import { scaleLinear, scaleBand } from "d3-scale";
+import { max, min } from "d3-array";
+import { select } from "d3-selection";
+import { axisBottom, axisLeft } from "d3-axis";
+import { useCurrentRegionStore } from "@/stores/currentRegion.js";
 
 export default {
-  name: "vue-bar-chart",
-  components: {},
+  name: "BarChart",
+  props: {
+    title: String,
+    xKey: String,
+    yKey: String,
+    data: Array,
+  },
+  mounted() {
+    console.log(this.data);
+    this.svgWidth = document.getElementById("container").offsetWidth * 0.75;
+    this.AddResizeListener();
+    this.renderBars();
+    this.createXAxis();
+    this.createYAxis();
+  },
   data() {
-    const hospitalityStore = useHospitalityStore();
+    const currentRegionStore = useCurrentRegionStore();
     return {
-      hospitalityStore: hospitalityStore.getRegionsByMonth('2021-02').real.original,
-      d3: d3,
-      chart: {
-        x: (d) => d.region,
-        y: (d) => d.value,
-        //x = (d, i) => i, // given d in data, returns the (ordinal) x-value
-        //y = d => d, // given d in data, returns the (quantitative) y-value
-        title: undefined, // given d in data, returns the title text
-        marginTop: 20, // the top margin, in pixels
-        marginRight: 0, // the right margin, in pixels
-        marginBottom: 30, // the bottom margin, in pixels
-        marginLeft: 40, // the left margin, in pixels
-        width: 640, // the outer width of the chart, in pixels
-        height: 400, // the outer height of the chart, in pixels
-        xDomain: undefined, // an array of (ordinal) x-values
-        xRange: undefined, // [left, right]
-        yType: d3.scaleLinear, // y-scale type
-        yDomain: undefined, // [ymin, ymax]
-        yRange: undefined, // [bottom, top]
-        xPadding: 0.1, // amount of x-range to reserve to separate bars
-        yFormat: undefined, // a format specifier string for the y-axis
-        yLabel: "Incidence ( will be revenue in the future)", // a label for the y-axis
-        color: "currentColor" // bar fill color
+      currentRegionStore,
+      svgWidth: 0,
+      redrawToggle: true,
+      margin: {
+        top: 20,
+        right: 20,
+        bottom: 30,
+        left: 40,
       },
     };
   },
-  setup() {
-    const hospitalityStore = useHospitalityStore();
-    return { hospitalityStore };
-  },
-  async mounted() {
-    await this.hospitalityStore.initValues();
-    //this.hospitalityStore.initValues();
-    this.renderChart();
+  methods: {
+    renderBars() {
+      select("#barchart")
+        .append("line")
+        .attr("class", "hundredline")
+        .attr("x1", this.xScale(100) + 110)
+        .attr("y1", 0)
+        .attr("x2", this.xScale(100) + 110)
+        .attr("y2", this.svgHeight)
+        .style("stroke", "grey");
+
+      var colorKeys = ["Sub Category", "Main Category"];
+      var keys = ["overcategories", "undercategories"];
+      var rectSize = 20;
+      const state = this.currentRegionStore.currentRegion;
+      // text for each color
+      select("#barchart")
+        .selectAll("legend")
+        .data(colorKeys)
+        .enter()
+        .append("text")
+        .attr("x", this.xScale(172) + 110 + rectSize * 1.2)
+        .attr("y", function (d, i) {
+          return 35 - i * rectSize + rectSize / 2;
+        })
+        .text(function (d) {
+          return d;
+        });
+      //.attr("text-anchor", "left")
+      //.style("alignment-baseline", "middle")
+      //.attr("transform", "translate(0, -60)");
+
+      //legendColor.selectAll("legend");
+
+      //.attr("transform", "translate(0, 92)");
+
+      //legendColor.selectAll("legend");
+      if (state === "germany") {
+        select("#barchart")
+          .selectAll("legend")
+          .data(keys)
+          .enter()
+          .append("rect")
+          .attr("x", this.xScale(172))
+          .attr("y", 10)
+          //.attr("right", 32)
+          .attr("width", 19)
+          .attr("height", 19)
+          .style("fill", "#8E7FF5");
+
+        select("#barchart")
+          .selectAll("legend")
+          .data(keys)
+          .enter()
+          .append("rect")
+          .attr("x", this.xScale(172))
+          .attr("y", 32)
+          .attr("width", 19)
+          .attr("height", 19)
+          .style("fill", "#C2BAF5");
+        //.attr("transform", "translate(371, 92)");
+      } else if (state !== "germany") {
+        select("#barchart")
+          .selectAll("legend")
+          .data(keys)
+          .enter()
+          .append("rect")
+          .attr("x", this.xScale(172))
+          .attr("y", 10)
+          //.attr("right", 32)
+          .attr("width", 19)
+          .attr("height", 19)
+          .style("fill", "#a6a6a6");
+
+        select("#barchart")
+          .selectAll("legend")
+          .data(keys)
+          .enter()
+          .append("rect")
+          .attr("x", this.xScale(172))
+          .attr("y", 32)
+          .attr("width", 19)
+          .attr("height", 19)
+          .style("fill", "#d0cece");
+      }
+
+      select("#barchart")
+        .selectAll("rect")
+        .attr("transform", `translate(${110}, 0)`)
+        .data(this.data)
+        .transition()
+        .delay((d, i) => {
+          return i * 10;
+        })
+        .duration(200)
+        .attr((d) => {
+          return this.xScale(d[this.yKey]);
+        })
+        .attr("width", (d) => {
+          return this.xScale(d[this.yKey]);
+        });
+      if (state === "germany") {
+        select("#barchart")
+          .selectAll("rect")
+          .attr("transform", `translate(${110}, 0)`)
+          .data(this.data)
+          .attr("class", (d, i) => {
+            return i === 0 ? "bar-highlight" : "bar-positive";
+          });
+      } else if (state !== "germany") {
+        select("#barchart")
+          .selectAll("rect")
+          .attr("transform", `translate(${110}, 0)`)
+          .data(this.data)
+          .attr("class", (d, i) => {
+            return i === 0 ? "bar-grey-highlight" : "bar-grey";
+          });
+      }
+    },
+    AddResizeListener() {
+      // redraw the chart 300ms after the window has been resized
+      window.addEventListener("resize", () => {
+        this.$data.redrawToggle = false;
+        setTimeout(() => {
+          this.$data.redrawToggle = true;
+          this.$data.svgWidth =
+            document.getElementById("container").offsetWidth * 0.75;
+
+          this.clearXAxis();
+          this.clearYAxis();
+          this.clearLegend();
+          this.renderBars();
+          this.createXAxis();
+          this.createYAxis();
+        }, 300);
+      });
+    },
+    clearXAxis() {
+      select("#barchart").select(".x-axis").remove();
+    },
+    clearLegend() {
+      select("#barchart").selectAll(".legendbar").remove();
+      select("#barchart").selectAll(".hundredline").remove();
+    },
+    createXAxis() {
+      var xAxis = axisBottom(this.xScale);
+      select("#barchart")
+        .append("g")
+        .attr("class", "x-axis")
+        .attr("transform", `translate(110, ${this.svgHeight})`)
+        .call(xAxis)
+        .selectAll("text")
+        .style("text-anchor", "end")
+        .style("font-size", "125%")
+        .attr("dx", ".6em")
+        .attr("dy", ".5em")
+        .attr("transform", function (d) {
+          return "rotate(0)";
+        });
+    },
+    clearYAxis() {
+      select("#barchart").select(".y-axis").remove();
+    },
+    createYAxis() {
+      const yAxis = axisLeft(this.yScale);
+      select("#barchart")
+        .append("g")
+        .attr("class", "y-axis")
+        .style("font-size", "90%")
+        .attr("transform", `translate(${110}, 0)`)
+
+        .call(yAxis);
+    },
   },
   computed: {
-    data() {
-
-      const data = [];
-
-      const dataJson = this.hospitalityStore.getRegionsByMonth('2021-02').real.original
-      const dataArray = Object.entries(dataJson);
-      dataArray.forEach((entry) => {
-        const region = entry[0];
-        const value = entry[1];
-        if (Number.isFinite(value)) {
-          data.push({region, value});
-        }
-        //data.push({region, value});
+    dataMax() {
+      return max(this.data, (d) => {
+        return d[this.yKey];
       });
-
-
-      // for (var dataPair in this.hospitalityStore.getRegionsByMonth('2021-02').real.original) {
-      //   console.log(dataPair);
-        //if (state != germanyKey) {
-        //   data.push(
-        //       ...this.hospitalityStore.value[state].map((value) => {
-        //         value.category = this.regions.find(
-        //             (region) => region.key == state
-        //         ).covid;
-        //         return value;
-        //       })
-        //   );
-        //}
-      // }
-
-      return data;
     },
-
-    xRange() {
-      if (this.chart.xRange === undefined) {
-        return [
-          this.chart.marginLeft,
-          this.chart.width - this.chart.marginRight,
-        ];
-      }
-      return this.chart.xRange;
+    dataMin() {
+      return min(this.data, (d) => {
+        return d[this.yKey];
+      });
     },
-    yRange() {
-      if (this.chart.yRange === undefined) {
-        return [
-          this.chart.height - this.chart.marginBottom,
-          this.chart.marginTop,
-        ];
-      }
-      return this.chart.yRange;
-    },
-    X() {
-      return d3.map(this.data, this.chart.x);
-    },
-    //  const Y = d3.map(data, y);
-    Y() {
-      return d3.map(this.data, this.chart.y);
-    },
-    xDomain() {
-      return d3.extent(this.X);
-    },
-    //  if (yDomain === undefined)
-    //    yDomain = [0, d3.max(Y, (d) => (typeof d === "string" ? +d : d))];
-    yDomain() {
-      return [0, d3.max(this.Y, (d) => (typeof d === "string" ? +d : d))];
+    yScale() {
+      return scaleBand()
+        .rangeRound([0, this.svgHeight])
+        .padding(0.22)
+        .domain(
+          this.data.map((d) => {
+            return d[this.xKey];
+          })
+        );
     },
     xScale() {
-      return d3
-          .scaleBand(this.xDomain, this.xRange)
-          .padding(this.xPadding)
+      return scaleLinear()
+        .rangeRound([0, this.svgWidth - 110])
+        .domain([this.dataMin > 0 ? 0 : this.dataMin, 240]);
     },
-
-    //  const yScale = yType(yDomain, yRange);
-    yScale() {
-      return this.chart.yType(this.yDomain, this.yRange);
+    svgHeight() {
+      return 170; // define height here
     },
-    xAxis() {
-      return d3
-          .axisBottom(this.xScale)
-          .tickSizeOuter(0);
-    },
-    //  const yAxis = d3.axisLeft(yScale).ticks(height / 60, yFormat);
-    yAxis() {
-      return d3
-          .axisLeft(this.yScale)
-          .ticks(this.chart.height / 40, this.chart.yFormat);
-    },
-
-    T() {
-      if (this.chart.title === undefined) {
-        const formatValue = this.yScale.tickFormat(100, this.yFormat);
-        return i => `${this.X[i]}\n${formatValue(this.Y[i])}`;
-      }else {
-        const O = d3.map(this.data, d => d);
-        const T = this.title;
-        return  i => T(O[i], i, this.data);
-      }
-
-    }
-
-
-
   },
-  methods: {
-    renderChart() {
-      d3.select("#xaxis").call(this.xAxis);
-      d3.select("#yaxis")
-          .call(this.yAxis)
-          .call((g) => g.select(".domain").remove())
-          .call((g) =>
-              g
-                  .selectAll(".tick line")
-                  .clone()
-                  .attr(
-                      "x2",
-                      this.chart.width - this.chart.marginLeft - this.chart.marginRight
-                  )
-                  .attr("stroke-opacity", 0.1)
-          )
-          .call((g) =>
-              g
-                  .append("text")
-                  .attr("x", -this.chart.marginLeft)
-                  .attr("y", 10)
-                  .attr("fill", "currentColor")
-                  .attr("text-anchor", "start")
-                  .text(this.chart.yLabel)
-          );
-      d3.select("#rect")
-          .selectAll("rect")
-          .join("rect")
-          .attr("x", (i) => this.xScale(this.X[i]))
-          .attr("y", (i) => this.yScale(this.Y[i]))
-          .attr("height", (i) => this.yScale(0) - this.yScale(this.Y[i]))
-          //.attr("width", this.xScale.scaleBand);
-          .attr("width", 10);
-          console.log("rendered");
+  watch: {
+    data: function () {
+      //this.d3.select('rect').selectAll('*').remove();
+
+      let myThis = this;
+
+      setTimeout(function () {
+        console.log("data changed");
+        myThis.clearLegend();
+        myThis.clearXAxis();
+        myThis.createXAxis();
+        myThis.clearYAxis();
+        myThis.createYAxis();
+        myThis.AddResizeListener();
+        myThis.renderBars();
+      }, 10);
     },
   },
 };
-
-
-
-
 </script>
 
-
-<style>
-path {
-  color: #213fd5;
+<style scoped>
+.my-legend {
+  margin: 32px;
 }
-svg {
-  width: inherit;
-  height: inherit;
-  max-width: 100%;
-  max-height: 100%;
-  -webkit-tap-highlight-color: transparent;
-  color: #000;
+
+.svg-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  justify-items: center;
+}
+.bar-positive {
+  fill: #c2baf5;
+  transition: r 0.2s ease-in-out;
+}
+
+.bar-highlight {
+  fill: #8e7ff5;
+}
+
+.svg-container {
+  display: inline-block;
+  position: relative;
+  width: 120%;
+  padding-bottom: 1%;
+  vertical-align: top;
+  overflow: hidden;
+}
+
+.x-axis path,
+.x-axis line {
+  fill: none;
+  stroke: #686464;
+  shape-rendering: crispEdges;
+}
+
+.axis-highlight {
+  fill: none;
+  stroke: #dc8c13;
+  shape-rendering: crispEdges;
+}
+
+.axis-standard {
+  fill: none;
+  stroke: #686464;
+  shape-rendering: crispEdges;
+}
+.bar-grey-highlight {
+  fill: #a6a6a6;
+}
+.bar-grey {
+  fill: #d0cece;
+}
+
+.legendbar {
+  fill: #ff0000 !important;
+  font-size: 100%;
+}
+
+.y-axis path,
+.y-axis line {
+  fill: none;
+  stroke: black;
+  shape-rendering: crispEdges;
+}
+.legendrect {
+  fill: #8e7ff5;
 }
 </style>

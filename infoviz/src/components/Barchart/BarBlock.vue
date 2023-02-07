@@ -61,8 +61,7 @@
 </template>
 
 <script>
-//import BarChart from "./BarChart.vue";
-import BarChartTest from "./BarChartTest.vue";
+import BarChart from "./BarChart.vue";
 import { useHospitalityStore } from "@/stores/hospitality";
 import { useDateStore } from "@/stores/date";
 import { useCurrentRegionStore } from "@/stores/currentRegion.js";
@@ -71,9 +70,8 @@ import Popper from "vue3-popper";
 export default {
   name: "App",
   components: {
-    BarChartTest,
+    BarChartTest: BarChart,
     Popper,
-    //BarChart,
   },
   data() {
     const currentRegionStore = useCurrentRegionStore();

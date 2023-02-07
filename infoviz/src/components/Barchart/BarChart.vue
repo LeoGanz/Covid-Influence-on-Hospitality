@@ -1,14 +1,10 @@
 <template>
   <div id="container" class="svg-container">
-    <svg
-      id="barchart"
-      v-if="redrawToggle === true"
-      :width="svgWidth"
-      :height="svgHeight"
-    >
+    <div v-if="!hospitalityStore.initialized">Loading...</div>
+    <svg id="barchart" v-else :width="svgWidth" :height="svgHeight">
       <g>
         <rect
-          v-for="item in data"
+          v-for="item in hospitalityData"
           class="bar-positive"
           :key="item[xKey]"
           :x="xScale(0)"
@@ -27,27 +23,35 @@ import { max, min } from "d3-array";
 import { select } from "d3-selection";
 import { axisBottom, axisLeft } from "d3-axis";
 import { useCurrentRegionStore } from "@/stores/currentRegion.js";
+import { useHospitalityStore } from "@/stores/hospitality.js";
+import { useDateStore } from "@/stores/date.js";
+import { useBarChartStore } from "@/stores/barChart";
 
 export default {
   name: "BarChart",
-  props: {
-    title: String,
-    xKey: String,
-    yKey: String,
-    data: Array,
+  setup() {
+    const hospitalityStore = useHospitalityStore();
+    const dateStore = useDateStore();
+    const currentRegionStore = useCurrentRegionStore();
+    const barChartStore = useBarChartStore();
+    return {
+      currentRegionStore,
+      hospitalityStore,
+      dateStore,
+      barChartStore,
+    };
   },
-  mounted() {
-    console.log(this.data);
+  async mounted() {
+    await this.hospitalityStore.initValues();
     this.svgWidth = document.getElementById("container").offsetWidth * 0.75;
-    this.AddResizeListener();
+    this.renderHundredLine();
+    this.renderLegend();
     this.renderBars();
     this.createXAxis();
     this.createYAxis();
   },
   data() {
-    const currentRegionStore = useCurrentRegionStore();
     return {
-      currentRegionStore,
       svgWidth: 0,
       redrawToggle: true,
       margin: {
@@ -56,10 +60,18 @@ export default {
         bottom: 30,
         left: 40,
       },
+      xKey: "abbreviation",
+      yKey: "value",
     };
   },
+  created() {
+    window.addEventListener("resize", this.redraw);
+  },
+  beforeUnmount() {
+    window.addEventListener("resize", this.redraw);
+  },
   methods: {
-    renderBars() {
+    renderHundredLine() {
       select("#barchart")
         .append("line")
         .attr("class", "hundredline")
@@ -68,7 +80,8 @@ export default {
         .attr("x2", this.xScale(100) + 110)
         .attr("y2", this.svgHeight)
         .style("stroke", "grey");
-
+    },
+    renderLegend() {
       var colorKeys = ["Sub Category", "Main Category"];
       var keys = ["overcategories", "undercategories"];
       var rectSize = 20;
@@ -79,6 +92,7 @@ export default {
         .data(colorKeys)
         .enter()
         .append("text")
+        .attr("id", "legendtext")
         .attr("text-rendering", "optimizeLegibility")
         .attr("x", this.xScale(172) + 110 + rectSize * 1.2)
         .attr("y", function (d, i) {
@@ -102,6 +116,7 @@ export default {
           .data(keys)
           .enter()
           .append("rect")
+          .attr("id", "legendcolor")
           .attr("x", this.xScale(172))
           .attr("y", 10)
           //.attr("right", 32)
@@ -114,6 +129,7 @@ export default {
           .data(keys)
           .enter()
           .append("rect")
+          .attr("id", "legendcolor")
           .attr("x", this.xScale(172))
           .attr("y", 32)
           .attr("width", 19)
@@ -144,11 +160,13 @@ export default {
           .attr("height", 19)
           .style("fill", "#d0cece");
       }
-
+    },
+    renderBars() {
+      const state = this.currentRegionStore.currentRegion;
       select("#barchart")
         .selectAll("rect")
         .attr("transform", `translate(${110}, 0)`)
-        .data(this.data)
+        .data(this.hospitalityData)
         .transition()
         .delay((d, i) => {
           return i * 10;
@@ -164,7 +182,7 @@ export default {
         select("#barchart")
           .selectAll("rect")
           .attr("transform", `translate(${110}, 0)`)
-          .data(this.data)
+          .data(this.hospitalityData)
           .attr("class", (d, i) => {
             return i === 0 ? "bar-highlight" : "bar-positive";
           });
@@ -172,35 +190,34 @@ export default {
         select("#barchart")
           .selectAll("rect")
           .attr("transform", `translate(${110}, 0)`)
-          .data(this.data)
+          .data(this.hospitalityData)
           .attr("class", (d, i) => {
             return i === 0 ? "bar-grey-highlight" : "bar-grey";
           });
       }
     },
-    AddResizeListener() {
-      // redraw the chart 300ms after the window has been resized
-      window.addEventListener("resize", () => {
-        this.$data.redrawToggle = false;
-        setTimeout(() => {
-          this.$data.redrawToggle = true;
-          this.$data.svgWidth =
-            document.getElementById("container").offsetWidth * 0.75;
+    redraw() {
+      this.redrawToggle = false;
+      setTimeout(() => {
+        this.redrawToggle = true;
+        this.svgWidth = document.getElementById("container").offsetWidth * 0.75;
 
-          this.clearXAxis();
-          this.clearYAxis();
-          this.clearLegend();
-          this.renderBars();
-          this.createXAxis();
-          this.createYAxis();
-        }, 300);
-      });
+        this.clearXAxis();
+        this.clearYAxis();
+        this.clearLegend();
+        this.renderHundredLine();
+        this.renderLegend();
+        this.renderBars();
+        this.createXAxis();
+        this.createYAxis();
+      }, 300);
     },
     clearXAxis() {
       select("#barchart").select(".x-axis").remove();
     },
     clearLegend() {
-      select("#barchart").selectAll(".legendbar").remove();
+      select("#barchart").selectAll("#legendtext").remove();
+      select("#barchart").selectAll("#legendcolor").remove();
       select("#barchart").selectAll(".hundredline").remove();
     },
     createXAxis() {
@@ -234,13 +251,85 @@ export default {
     },
   },
   computed: {
+    hospitalityData() {
+      const _ = this.currentRegionStore.currentRegion;
+      const data = [];
+      const dataJson = this.hospitalityStore.getSectorsByMonth(
+        this.dateStore.currentMonth
+      ).real.original;
+
+      const dataArray = Object.entries(dataJson);
+
+      if (this.barChartStore.displayUpperCategory) {
+        dataArray.forEach((entry) => {
+          //console.log(entry);
+          const region = entry[0];
+          const value = entry[1][0];
+          const abbreviation = entry[1][1];
+          if (
+            region === "hospitality" ||
+            region === "accommodation" ||
+            region === "gastronomy"
+          ) {
+            if (Number.isFinite(value)) {
+              data.push({ region, value, abbreviation });
+            } else {
+              data.push({ region, value: 0, abbreviation });
+            }
+          }
+        });
+      } else if (this.barChartStore.displayLodging) {
+        //console.log("lodging display");
+        dataArray.forEach((entry) => {
+          //console.log(entry);
+          const region = entry[0];
+          const value = entry[1][0];
+          const abbreviation = entry[1][1];
+          if (
+            region === "accommodation" ||
+            region === "hotelsInnsGuesthouses" ||
+            region === "holidayAccommodation" ||
+            region === "campingSites" ||
+            region === "otherAccommodation"
+          ) {
+            if (Number.isFinite(value)) {
+              data.push({ region, value, abbreviation });
+            } else {
+              data.push({ region, value: 0, abbreviation });
+            }
+          }
+        });
+      } else if (this.barChartStore.displayGastronomy) {
+        dataArray.forEach((entry) => {
+          //console.log(entry);
+          const region = entry[0];
+          const value = entry[1][0];
+          const abbreviation = entry[1][1];
+          if (
+            region === "gastronomy" ||
+            region === "restaurantsTavernsSnackbarsCafes" ||
+            region === "catereing" ||
+            region === "beverages" ||
+            region === "restaurantBusiness"
+          ) {
+            if (Number.isFinite(value)) {
+              data.push({ region, value, abbreviation });
+            } else {
+              data.push({ region, value: 0, abbreviation });
+            }
+          }
+        });
+      }
+
+      return data;
+    },
     dataMax() {
-      return max(this.data, (d) => {
+      return max(this.hospitalityData, (d) => {
         return d[this.yKey];
       });
     },
     dataMin() {
-      return min(this.data, (d) => {
+      return min(this.hospitalityData, (d) => {
         return d[this.yKey];
       });
     },
@@ -249,7 +338,7 @@ export default {
         .rangeRound([0, this.svgHeight])
         .padding(0.22)
         .domain(
-          this.data.map((d) => {
+          this.hospitalityData.map((d) => {
             return d[this.xKey];
           })
         );
@@ -264,21 +353,22 @@ export default {
     },
   },
   watch: {
-    data: function () {
+    hospitalityData: function () {
       //this.d3.select('rect').selectAll('*').remove();
 
       let myThis = this;
 
       setTimeout(function () {
-        console.log("data changed");
+        //console.log("data changed");
         myThis.clearLegend();
         myThis.clearXAxis();
-        myThis.createXAxis();
         myThis.clearYAxis();
+        myThis.createXAxis();
         myThis.createYAxis();
-        myThis.AddResizeListener();
+        myThis.renderHundredLine();
+        myThis.renderLegend();
         myThis.renderBars();
-      }, 10);
+      }, 100);
     },
   },
 };

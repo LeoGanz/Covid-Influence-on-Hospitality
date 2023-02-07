@@ -1,7 +1,7 @@
 <template>
   <h1>About</h1>
   <p>
-    This project was developed during for the course "Information Visualization" at the Ludwig-Maximilians-Universität München in the winter term 2022/2023.<br>
+    This project was developed for the course "Information Visualization" at the Ludwig-Maximilians-Universität München in the winter term 2022/2023.<br>
     Our team consists of the following members:
   </p>
   <VPTeamMembers size="medium" :members="members" />
@@ -45,22 +45,28 @@ export default {
     return {
       members: [
         {
-          avatar: 'https://gitlab.lrz.de/assets/no_avatar-849f9c04a3a0d0cea2424ae97b27447dc64a7dbfae83c036c45b403392f0e8ba.png',
+          avatar: 'https://avatars.githubusercontent.com/u/45818729?v=4',
           name: 'Markus Stanzl',
           title: 'Frontend',
-          desc: 'Bar chart, Slider, General Styling, Research',
+          desc: 'Bar chart, Slider, General Styling, Research, Idea & Concept, Prototyping',
+          links: [
+            {icon: 'github', link: 'https://github.com/stanzl1997'},
+          ]
         },
         {
-          avatar: 'https://gitlab.lrz.de/assets/no_avatar-849f9c04a3a0d0cea2424ae97b27447dc64a7dbfae83c036c45b403392f0e8ba.png',
+          avatar: 'https://avatars.githubusercontent.com/u/48925507?v=4',
           name: 'Isabel Wanderwitz',
           title: 'Frontend',
-          desc: 'Chloropleth Map: Hospitality & Incidence, Research',
+          desc: 'Chloropleth Map: Hospitality & Incidence, Research, Idea & Concept',
+          links: [
+            {icon: 'github', link: 'https://github.com/Isabel-W'},
+          ]
         },
         {
           avatar: 'https://gitlab.lrz.de/assets/no_avatar-849f9c04a3a0d0cea2424ae97b27447dc64a7dbfae83c036c45b403392f0e8ba.png',
           name: 'Quirin Müller',
           title: 'Frontend',
-          desc: 'Bar chart, Slider, General Styling, Research',
+          desc: 'Bar chart, Slider, General Styling, Research, Idea & Concept',
           links: [
             {icon: 'linkedin', link: 'https://de.linkedin.com/in/quirin-müller-34131023b'},
           ]
@@ -69,7 +75,7 @@ export default {
           avatar: 'https://gitlab.lrz.de/assets/no_avatar-849f9c04a3a0d0cea2424ae97b27447dc64a7dbfae83c036c45b403392f0e8ba.png',
           name: 'Robin Löbbert',
           title: 'Frontend & Backend',
-          desc: 'Line chart, Data acquisition & processing, State management, Research',
+          desc: 'Line chart, Data acquisition & processing, State management, Research, Idea & Concept',
           links: [
             {icon: 'linkedin', link: 'https://de.linkedin.com/in/robinloebbert'},
           ]
@@ -78,7 +84,7 @@ export default {
           avatar: 'https://avatars.githubusercontent.com/u/16819813?v=4',
           name: 'Leonard Ganz',
           title: 'Mostly Backend',
-          desc: 'Data acquisition & processing, State management, Some visual elements, About page, Research',
+          desc: 'Data acquisition & processing, State management, Some visual elements, About page, Research, Idea & Concept',
           links: [
             {icon: 'github', link: 'https://github.com/leoganz'},
           ]

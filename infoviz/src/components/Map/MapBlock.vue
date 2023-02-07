@@ -28,7 +28,7 @@
           <!-- </li>
         </ul> -->
       </div>
-      <Popper placement="left" hover="true" arrow="true">
+      <Popper placement="left" :hover="true" :arrow="true">
         <i class="material-icons">info</i>
         <template #content>
           <div>

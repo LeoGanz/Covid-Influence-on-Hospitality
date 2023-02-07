@@ -2,7 +2,7 @@
   <div>
     <div id="header">
       <h3><b>Trend for: </b>{{ regionStore.currentRegionName }}</h3>
-      <Popper placement="left" hover="true" arrow="true">
+      <Popper placement="left" :hover="true" :arrow="true">
         <i class="material-icons">info</i>
         <template #content>
           <div>

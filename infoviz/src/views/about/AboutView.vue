@@ -72,7 +72,7 @@ export default {
           ]
         },
         {
-          avatar: 'https://gitlab.lrz.de/assets/no_avatar-849f9c04a3a0d0cea2424ae97b27447dc64a7dbfae83c036c45b403392f0e8ba.png',
+          avatar: 'https://media.licdn.com/dms/image/C4D03AQFzHa9okqoJfA/profile-displayphoto-shrink_800_800/0/1560178963507?e=2147483647&v=beta&t=lUQLMrnE--RlbZZdNXBzrDLGhfEQPbF7cGfEobyxUjY',
           name: 'Robin Löbbert',
           title: 'Frontend & Backend',
           desc: 'Line chart, Data acquisition & processing, State management, Research, Idea & Concept',

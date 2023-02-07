@@ -112,7 +112,7 @@ d3.select("#" + this.currentRegion.currentRegionName )
         .scaleLinear()
         .domain([0, 100])
         .range(["white", "#9684d8"], 8);
-      var keys = ["Data not available", "Ongoing Lockdown*", "", 5, 35, 65, 95, 125, 155, 185];
+      var keys = ["Data not available", "Ongoing Lockdown*", "", "5 %", "35 %", "65 %", "95 %", "125 %", "155 %", "185 %"];
       var colorKeys = [5, 35, 65, 95, 125, 155, 185];
       var rectSize = 20;
 

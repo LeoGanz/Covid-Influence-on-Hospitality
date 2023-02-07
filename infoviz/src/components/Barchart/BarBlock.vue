@@ -49,7 +49,7 @@
       </Popper>
     </div>
     <div v-if="!hospitalityStore.initialized">Loading...</div>
-    <BarChartTest class="leftMargin" v-else xKey="abbreviation" yKey="value" v-bind:data="data" />
+    <BarChart class="leftMargin" v-else xKey="abbreviation" yKey="value" v-bind:data="data" />
     <!--div class="category-label-group">
       <div class="category-label">
         Main Category
@@ -61,8 +61,7 @@
 </template>
 
 <script>
-//import BarChart from "./BarChart.vue";
-import BarChartTest from "./BarChartTest.vue";
+import BarChart from "./BarChart.vue";
 import { useHospitalityStore } from "@/stores/hospitality";
 import { useDateStore } from "@/stores/date";
 import { useCurrentRegionStore } from "@/stores/currentRegion.js";
@@ -71,9 +70,8 @@ import Popper from "vue3-popper";
 export default {
   name: "App",
   components: {
-    BarChartTest,
+    BarChart,
     Popper,
-    //BarChart,
   },
   data() {
     const currentRegionStore = useCurrentRegionStore();

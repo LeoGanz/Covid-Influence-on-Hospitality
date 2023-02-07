@@ -85,7 +85,6 @@ export default {
       console.log(this.covidCasesStore.cases);
       for (var state in this.covidCasesStore.cases) {
         if (state != germanyKey) {
-
           const v = this.covidCasesStore.cases[state]
             .filter(
               (element) =>
@@ -137,7 +136,7 @@ export default {
       var myColor = d3
         .scaleLinear()
         .domain([0, this.retrieveMaxIncidence])
-        .range(["white", "orange"], 1);
+        .range(["white", "#FFB865"], 1);
       var colorKeys = [
         "Data not available",
         "Ongoing Lockdown*",
@@ -235,7 +234,7 @@ export default {
       var myColor = d3
         .scaleLinear()
         .domain([0, this.retrieveMaxIncidence])
-        .range(["white", "orange"], 250);
+        .range(["white", "#FFB865"], 250);
 
       d3.select("#incidence_container")
         .append("defs")

@@ -69,7 +69,7 @@
         y="2"
         width="10"
         height="10"
-        fill="orange"
+        fill="#FFB865"
       ></rect>
       <text id="label" x="15" y="10" text-anchor="start" fill="currentColor">
         Incidence
@@ -99,7 +99,7 @@
         y="2"
         width="10"
         height="10"
-        fill="#9684d8"
+        fill="#8E7FF5"
       ></rect>
       <text
         id="label"
@@ -203,6 +203,7 @@ export default {
       const state = this.currentRegionStore.currentRegion;
 
       function reduceDates(dates) {
+        if (dates.length < 1) return undefined;
         let result = [];
         let currentStart = dates[0].day;
         let currentValue = dates[0].value;

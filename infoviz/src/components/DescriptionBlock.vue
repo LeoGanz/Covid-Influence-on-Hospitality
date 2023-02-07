@@ -30,7 +30,7 @@
         </Popper>
       </div>
       <div>
-        Covid data is provided as the 7-day-incidence per 100.000 inhabitants.
+        Covid data is provided as the 7-day-incidence in cases per 100.000 inhabitants.
         <Popper placement="right" hover="true" arrow="true">
           <i class="material-icons">info</i>
           <template #content>
